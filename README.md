@@ -1,4 +1,5 @@
-# To Prepare ADP
+# ADP Test Preparation Repository: 
+## Advanced Data Analytics Professional Certification in Data Science
 
 This repository is designed for preparing for the Advanced Data Analytics Professional (ADP) test, which is an authorized certificate in Data Science in Korea. The ADP exam evaluates skills and knowledge in statistics and data science. In order to adequately prepare for the ADP exam, I studied the following books:
 
