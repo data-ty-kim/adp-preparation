@@ -17,4 +17,3 @@ p_value = (1 - pnorm(z)) * 2
 
 # 정답 출력
 print(p_value)
-

@@ -20,4 +20,3 @@ print(paste("(", lowerbound, ",", upperbound, ")"))
 z = (mean(data$x) - 155) / (sd(data$x)/sqrt(length((data$x))))
 
 print(z < -1.96 | z > 1.96) # TRUE. H_0를 기각하고 H_1을 채택한다.
-
