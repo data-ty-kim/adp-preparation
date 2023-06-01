@@ -165,4 +165,4 @@ pyvenv.cfg
 .Rproj.user
 
 # R studio
-/adp-preparation/R_for_ADP/.Rhistory
+.Rhistory
