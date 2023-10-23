@@ -166,3 +166,4 @@ pyvenv.cfg
 
 # R studio
 .Rhistory
+.RData
