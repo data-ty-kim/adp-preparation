@@ -364,7 +364,7 @@ display: none;
 <h3>7.3 이항분포</h3>
 <p><br /></p>
 <div id="이항분포에-관한-다음-물음에-답하라." class="section level4">
-<h4>3.4 이항분포에 관한 다음 물음에 답하라.</h4>
+<h4>7.3.4 이항분포에 관한 다음 물음에 답하라.</h4>
 <div id="n5에-대하여-p0.2-0.5-0.8인-이항분포-각각에-대해-pxgeq4를-구하라." class="section level5">
 <h5>(3) <span class="math inline">\(n=5\)</span>에 대하여 <span class="math inline">\(p=0.2, 0.5, 0.8\)</span>인 이항분포 각각에 대해
 <span class="math inline">\(P[X\geq4]\)</span>를 구하라.</h5>
@@ -378,15 +378,15 @@ print(paste(round(a, 4), &#39;,&#39;, b, &#39;,&#39;, round(c, 4)))</code></pre>
 </div>
 </div>
 <div id="확률변수-x가-이항분포를-따르고-n5-p0.35일-때-x의-최빈값mode을-구하라." class="section level4">
-<h4>3.6 확률변수 <span class="math inline">\(X\)</span>가 이항분포를
+<h4>7.3.6 확률변수 <span class="math inline">\(X\)</span>가 이항분포를
 따르고 <span class="math inline">\(n=5, p=0.35\)</span>일 때, <span class="math inline">\(X\)</span>의 최빈값(mode)을 구하라.</h4>
 <pre class="r"><code>data = rbinom(n=10000, size=5, prob=0.35)
 barplot(table(data), space=0)             # 최빈값은 2</code></pre>
-<p><img src="data:image/png;base64,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" width="384" /></p>
+<p><img src="data:image/png;base64,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" width="384" /></p>
 <p><br /></p>
 </div>
 <div id="n6-p23인-이항분포에서-다음의-확률을-계산하라." class="section level4">
-<h4>3.8 <span class="math inline">\(n=6, p=2/3\)</span>인 이항분포에서
+<h4>7.3.8 <span class="math inline">\(n=6, p=2/3\)</span>인 이항분포에서
 다음의 확률을 계산하라.</h4>
 <div id="번-미만으로-성공한다." class="section level5">
 <h5>(1) 4번 미만으로 성공한다.</h5>
@@ -411,7 +411,7 @@ cat(&quot; (1)&quot;, answer_1, &quot;\n&quot;, &quot;(2)&quot;, answer_2, &quot
 </div>
 </div>
 <div id="미국의-백인-중-85가-rh의-혈액형을-가지고-있다고-한다.-이-중에서-7명을-임의로-선택하였을-때-다음의-확률을-구하라." class="section level4">
-<h4>3.10 미국의 백인 중 85%가 Rh+의 혈액형을 가지고 있다고 한다. 이
+<h4>7.3.10 미국의 백인 중 85%가 Rh+의 혈액형을 가지고 있다고 한다. 이
 중에서 7명을 임의로 선택하였을 때 다음의 확률을 구하라.</h4>
 <div id="적어도-5명이-rh의-혈액형을-가지고-있다." class="section level5">
 <h5>(1) 적어도 5명이 Rh+의 혈액형을 가지고 있다.</h5>
@@ -430,7 +430,7 @@ cat(&quot; (1)&quot;, answer_1, &quot;\n&quot;, &quot;(2)&quot;, answer_2)</code
 </div>
 </div>
 <div id="이항분포를-이용하여-다음의-확률을-구하라." class="section level4">
-<h4>3.12 이항분포를 이용하여 다음의 확률을 구하라.</h4>
+<h4>7.3.12 이항분포를 이용하여 다음의 확률을 구하라.</h4>
 <div id="p0.7일-때-9번의-시행-중-5번-이하-성공할-확률" class="section level5">
 <h5>(1) <span class="math inline">\(p=0.7\)</span>일 때, 9번의 시행 중
 5번 이하 성공할 확률</h5>
@@ -456,7 +456,7 @@ cat(&quot; (1)&quot;, answer_1, &quot;\n&quot;, &quot;(2)&quot;, answer_2, &quot
 </div>
 </div>
 <div id="조사결과-70의-성인-여성이-2년-동안에-적어도-1번-내과를-찾는다고-할-때-19명의-성인-여성이-임의로-추출되었다고-하자.-다음의-확률을-구하라." class="section level4">
-<h4>3.14 조사결과 70%의 성인 여성이 2년 동안에 적어도 1번 내과를
+<h4>7.3.14 조사결과 70%의 성인 여성이 2년 동안에 적어도 1번 내과를
 찾는다고 할 때, 19명의 성인 여성이 임의로 추출되었다고 하자. 다음의
 확률을 구하라.</h4>
 <div id="명-미만이-내과를-찾았을-확률" class="section level5">
@@ -476,8 +476,8 @@ cat(&quot; (1)&quot;, answer_1, &quot;\n&quot;, &quot;(2)&quot;, answer_2)</code
 </div>
 </div>
 <div id="의-3학년-학생이-장학금을-받는다고-하자.-20명의-3학년-학생을-선택하였다." class="section level4">
-<h4>3.18 20%의 3학년 학생이 장학금을 받는다고 하자. 20명의 3학년 학생을
-선택하였다.</h4>
+<h4>7.3.18 20%의 3학년 학생이 장학금을 받는다고 하자. 20명의 3학년
+학생을 선택하였다.</h4>
 <div id="많아야-3명의-학생이-장학금을-받을-확률은" class="section level5">
 <h5>(1) 많아야 3명의 학생이 장학금을 받을 확률은?</h5>
 </div>
@@ -496,7 +496,7 @@ cat(&quot; (1)&quot;, answer_1, &quot;\n&quot;, &quot;(2) 기대인원수: 4명,
 </div>
 </div>
 <div id="유전법칙에-따르면-완두콩의-우성교배를-통한-자손은-네-가지-형태이고-각각의-비율이-둥글고-노란것-쭈그러지고-노란-것-둥글고-녹색인-것-쭈그러지고-녹색인-것이-9331이라고-한다." class="section level4">
-<h4>3.22 유전법칙에 따르면 완두콩의 우성교배를 통한 자손은 네 가지
+<h4>7.3.22 유전법칙에 따르면 완두콩의 우성교배를 통한 자손은 네 가지
 형태이고 각각의 비율이 둥글고 노란것, 쭈그러지고 노란 것, 둥글고 녹색인
 것, 쭈그러지고 녹색인 것이 9:3:3:1이라고 한다.</h4>
 <div id="확률변수-x를-130개의-우성교배-자손에서-둥글고-노란-것의-개수라고-할-때-x의-평균과-표준편차를-구하라." class="section level5">
@@ -520,7 +520,7 @@ cat(&quot; (1)&quot;, answer_1, &quot;\n&quot;, &quot;(2)&quot;, answer_2)</code
 </div>
 </div>
 <div id="이항분포에-대하여-다음-물음에-답하라." class="section level4">
-<h4>3.24 이항분포에 대하여 다음 물음에 답하라.</h4>
+<h4>7.3.24 이항분포에 대하여 다음 물음에 답하라.</h4>
 <div id="n80-p0.35일-때-평균과-표준편차를-구하라." class="section level5">
 <h5>(1) <span class="math inline">\(n=80, p=0.35\)</span>일 때, 평균과
 표준편차를 구하라.</h5>
@@ -539,9 +539,9 @@ cat(&quot; (1)&quot;, answer_1, &quot;\n&quot;, &quot;(2)&quot;, answer_2)</code
 </div>
 </div>
 <div id="어떤-축구-선수의-페널티킥-성공률은-70라고-하자.-이-선수가-어느-날-10번-성공할-때까지-페널티킥을-연습한다고-할-때-12번-이상-시도해야-할-확률을-구하라." class="section level4">
-<h4>3.26 어떤 축구 선수의 페널티킥 성공률은 70%라고 하자. 이 선수가 어느
-날 10번 성공할 때까지 페널티킥을 연습한다고 할 때, 12번 이상 시도해야 할
-확률을 구하라.</h4>
+<h4>7.3.26 어떤 축구 선수의 페널티킥 성공률은 70%라고 하자. 이 선수가
+어느 날 10번 성공할 때까지 페널티킥을 연습한다고 할 때, 12번 이상
+시도해야 할 확률을 구하라.</h4>
 <pre class="r"><code># 이항분포 풀이
 answer = 1 - (0.7)^10 - dbinom(x=9, size=10, prob=0.7) * 0.7  
 # 음이항분포 풀이
@@ -549,6 +549,80 @@ answer = 1 - (0.7)^10 - dbinom(x=9, size=10, prob=0.7) * 0.7
 
 cat(&quot; (1)&quot;, answer_1)</code></pre>
 <pre><code>##  (1) 28 4.266146</code></pre>
+<p><br /></p>
+</div>
+</div>
+<div id="초기하분포" class="section level3">
+<h3>7.4 초기하분포</h3>
+<p><br /></p>
+<div id="어느-회사에서-사원을-8명-모집하기-위해-신문에-광고를-내었더니-15-명의-남자와-8명의-여자가-지원하였다.-임의로-8명을-선택한다고-한다면-8명-중-여자가-3명-이상일-확률을-구하라.-예상되는-여자-신입사원은-몇-명이-되겠는가" class="section level4">
+<h4>7.4.2 어느 회사에서 사원을 8명 모집하기 위해 신문에 광고를 내었더니
+15 명의 남자와 8명의 여자가 지원하였다. 임의로 8명을 선택한다고 한다면
+8명 중 여자가 3명 이상일 확률을 구하라. 예상되는 여자 신입사원은 몇 명이
+되겠는가?</h4>
+<pre class="r"><code>n = 8
+p = 8 / (15+8)
+answer_1 = 1 - phyper(q=2, m=8, n=15, k=8) # help 설명 읽어보면 좋음
+answer_2 = n*p
+
+cat(&quot; 여자가 3명 이상일 확률:&quot;, answer_1, &quot;\n&quot;, &quot;예상 여자 신입직원 수&quot;, answer_2)</code></pre>
+<pre><code>##  여자가 3명 이상일 확률: 0.596065 
+##  예상 여자 신입직원 수 2.782609</code></pre>
+<p><br /></p>
+</div>
+<div id="어느-대학에서-전체-50명의-교수-중에서-5명을-뽑아-위원회를-구성하고자-한다.-선출-과정은-무작위이다.-통계학과에-6명의-교수가-있다고-하자." class="section level4">
+<h4>7.4.6 어느 대학에서 전체 50명의 교수 중에서 5명을 뽑아 위원회를
+구성하고자 한다. 선출 과정은 무작위이다. 통계학과에 6명의 교수가 있다고
+하자.</h4>
+<div id="위원회에-통계학과-교수가-한-사람도-없을-확률은" class="section level5">
+<h5>(1) 위원회에 통계학과 교수가 한 사람도 없을 확률은?</h5>
+</div>
+<div id="적어도-1명-이상의-통계학과-교수가-포함될-확률은" class="section level5">
+<h5>(2) 적어도 1명 이상의 통계학과 교수가 포함될 확률은?</h5>
+</div>
+<div id="몇-명의-통계학과-교수가-포함되리라고-예상되는가" class="section level5">
+<h5>(3) 몇 명의 통계학과 교수가 포함되리라고 예상되는가?</h5>
+<pre class="r"><code>n = 5
+p = 6 / 50
+answer_1 = dhyper(x=0, m=6, n=44, k=5)
+answer_2 = 1 - answer_1
+answer_3 = n*p
+
+cat(&quot; (1)&quot;, answer_1, &quot;\n&quot;, &quot;(2)&quot;, answer_2, &quot;\n&quot;, &quot;(3)&quot;, answer_3)</code></pre>
+<pre><code>##  (1) 0.5125677 
+##  (2) 0.4874323 
+##  (3) 0.6</code></pre>
+<p><br /></p>
+</div>
+</div>
+</div>
+<div id="포아송분포" class="section level3">
+<h3>7.5 포아송분포</h3>
+<p><br /></p>
+<div id="확률변수-x가-n100-p0.04인-이항분포를-따른다고-할-때-포아송분포를-이용하여-다음의-근사확률을-계산하라." class="section level4">
+<h4>7.5.2 확률변수 X가 n=100, p=0.04인 이항분포를 따른다고 할 때,
+포아송분포를 이용하여 다음의 근사확률을 계산하라.</h4>
+<div id="pxleq5-xgeq7-x0" class="section level5">
+<h5><span class="math inline">\(P[X\leq5], [X\geq7], [X=0]\)</span></h5>
+<pre class="r"><code>m = 100 * 0.04
+answer_1 = ppois(q = 5, lambda = m)
+answer_2 = 1 - ppois(q = 6, lambda = m)
+answer_3 = dpois(x=0, lambda = m)
+
+cat(&quot; (1)&quot;, answer_1, &quot;\n&quot;, &quot;(2)&quot;, answer_2, &quot;\n&quot;, &quot;(3)&quot;, answer_3)</code></pre>
+<pre><code>##  (1) 0.7851304 
+##  (2) 0.110674 
+##  (3) 0.01831564</code></pre>
+<p><br /></p>
+</div>
+</div>
+<div id="어느-부동산-중개업소에서는-한-달에-평균-3건의-매매를-성사시킨다고-한다.-부동산의-매매가-계절의-영향을-받는다고-한다면-이는-포아송분포의-어느-성질을-위반하는-것인가" class="section level4">
+<h4>7.5.4 어느 부동산 중개업소에서는 한 달에 평균 3건의 매매를
+성사시킨다고 한다. 부동산의 매매가 계절의 영향을 받는다고 한다면 이는
+포아송분포의 어느 성질을 위반하는 것인가?</h4>
+<p>(항상성 위배) 주어진 구간에서 사건의 평균 발생횟수의 확률분포는
+구간의 시작점에는 관계가 없고 구간의 길이에만 영향을 받는다.<br />
+※ 교재 212쪽 참고!</p>
 </div>
 </div>
 </div>
