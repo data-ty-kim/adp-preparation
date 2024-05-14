@@ -163,6 +163,8 @@ Scripts/
 test.py
 pyvenv.cfg
 .Rproj.user
+*.tex
+
 
 # R studio
 .Rhistory
