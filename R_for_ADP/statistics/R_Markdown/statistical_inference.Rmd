@@ -52,7 +52,49 @@ cat("(", lowerbound, ",", upperbound, ")")
 
 <br/>
 
-#### 10.2.8
+#### 10.2.8 비정규직 근로자 50명의 월급을 조사하였더니 평균이 88만 원이고, 표준편차가 10만 원이었다. 평균 월급에 대한 90% 신뢰구간을 구하라.
+
+```{r}
+n=50
+x_bar=88
+s=10
+
+lowerbound = x_bar + qnorm(0.05) * s / sqrt(n)
+upperbound = x_bar + qnorm(0.95) * s / sqrt(n)
+
+cat("(", lowerbound, ",", upperbound, ")")
+```
+
+<br/>
+
+#### 10.2.10 한 엔지니어는 고속도로의 파손된 부분을 수리하는 데 쓰이는 새로운 혼합 시멘트가 굳기까지 걸리는 시간을 측정하려고 한다. 100군데의 파손된 부분을 수리하여 굳기까지의 시간을 조사해 보니, 표본의 평균과 표준편차가 각각 32분과 4분으로 조사되었다. 시멘트가 굳기까지의 평균시간($\mu$)에 대한 99% 신뢰구간을 구하라.
+
+```{r}
+n=100
+x_bar=32
+s=4
+
+lowerbound = x_bar + qnorm(0.005) * s / sqrt(n)
+upperbound = x_bar + qnorm(0.995) * s / sqrt(n)
+
+cat("(", lowerbound, ",", upperbound, ")")
+```
+<br/>
+
+#### 10.2.12 어느 회사에서 생산된 전자레인지 65개를 임의로 뽑아 전자파의 양을 측정하여 $\bar{x}=0.11, s=0.06$을 얻었다. 모집단의 평균 전자파량의 95% 신뢰구간을 구하라.
+
+```{r}
+n=65
+x_bar=0.11
+s=0.06
+
+lowerbound = x_bar + qnorm(0.025) * s / sqrt(n)
+upperbound = x_bar + qnorm(0.975)* s / sqrt(n)
+
+cat("(", lowerbound, ",", upperbound, ")")
+```
+
+
 
 
 
