@@ -147,5 +147,155 @@ cat(
 )
 ```
 
+<br/>
+<br/>
+
+### 10.3 모평균에 대한 검정(표본의 크기가 클 때)
+
+<br/>
+
+#### 10.3.6 검정통계량 Z를 계산하고, 주어진 유의수준 $\alpha$를 갖고 결론을 설명하라.
+
+##### (1) $\bar{x}=30.54, \sigma=2, \mu>30, n=55, \alpha=0.05$
+
+```{r}
+x_bar=30.54
+sigma=2
+mu=30
+n=55
+alpha=0.05
+
+z = (x_bar - mu) / (sigma/sqrt(n))
+if (z > qnorm(0.95)) {
+  message = sprintf("유의수준 %.2f 하에서 귀무가설을 기각한다.", alpha)
+} else {
+  message = sprintf("유의수준 %.2f 하에서 귀무가설을 기각할 수 없다.", alpha)
+}
+
+cat("(1) 검정통계량z:", z, ",", message)
+
+```
+
+##### (2) $\bar{x}=0.142, \sigma=0.085, \mu<0.15, n=150, \alpha=0.025$
+
+```{r}
+x_bar=0.142
+sigma=0.085
+mu=0.15
+n=150
+alpha=0.025
+
+z = (x_bar - mu) / (sigma/sqrt(n))
+if (z < qnorm(alpha)) {
+  message = sprintf("유의수준 %.3f 하에서 귀무가설을 기각한다.", alpha)
+} else {
+  message = sprintf("유의수준 %.3f 하에서 귀무가설을 기각할 수 없다.", alpha)
+}
+
+cat("(2) 검정통계량z:", z, ",", message)
+
+```
+
+##### (3) $\bar{x}=72.35, \sigma=8.6, \mu \neq 75, n=38, \alpha=0.01$
+
+```{r}
+x_bar=72.35
+sigma=8.6
+mu=75
+n=38
+alpha=0.01
+
+z = (x_bar - mu) / (sigma/sqrt(n))
+if ((z < qnorm(alpha/2)) | (z > qnorm(1-alpha/2))) {
+  message = sprintf("유의수준 %.2f 하에서 귀무가설을 기각한다.", alpha)
+} else {
+  message = sprintf("유의수준 %.2f 하에서 귀무가설을 기각할 수 없다.", alpha)
+}
+
+cat("(3) 검정통계량z:", z, ",", message)
+
+```
+
+##### (4) $\bar{x}=-0.79, \sigma=1.62, \mu \neq 0, n=40, \alpha=0.06$
+
+```{r}
+x_bar=-0.79
+sigma=1.62
+mu=0
+n=40
+alpha=0.06
+
+z = (x_bar - mu) / (sigma/sqrt(n))
+if ((z < qnorm(alpha/2)) | (z > qnorm(1-alpha/2))) {
+  message = sprintf("유의수준 %.2f 하에서 귀무가설을 기각한다.", alpha)
+} else {
+  message = sprintf("유의수준 %.2f 하에서 귀무가설을 기각할 수 없다.", alpha)
+}
+
+cat("(4) 검정통계량z:", z, ",", message)
+
+```
+
+<br/>
+
+#### 10.3.8 한 대학서점으로부터 임의로 추출한 40개의 영수증을 조사한 결과 표본평균 $\bar{x}=5$만 원, 표본표준편차 $s=9$천 원이라고 한다. 이 값들을 이용해서 한 번에 판매한 평균액수($\mu$)에 대한 가설 $H_0: \mu=46000$ 대 $H_1:\mu \neq 46000$을 유의수준 0.05에서 검정하라.
+
+```{r}
+x_bar=50000
+s=9000
+mu=46000
+n=40
+alpha=0.05
+
+z = (x_bar - mu) / (s/sqrt(n))
+if ((z < qnorm(alpha/2)) | (z > qnorm(1-alpha/2))) {
+  message = sprintf("유의수준 %.2f 하에서 귀무가설을 기각한다.", alpha)
+} else {
+  message = sprintf("유의수준 %.2f 하에서 귀무가설을 기각할 수 없다.", alpha)
+}
+
+cat("검정통계량z:", z, ",", message)
+
+```
+
+<br/>
+
+#### 10.3.10 가설 $H_0: \mu=1100$ 대 $H_1:\mu \neq 1100$에 대한 검정을 하기 위하여 80개의 측정값으로 이루어진 표본을 얻었다. 표본평균과 표본표준편차는 각각 1,060과 210으로 나타났다.
+
+##### (1) 유의수준 1%에서 가설검정을 시행하라.
+
+##### (2) P-값을 계산하고 그 결과에 대하여 해석하라.
+
+```{r}
+x_bar=1060
+s=210
+mu=1100
+n=80
+alpha=0.01
+
+z = (x_bar - mu) / (s/sqrt(n))
+if ((z < qnorm(alpha/2)) | (z > qnorm(1-alpha/2))) {
+  message = sprintf("유의수준 %.2f 하에서 귀무가설을 기각한다.", alpha)
+} else {
+  message = sprintf("유의수준 %.2f 하에서 귀무가설을 기각할 수 없다.", alpha)
+}
+
+p_value = pnorm(z) * 2
+
+cat(" (1)", message, "\n", "(2)", p_value)
+
+```
+
+<br/>
+
+#### 10.3.12 
+
+
+
+
+
+
+
+
 
 
