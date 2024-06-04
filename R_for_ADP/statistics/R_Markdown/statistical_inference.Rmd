@@ -612,6 +612,48 @@ cat(
 )
 ```
 
+<br/>
+
+### 10.5 종합문제
+
+<br/>
+
+#### 10.5.2 크기가 $n$인 표본으로부터 모평균 $\mu$를 추정하는 문제를 생각해 보자. 아래의 (1)과 (2) 각각의 경우에 대해 모평균 $\mu$를 추정하고 표준오차를 추정하라.
+
+##### (1) $n=80$, $\sum x_i = 752$, $\sum (x_i - \bar{x})^2 = 345$
+
+##### (2) $n=169$, $\sum x_i = 1290$, $\sum (x_i - \bar{x})^2 = 842$
+
+```{r}
+n_1 = 80
+sigma_x = 752
+deviation_squared = 345
+x_bar = sigma_x / (n_1)
+se = sqrt(deviation_squared / (n_1 -1) ) / sqrt(n_1)
+answer_1 = paste("(1) 모평균 추정치: ", x_bar, ", 표준오차: ", se, sep="")
+
+n_2 = 169
+sigma_x = 1290
+deviation_squared = 842
+x_bar = sigma_x / (n_2)
+se = sqrt(deviation_squared / (n_2 -1) ) / sqrt(n_2)
+answer_2 = paste("(2) 모평균 추정치: ", x_bar, ", 표준오차: ", se, sep="")
+
+cat(answer_1, answer_2, sep="\n")
+```
+
+<br/>
+
+#### 10.5.6 어떤 연구자가 모평균을 추정하고자 하는데, 오차가 2.5 이하일 확률이 최소한 95%가 되도록 표본의 크기를 정하려고 한다. 만약 $\sigma=18$로 주어져 있다면 표본의 크기는 얼마로 해야 하겠는가?
+
+```{r}
+sigma = 18
+answer = ceiling((qnorm(0.975) * sigma / 2.5)^2)
+
+cat(answer)
+```
+
+
 
 
 
