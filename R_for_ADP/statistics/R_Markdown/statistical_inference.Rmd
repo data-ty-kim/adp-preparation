@@ -653,6 +653,73 @@ answer = ceiling((qnorm(0.975) * sigma / 2.5)^2)
 cat(answer)
 ```
 
+<br/>
+
+#### 10.5.8 어떤 식품 서비스 지배인이 점심시간에 배달하는 샌드위치의 평균 개수를 추정하는데 95%의 신뢰도를 가지고 오차가 10개 이하이기를 원한다고 한다. 초기 표본에서 $\sigma=80$이라면 표본의 크기를 얼마로 해야 하겠는가?
+
+```{r}
+sigma = 80
+answer = ceiling((qnorm(0.975) * sigma / 10)^2)
+
+cat(answer)
+```
+
+<br/>
+
+#### 10.5.10 다음의 각 경우에 대하여 모평균에 대한 $100(1-\alpha)\%$ 신뢰구간을 구하라.
+
+##### (1) $n=60$, $\sum x_i = 752$, $\sum (x_i - \bar{x})^2 = 426$, $1 - \alpha = 0.95$
+
+##### (2) $n=150$, $\sum x_i = 2652$, $\sum (x_i - \bar{x})^2 = 3722$, $1 - \alpha = 0.90$
+
+```{r}
+n_1 = 60
+sum_x = 752
+deviation_squared = 426
+x_bar = sum_x / n_1
+sigma = sqrt(deviation_squared / (n_1 - 1))
+upperbound = x_bar + qnorm(0.975) * sigma / sqrt(n_1)
+lowerbound = x_bar + qnorm(0.025) * sigma / sqrt(n_1)
+
+answer_1 = paste("(", lowerbound, ", ", upperbound, ")", sep="")
+
+n_2 = 150
+sum_x = 2652
+deviation_squared = 3722
+x_bar = sum_x / n_2
+sigma = sqrt(deviation_squared / (n_2 - 1))
+upperbound = x_bar + qnorm(0.95) * sigma / sqrt(n_2)
+lowerbound = x_bar + qnorm(0.05) * sigma / sqrt(n_2)
+
+answer_2 = paste("(", lowerbound, ", ", upperbound, ")", sep="")
+
+cat(" (1)", answer_1, "\n", "(2)", answer_2)
+```
+
+<br/>
+
+#### 10.5.12 80마리의 쥐에게 특정한 음식을 준 후에 체중 증가량을 측정하여 $\bar{x} = 35$g 이고 $s=4$g인 결과를 얻었다.
+
+##### (1) 평균 증가량에 대한 90% 신뢰구간을 구하라.
+
+##### (2) (1)에서 구한 구간이 실제 평균을 포함하는지 설명하라.
+
+```{r}
+n = 80
+x_bar = 35
+s = 4
+upperbound = x_bar + qnorm(0.95) * s / sqrt(n)
+lowerbound = x_bar + qnorm(0.05) * s / sqrt(n)
+
+answer_1 = paste("(", lowerbound, ", ", upperbound, ")", sep="")
+
+cat(" (1)", answer_1, "\n", "(2) 실제 평균을 포함하는 경우가 100번 중 90번 정도라는 의미이지 실제로 평균을 포함하는지는 알 수 없다.")
+
+```
+
+
+
+
 
 
 
