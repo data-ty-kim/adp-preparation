@@ -865,6 +865,61 @@ d = 0.03
 cat (ceiling(1/4 * (1.96/d)^2))
 ```
 
+<br/>
+
+#### 10.5.28 $p$를 지난해에 미국의 어느 도시에서 법률상담한 성인의 비율이라고 하자.
+
+##### (1) $\alpha=0.05$일 때 $H_0: p=0.25$ 대 $H_1: p > 0.25$ 의 가설에 대한 기각역을 정하라.
+
+##### (2) 200 명의 임의추출된 표본에서 65명이 법률상담을 의뢰하였다고 하면 검정결과는 어떻게 되겠는가?
+
+##### (3) $p$에 대한 90% 신뢰구간을 계산하라.
+
+```{r}
+alpha=0.05
+p=0.25
+n=200
+p_hat=65/200 
+
+answer_1 = "가설에 대한 검정통계량은 Z = (p_hat - p) / sqrt(p * (1-p) / n) 이므로 기각역은 R: Z > 1.645이다."
+
+z = (p_hat - p) / sqrt(p * (1-p) / n)
+
+if (z > qnorm(1-alpha)) {
+  message = sprintf("유의수준 %.2f 하에서 귀무가설을 기각한다.", alpha)
+} else {
+  message = sprintf("유의수준 %.2f 하에서 귀무가설을 기각할 수 없다.", alpha)
+}
+
+lowerbound = p_hat + qnorm(0.05) * sqrt(p * (1-p) / n)
+upperbound = p_hat + qnorm(0.95) * sqrt(p * (1-p) / n)
+
+answer_3 = paste("(", lowerbound, ",", upperbound, ")")
+
+cat("(1)", answer_1, "\n(2)", message, "\n(3)", answer_3)
+```
+
+<br/>
+
+#### 10.5.30 표본의 크기를 170으로 하여, 모비율이 0.4보다 크다는 주장을 증명하고자 한다.
+
+##### (1) 만약 기각역이 $R: \hat{p} \geq 0.453$이면 이 검정의 유의수준은 얼마인가?
+
+##### (2) 기각역이 $R: \hat{p} \geq c$인 검정의 유의수준이 $\alpha=0.025$이기 위한 $c$를 결정하라.
+
+```{r}
+n=170
+p=0.4
+
+z_0 = (0.453-p) / sqrt(p * (1-p) / n)
+answer_1 = 1 - pnorm(z_0)
+answer_2 = qnorm(0.975) * sqrt(p * (1-p) / n) + p
+
+cat("(1)", answer_1, "\n(2)", answer_2)
+```
+
+
+
 
 
 
