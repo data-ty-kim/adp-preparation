@@ -918,6 +918,56 @@ answer_2 = qnorm(0.975) * sqrt(p * (1-p) / n) + p
 cat("(1)", answer_1, "\n(2)", answer_2)
 ```
 
+<br/>
+
+#### 10.5.32 고등학교 학생들의 학습시간에 대한 연구에서 130명 중에서 38명이 학기 중에 매주 20시간 이상 공부한다는 결과를 얻었다. 이 결과로부터 고등학생 중 주당 20시간 이상 공부하는 학생이 25% 보다 많다는 추측을 할 수 있는가? (P-값을 계산한 것에 의해 답을 하라.)
+
+```{r}
+n = 130
+p = 38 / 130
+p_hat = 0.25
+
+z = (p_hat - p) / sqrt(p * (1-p) / n)
+if (z < 0) {p_value = pnorm(z)} else {p_value = 1 - pnorm(z)}
+
+answer = sprintf(
+  "검정통계량 z가 %f 이고 P-값이 %f 이므로 유의수준 0.05 하에서 귀무가설을 기각할 수 없다.",
+  z, p_value
+)
+
+cat(answer)
+```
+
+<br/>
+
+#### 10.5.34 한 유전학적 모델에 의하면 두 개의 변종 씨앗의 교배로부터 80%가 작아지는 변종이 나타날 것이라고 한다. 교배 후 자라난 200개 중 136개가 작은 변종으로 나타났다.
+
+##### (1) 이 관측값으로부터 유전학적 모델이 모순이라고 할 수 있겠는가?
+
+##### (2) 교배로부터 나타나는 작은 변종의 실제 비율의 95% 신뢰구간을 구하라.
+
+```{r}
+n = 200
+p_hat = 136 / 200
+p = 0.8
+
+z = (p_hat - p) / sqrt(p * (1-p) / n)
+if (z < 0) {p_value = pnorm(z)} else {p_value = 1 - pnorm(z)}
+
+message = sprintf(
+  "검정통계량 z가 %f 이고 P-값이 %f 이므로 유의수준 0.05 하에서 귀무가설을 기각한다.",
+  z, p_value
+)
+answer_1 = paste(message, "\n   ", "따라서 이 관측값으로부터 유전학적 모델이 모순이라고 할 수 있다.")
+
+lowerbound = p_hat + qnorm(0.025) * sqrt(p_hat * (1-p_hat) / n)
+upperbound = p_hat + qnorm(0.975) * sqrt(p_hat * (1-p_hat) / n)
+answer_2 = paste("(", lowerbound, ",", upperbound, ")")
+
+cat("(1)", answer_1, "\n(2)", answer_2)
+
+```
+
 
 
 
