@@ -9,22 +9,33 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-## R Markdown
+<br/>
 
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+### 11.2 t 분포
 
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+<br/>
 
-```{r cars}
-summary(cars)
+#### 11.2.4 t 분포를 이용하여 각 경우의 확률을 구하라.
+
+##### (1) 자유도가 17일 때, $t < -1.740$ 일 확률
+
+##### (2) 자유도가 6일 때, $|t| < 3.143$ 일 확률 
+
+##### (3) 자유도가 18일 때, $-1.330 < t < 1.330$ 일 확률
+
+##### (4) 자유도가 10일 때, $-1.372 < t < 2.764$ 일 확률
+
+
+```{r}
+# pt: 누적분포함수, dt: pdf, qt: 누적분포함수의 역함수, rt: 임의추출
+answer_1 = pt(-1.740, 17)
+answer_2 = (pt(3.143, 6) - 0.5) * 2
+answer_3 = (pt(1.330, 18) - 0.5) * 2
+answer_4 = 0.5 - pt(-1.372, 10) + pt(2.764, 10) - 0.5
+
+cat("(1)", answer_1, "\n(2)", answer_2, "\n(3)", answer_3, "\n(4)", answer_4)
 ```
 
-## Including Plots
 
-You can also embed plots, for example:
 
-```{r pressure, echo=FALSE}
-plot(pressure)
-```
 
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
