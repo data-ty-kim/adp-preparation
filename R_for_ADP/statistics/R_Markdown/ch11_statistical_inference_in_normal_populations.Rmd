@@ -36,6 +36,7 @@ answer_4 = 0.5 - pt(-1.372, 10) + pt(2.764, 10) - 0.5
 cat("(1)", answer_1, "\n(2)", answer_2, "\n(3)", answer_3, "\n(4)", answer_4)
 ```
 
+# test 
 
 
 
