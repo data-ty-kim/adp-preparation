@@ -77,6 +77,75 @@ cat("(1)", answer_1, "\n(2)", answer_2,
     "\n(3)", answer_3, "\n(4)", answer_4, "\n(5)", answer_5)
 ```
 
+<br/>
+
+### 11.3 모평균에 대한 추론
+
+<br/>
+
+#### 11.3.2 새로운 종자에서 얻은 7개의 강낭콩에 대한 발아시기를 기록하였다. 자료의 분석에 필요한 가정에 대해 설명하고, 이 새로운 종자에 대한 실제 평균 발아시기의 95% 신뢰구간을 구하라.
+
+```{r}
+data = read.csv("../Data/exercise_11_3_02.csv")
+
+x_bar = mean(data[,1])
+s = sd(data[,1])
+n = length(data[,1])
+alpha = 0.05
+
+lowerbound = x_bar + qt(p = alpha/2, df = n-1) * s / sqrt(n)
+upperbound = x_bar + qt(p = 1-alpha/2, df = n-1) * s / sqrt(n)
+
+message = paste(
+  "위 자료에 대한 분석에는 모집단에 대한 정규분포 가정이 필요하다.", 
+  "\n다만, 모분산이 알려져있지 않으므로 t분포를 이용한다."
+)
+answer = paste("(", lowerbound, ",", upperbound, ")")
+
+cat(message, answer, sep="\n")
+```
+
+<br/>
+
+#### 11.3.4 푸른곰팡이에 의해 생성되어 옥수수 등의 농산물을 전염시키는 독소에 대한 검사에서 한 생화학자는 유기용매를 이용하여 곰팡이 배양균의 추출물을 얻은 후 용액의 g당 독소성분의 양을 측정하였다. 9개의 곰팡이 배양균으로부터 얻은 독소성분의 측정치들은 자료와 같다.
+
+##### (1) 자료로부터 평균과 표준편차를 계산하라.
+
+##### (2) 곰팡이 배양균의 g당 독소성분의 평균 무게에 대한 98% 신뢰구간을 계산하라.
+
+```{r}
+data = read.csv("../Data/exercise_11_3_04.csv")[,1]
+
+x_bar = mean(data)
+s = sd(data)
+answer_1 = paste("평균:", x_bar, ", 표준편차", s)
+
+alpha = 0.02
+n = length(data)
+lowerbound = x_bar + qt(p = alpha/2, df = n-1) * s / sqrt(n)
+upperbound = x_bar + qt(p = 1 - alpha/2, df = n-1) * s / sqrt(n)
+answer_2 = paste("(", lowerbound, ",", upperbound, ")")
+
+cat("(1)", answer_1, "\n(2)", answer_2)
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
