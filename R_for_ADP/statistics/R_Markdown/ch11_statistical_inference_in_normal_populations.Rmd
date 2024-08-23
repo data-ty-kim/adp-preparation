@@ -129,10 +129,43 @@ answer_2 = paste("(", lowerbound, ",", upperbound, ")")
 cat("(1)", answer_1, "\n(2)", answer_2)
 ```
 
+<br/>
 
+#### 11.3.6 호수오염을 조사하기 위해서 호수 바닥의 침전물층의 상단 25곳에서 각각 $1000 cm^3$의 표본을 채취하여 납의 농도를 측정하였다. 이들 측정치들의 표본평균과 표준편차는 각각 0.38과 0.06으로 나타났다. 호수바닥에서 침전물 $1000 cm^3$당 납의 평균 농도에 대한 99% 신뢰구간을 구하라.
 
+```{r}
+n = 25
+x_bar = 0.38
+s = 0.06
+alpha = 0.01
+lowerbound = x_bar + qt(p=alpha/2, df=n-1) * s / sqrt(n)
+upperbound = x_bar + qt(p=1-alpha/2, df=n-1) * s / sqrt(n)
+answer = paste("(", lowerbound, ",", upperbound, ")")
 
+cat(answer)
+```
 
+<br/>
+
+#### 11.3.8 정규모집단으로부터 크기가 18인 표본을 이용하여 모평균 $\mu$에 대한 90% 신뢰구간을 계산하여 (122, 146)의 결과를 얻었다. 이 결과를 사용하여 아래의 문제에 대하여 답하라.
+
+##### (1) 모평균 $\mu$의 추정값과 추정량의 90% 오차범위를 구하라.
+
+##### (2) 모평균 $\mu$에 대한 95% 신뢰구간을 구하라.
+
+```{r}
+n = 18
+x_bar = (122 + 146) / 2
+margin_of_error = 146 - x_bar
+answer_1 = paste("모평균 추정값:", x_bar, ", 오차범위", margin_of_error)
+
+se = margin_of_error / qt(p=0.95, df=n-1)
+lowerbound = x_bar + qt(p=0.025, df=n-1) * se
+upperbound = x_bar + qt(p=0.975, df=n-1) * se
+answer_2 = paste("(", lowerbound, ",", upperbound, ")")
+
+cat("(1)", answer_1, "\n(2)", answer_2)
+```
 
 
 
