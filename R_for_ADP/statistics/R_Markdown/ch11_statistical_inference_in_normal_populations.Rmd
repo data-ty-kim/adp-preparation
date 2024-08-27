@@ -213,8 +213,39 @@ p_value = 1 - pt(t, df=n-1)
 cat("P-값:", p_value, "이므로,", message)
 ```
 
+<br/>
 
+#### 11.3.14 산업지역 내 13구역에서 비의 산성도를 측정하여 자료를 얻었다. 이 지역에서 비의 산성도에 대한 평균의 95% 신뢰구간을 구하라.
 
+```{r}
+data = read.csv("../Data/exercise_11_3_14.csv")[,1]
+
+n = length(data)
+x_bar = mean(data)
+s = sd(data)
+
+lowerbound = x_bar + qt(0.025, df=n-1) * s / sqrt(n)
+upperbound = x_bar + qt(0.975, df=n-1) * s / sqrt(n)
+answer = paste("(", lowerbound, ",", upperbound, ")")
+
+cat(answer)
+```
+
+<br/>
+
+#### 11.3.16 어느 지방법원의 기록에 과실치사 사고를 낸 19명의 피고인들에 대한 선고형량이 적혀 있다고 한다. 이 선고형량의 평균과 표준편차는 각각 72.7개월과 10.2개월로 나타났다. 이 범죄에 대한 선고형량의 평균에 대한 95% 신뢰구간을 구하라.
+
+```{r}
+n = 19
+x_bar = 72.7
+s = 10.2
+
+lowerbound = x_bar + qt(0.025, df=n-1) * s / sqrt(n)
+upperbound = x_bar + qt(0.975, df=n-1) * s / sqrt(n)
+answer = paste("(", lowerbound, ",", upperbound, ")")
+
+cat(answer)
+```
 
 
 
