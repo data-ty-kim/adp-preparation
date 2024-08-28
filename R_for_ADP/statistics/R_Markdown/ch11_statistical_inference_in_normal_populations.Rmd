@@ -247,12 +247,79 @@ answer = paste("(", lowerbound, ",", upperbound, ")")
 cat(answer)
 ```
 
+<br/>
+
+#### 11.3.18 5년 전 어느 도에 있는 농장의 평균 넓이는 $5000 m^2$이었다고 한다. 최근 27군데의 농장에 대한 조사에서 농장넓이의 표본평균과 표본표준편차는 각각 $5500 m^2$, $1200 m^2$ 이었다.
+
+##### (1) 농장 넓이의 평균이 5년 전보다 커졌다는 강한 증거가 있는가?
+
+##### (2) 현재 평균 넓이에 대한 98% 신뢰구간을 구하라.
+
+```{r}
+x_bar = 5500
+s = 1200
+n = 27
+alpha = 0.05
+
+t = (x_bar - 5000) / (s / sqrt(n))
+
+if (t > qt(1-alpha, df=n-1)) {
+  message = sprintf("유의수준 %.2f 하에서 귀무가설을 기각한다.", alpha)
+} else {
+  message = sprintf("유의수준 %.2f 하에서 귀무가설을 기각할 수 없다.", alpha)
+}
+
+p_value = 1 - pt(t, df=n-1)
+answer_1 = paste("P-값:", p_value, "이므로,", message)
 
 
+lowerbound = x_bar + qt(0.01, df=n-1) * s / sqrt(n)
+upperbound = x_bar + qt(0.99, df=n-1) * s / sqrt(n)
+answer_2 = paste("(", lowerbound, ",", upperbound, ")")
 
+cat("(1)", answer_1, "\n(2)", answer_2)
+```
 
+<br/>
 
+#### 11.3.20 오수침전물이 비료로 쓰였던 6개의 대표적인 정원에서 양상추잎을 대상으로 중금속인 카드뮴(Cd)과 아연(Zn)의 농도를 측정하여 자료와 같은 값을 얻었다.
 
+##### (1) 카드뮴과 아연의 평균 농도에 대한 95% 신뢰구간을 구하라.
+
+##### (2) 카드뮴의 평균 농도가 12보다 크다는 증거가 있는가?
+
+```{r}
+data = read.csv("../Data/exercise_11_3_20.csv")
+df_stat = data.frame(
+  Mean = apply(data, 2, mean),
+  SD = apply(data, 2, sd)
+)
+
+n = nrow(data)
+
+lowerbound_cd = df_stat["Cd", "Mean"] + qt(0.025, df=n-1) * df_stat["Cd", "SD"] / sqrt(n)
+upperbound_cd = df_stat["Cd", "Mean"] + qt(0.975, df=n-1) * df_stat["Cd", "SD"] / sqrt(n)
+
+lowerbound_zn = df_stat["Zn", "Mean"] + qt(0.025, df=n-1) * df_stat["Zn", "SD"] / sqrt(n)
+upperbound_zn = df_stat["Zn", "Mean"] + qt(0.975, df=n-1) * df_stat["Zn", "SD"] / sqrt(n)
+
+answer_1_1 = paste("(", lowerbound_cd, ",", upperbound_cd, ")")
+answer_1_2 = paste("(", lowerbound_zn, ",", upperbound_zn, ")")
+
+t = (df_stat["Cd", "Mean"] - 12) / (df_stat["Cd", "SD"] / sqrt(n))
+alpha = 0.05
+
+if (t > qt(1-alpha, df=n-1)) {
+  message = sprintf("유의수준 %.2f 하에서 귀무가설을 기각한다.", alpha)
+} else {
+  message = sprintf("유의수준 %.2f 하에서 귀무가설을 기각할 수 없다.", alpha)
+}
+
+p_value = 1 - pt(t, df=n-1)
+answer_2 = paste("P-값:", p_value, "이므로,", message)
+
+cat("(1)", answer_1_1, "\n   ", answer_1_2, "\n(2)", answer_2)
+```
 
 
 
