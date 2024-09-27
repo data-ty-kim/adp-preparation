@@ -467,7 +467,65 @@ answer_4 = qchisq(p=0.05, df=7)
 cat("(1)", answer_1, "\n(2)", answer_2, "\n(3)", answer_3, "\n(4)", answer_4)
 ```
 
+<br/>
 
+#### 11.5.4 자료가 12, 18, 9, 15, 4로 주어져 있을 때 다음 물음에 답하라.
+
+##### (1) 표준편차 $\sigma$ 를 추정하라.
+
+##### (2) $\sigma$ 의 95% 신뢰구간을 구하라.
+
+##### (3) **(1)**에서 구한 추정치가 신뢰구간의 가운데 위치하고 있는지, 아닌지 판단하라.
+
+```{r}
+data = c(12, 18, 9, 15, 4)
+
+s = sd(data)
+answer_1 = s
+
+n = length(data)
+alpha = 0.05
+upperbound =  s * sqrt((n-1) / qchisq(p=alpha/2, df=n-1))
+lowerbound =  s * sqrt((n-1) / qchisq(p=1-alpha/2, df=n-1))
+
+answer_2 = paste(
+  "모집단이 정규분포를 다른다고 가정했을 때, \n    표준편차의 95% 신뢰구간은(", 
+  lowerbound, ",", upperbound, ") 이다."
+  )
+
+answer_3 = (answer_1 > lowerbound) & (answer_1 < upperbound)
+
+cat("(1)", answer_1, "\n(2)", answer_2, "\n(3)", answer_3)
+```
+
+<br/>
+
+#### 11.5.6 자료의 모집단이 정규분포를 따른다고 하자. 자료로부터 모표준편차 $\sigma$ 에 대한 95% 신뢰구간을 구하라. 해당 자료로부터 모표준편차가 6.7보다 작다는 결론을 내릴 수 있는가? $\alpha = 0.05$ 로 검정하라.
+
+```{r}
+data = read.csv("../Data/exercise_11_5_06.csv")[,1]
+
+n = length(data)
+alpha = 0.05
+s_0 = 6.7
+s = sd(data)
+
+upperbound = s * sqrt((n-1) / qchisq(p=alpha/2, df=n-1))
+lowerbound = s * sqrt((n-1) / qchisq(p=1-alpha/2, df=n-1))
+
+answer_1 = paste("모표준편차에 대한 95% 신뢰구간은 \n    (", lowerbound, 
+                 ",", upperbound, ") 이다.")
+
+chi = (n-1) * s^2 / s_0^2
+
+if (chi > qchisq(p=1-alpha, df=n-1)) {
+  message = sprintf("유의수준 %.2f 하에서 귀무가설을 기각한다.", alpha)
+} else {
+  message = sprintf("유의수준 %.2f 하에서 귀무가설을 기각할 수 없다.", alpha)
+}
+
+cat("(1)", answer_1, "\n(2)", message)
+```
 
 
 
