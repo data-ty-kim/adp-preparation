@@ -690,8 +690,57 @@ answer = paste("(", lowerbound, ",", upperbound, ")")
 cat(answer)
 ```
 
+<br/>
 
+#### 11.6.6 21그루의 식물이 꽃을 피우는 데 걸리는 기간의 평균이 39일이고 표준편차가 5.1일이었다. 꽃이 피는 데 걸리는 평균 기간에 대한 95% 신뢰구간을 구하라.
 
+```{r}
+n = 21
+x_bar = 39
+s = 5.1
+
+lowerbound = x_bar + qt(p=0.025, df=n-1) * s / sqrt(n)
+upperbound = x_bar + qt(p=0.975, df=n-1) * s / sqrt(n)
+
+answer = paste("(", lowerbound, ",", upperbound, ")")
+
+cat(answer)
+```
+
+<br/>
+
+#### 11.6.8 종합문제 **6.4**에서 평균 부유물의 양이 49보다 작아서 수질이 좋다고 할 수 있는지 유의수준 $\alpha=0.05$에서 검정을 실시하라.
+
+##### (1) 가설 $H_0$과 $H_1$을 세워라.
+
+##### (2) 검정통계량을 구하라.
+
+##### (3) 검정의 결과를 말하라.
+
+```{r}
+# 1번
+answer_1 = "H_0: mu=49 vs H_1: mu<49"
+
+# 2번
+n = 15
+x_bar = 47
+s=9.4
+t = (x_bar - 49) / (s / sqrt(n))
+
+answer_2 = sprintf("검정통계량 t=%.3f", t)
+
+# 3번
+alpha = 0.05
+if (t < qt(p=alpha, df=n)) { 
+  message = sprintf("유의수준 %.2f 하에서 귀무가설을 기각한다.", alpha)
+} else {
+  message = sprintf("유의수준 %.2f 하에서 귀무가설을 기각할 수 없다.", alpha)
+}
+p_value = pt(t, df = n)
+answer_3 = paste("p-value가", round(p_value, 4), "이므로", message)
+
+cat("(1)", answer_1, "\n(2)", answer_2, "\n(3)", answer_3)
+```
 
 
 
