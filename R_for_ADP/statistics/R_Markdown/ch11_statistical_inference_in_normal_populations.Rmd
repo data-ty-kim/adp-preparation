@@ -637,17 +637,61 @@ s_zn = sd(data[,2])
 s_0 = 30
 
 chi = (n_zn - 1) * s_zn^2 / s_0^2
+p_value = pchisq(chi, df, lower.tail = TRUE)
 
 if (chi < qchisq(p=alpha, df=n-1)) { # 주의! alpha다!
   message = sprintf("유의수준 %.2f 하에서 귀무가설을 기각한다.", alpha)
 } else {
   message = sprintf("유의수준 %.2f 하에서 귀무가설을 기각할 수 없다.", alpha)
 }
+answer_2 = paste("p-value가", round(p_value, 4), "이므로", message)
 
-cat("(1)", answer_1, "\n(2)", message)
-
-
+cat("(1)", answer_1, "\n(2)", answer_2)
 ```
+
+<br/>
+
+### 11.6 종합문제
+
+<br/>
+
+#### 11.6.2 t분포를 이용하여 다음 확률값을 구하라.
+
+##### (1) 자유도가 23일 때, $t > 2.710$
+
+##### (2) 자유도가 8일 때, $t > 3.355$
+
+##### (3) 자유도가 17일 때, $|t| > 2.110$
+
+##### (4) 자유도가 9일 때, $-0.703 < t < 2.262$
+
+```{r}
+cat(
+  "(1)", 1 - pt(q=2.710, df=23),
+  "(2)", 1 - pt(q=3.355, df=8),
+  "(3)", 1 - pt(q=2.110, df=17) + pt(q=-2.110, df=17),
+  "(4)", pt(q=2.262, df=9) - pt(q=-0.703, df=9)
+  )
+```
+
+<br/>
+
+#### 11.6.4 15차례에 걸쳐 월요일 아침에 강물에 떠 있는 부유물의 양을 측정하였더니 $\bar{x}=47$, $s=9.4$이었다. 부유물의 평균 양에 대한 95% 신뢰구간을 구하라. 모집단에 대한 가정이 있으면 기술하라.
+
+```{r}
+n = 15
+x_bar = 47
+s=9.4
+
+lowerbound = x_bar + qt(p=0.025, df=n-1) * s / sqrt(n)
+upperbound = x_bar + qt(p=0.975, df=n-1) * s / sqrt(n)
+answer = paste("(", lowerbound, ",", upperbound, ")")
+
+cat(answer)
+```
+
+
+
 
 
 
