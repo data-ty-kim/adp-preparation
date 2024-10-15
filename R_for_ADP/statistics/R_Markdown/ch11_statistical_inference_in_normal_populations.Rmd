@@ -626,8 +626,8 @@ alpha = 0.1
 n_cd = nrow(data['Cd'])
 s_cd = sd(data[,1])
 
-lowerbound_cd = s * sqrt( (n-1) / qchisq(p=1-alpha/2, df=n-1))
-upperbound_cd = s * sqrt( (n-1) / qchisq(p=alpha/2, df=n-1))
+lowerbound_cd = s_cd * sqrt( (n_cd-1) / qchisq(p=1-alpha/2, df=n_cd-1))
+upperbound_cd = s_cd * sqrt( (n_cd-1) / qchisq(p=alpha/2, df=n_cd-1))
 
 answer_1 = paste("(", lowerbound_cd, ",", upperbound_cd, ")")
 
@@ -637,7 +637,7 @@ s_zn = sd(data[,2])
 s_0 = 30
 
 chi = (n_zn - 1) * s_zn^2 / s_0^2
-p_value = pchisq(chi, df, lower.tail = TRUE)
+p_value = pchisq(chi, df=n_zn-1, lower.tail = TRUE)
 
 if (chi < qchisq(p=alpha, df=n-1)) { # 주의! alpha다!
   message = sprintf("유의수준 %.2f 하에서 귀무가설을 기각한다.", alpha)
@@ -741,6 +741,56 @@ answer_3 = paste("p-value가", round(p_value, 4), "이므로", message)
 
 cat("(1)", answer_1, "\n(2)", answer_2, "\n(3)", answer_3)
 ```
+
+<br/>
+
+#### 11.6.10 회계법인에서는 회계사가 한 회계감사를 완수하는 데에 필요한 표준시간으로 평균 $\mu$를 사용한다고 한다. 18명의 회계사들로부터 얻은 시간은 표본평균 4.1시간, 표본표준편차 1.6시간이었다. 가설 $H_0: \mu=3.5$ 대 $H_1: \mu > 3.5$에 대한 검정을 실시하라. (유의수준 $\alpha = 0.05$)
+
+```{r}
+n = 18
+x_bar = 4.1
+s = 1.6
+alpha = 0.05
+
+t = (x_bar - 3.5) / (s / sqrt(n))
+
+if (t > qt(1-alpha, df=n-1)) {
+  message = sprintf("유의수준 %.2f 하에서 귀무가설을 기각한다.", alpha)
+} else {
+  message = sprintf("유의수준 %.2f 하에서 귀무가설을 기각할 수 없다.", alpha)
+}
+p_value = 1 - pt(t, df=n-1)
+answer = paste(
+  "검정통계량 t가 ", round(t, 4), "이고, p-value가 ", 
+  round(p_value, 4), "이므로\n", message, sep = ""
+  )
+
+cat(answer)
+```
+
+<br/>
+
+#### 11.6.12 16개의 관측치로 이루어진 표본에서 계산한 평균과 표준편차가 각각 $\bar{x} = 182, s=12$이었다.
+
+##### (1) 가설 $H_0: \mu = 190$ 대 $H_1: \mu < 190$을 유의수준 $\alpha=0.05$에서 검정하라. 모집단 분포에 대한 필요한 가정이 있으면 기술하라.
+
+##### (2) **(1)**에서 계산된 관측치의 P-값에 대해 설명하라.
+
+```{r}
+n = 16
+x_bar = 182
+s = 12
+```
+
+
+
+
+
+
+
+
+
+
 
 
 
