@@ -780,8 +780,81 @@ cat(answer)
 n = 16
 x_bar = 182
 s = 12
+alpha = 0.05
+
+t = (x_bar - 190) / (s / sqrt(n))
+
+if (t < qt(alpha, df=n-1)) {
+  message = sprintf("유의수준 %.2f 하에서 귀무가설을 기각한다.", alpha)
+} else {
+  message = sprintf("유의수준 %.2f 하에서 귀무가설을 기각할 수 없다.", alpha)
+}
+p_value = pt(t, df=n-1)
+
+answer_1 = paste("모집단이 정규분포를 다른다고 가정할 때,", message)
+answer_2 = paste(
+  "검정통계량 t가 ", round(t, 4), "이고, p-value가 ", 
+  round(p_value, 4), "이므로\n    ", message, sep = ""
+  )
+
+cat("(1)", answer_1, "\n(2)", answer_2)
 ```
 
+<br/>
+
+#### 11.6.14 한 체중감량 프로그램은 '4개월에 12kg 감량'이라는 광고를 하였다. 25명의 고객을 대상으로 체중감량 조사한 결과 $\bar{x}=15$kg, $s=5$kg을 얻었다. 가설 $H_0: \mu=12$ 대 $H_1: \mu>12$에 대하여 유의수준 $\alpha=0.05$에서 검정하라.
+
+```{r}
+n = 25
+x_bar = 15
+s = 5
+alpha = 0.05
+
+t = (x_bar - 12) / (s / sqrt(n)) 
+
+if (t > qt(p=1-alpha, df=n-1)) {
+  message = sprintf("유의수준 %.2f 하에서 귀무가설을 기각한다.", alpha)
+} else {
+  message = sprintf("유의수준 %.2f 하에서 귀무가설을 기각할 수 없다.", alpha)
+}
+
+p_value = 1 - pt(q=t, df=n-1)
+
+answer = paste(
+  "검정통계량 t가 ", round(t, 4), "이고, p-value가 ", 
+  round(p_value, 4), "이므로\n", message, sep = ""
+  )
+
+cat(answer)
+```
+
+<br/>
+
+#### 11.6.16 새 모델의 가정용 난방기 10개에 대한 연소효율을 측정하였더니 표본평균과 표본표준편차가 각각 73.2와 2.74이었다. 이 결과는 새로운 모델의 평균 효율성이 70보다 높다는 증거를 제시하는가? (유의수준 $\alpha=0.05$에서 검정하고 P-값에 대해 논하라.)
+
+```{r}
+x_bar = 73.2
+s = 2.74
+n = 10
+alpha = 0.05
+
+t = (x_bar - 70) / (s / sqrt(n))
+
+if (t > qt(p=1-alpha, df=n-1)) {
+  message = sprintf("유의수준 %.2f 하에서 귀무가설을 기각한다.", alpha)
+} else {
+  message = sprintf("유의수준 %.2f 하에서 귀무가설을 기각할 수 없다.", alpha)
+}
+
+p_value = 1 - pt(q=t, df=n-1)
+
+answer = paste(
+  "검정통계량 t가 ", round(t, 4), "이고, p-value가 ", 
+  round(p_value, 4), "이므로\n", message, sep = ""
+  )
+
+cat(answer)
+```
 
 
 
