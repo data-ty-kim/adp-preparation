@@ -980,24 +980,70 @@ cat("(1)", s, "\n(2)", answer_2)
 
 ```
 
+<br/>
 
+#### 11.6.26 표본으로부터 모표준편차 $\sigma$에 대한 90% 신뢰구간이 (8.6, 15.3)이었다. 같은 자료를 가지고, 유의수준 $\alpha=0.10$에서 가설 $H_0: \sigma=7$ 대 $H_1: \sigma \neq 7$에 대한 가설검정의 결론은 무엇이겠는가?
 
+```{r}
+cat("sigma=7이 90% 신뢰구간 안에 포함되지 않으므로, 유의수준 0.1 하에 귀무가설을 기각한다.")
+```
 
+<br/>
 
+#### 11.6.28 자료에 대하여 다음 물음에 답하라.
 
+##### (1) 유의수준 10%일 때 가설 $H_0: \mu=75$ 대 $H_1: \mu \neq 75$에 대한 가설검정의 결론은 무엇인가?
 
+##### (2) 유의수준 0.05일 때 가설 $H_0: \mu=90$ 대 $H_1: \mu < 90$에 대한 가설검정의 결론은 무엇인가?
 
+##### (3) 평균점수에 대한 95% 신뢰구간을 구하라.
 
+```{r}
+data = c(89, 74, 91, 88, 72, 84)
+x_bar = mean(data)
+s = sd(data)
+n = length(data)
 
+# 1번
+alpha = 0.1
+t = (x_bar - 75) / (s / sqrt(n))
+if ((t < qt(p=alpha/2, df=n-1)) | (t > qt(p=1-alpha/2, df=n-1))) {
+  message = sprintf("유의수준 %.2f 하에서 귀무가설을 기각한다.", alpha)
+} else {
+  message = sprintf("유의수준 %.2f 하에서 귀무가설을 기각할 수 없다.", alpha)
+}
 
+if (t < 0) {
+  p_value = pt(q=t, df=n-1)
+} else {
+  p_value = 1 - pt(q=t, df=n-1)
+}
+answer_1 = paste(
+  "검정통계량 t가", round(t, 4), "이고, p-value가", 
+  round(p_value, 4), "이므로,\n   ", message
+)
 
+# 2번
+alpha = 0.05
+t = (x_bar - 90) / (s / sqrt(n))
+if (t < qt(p=alpha, df=n-1)) {
+  message = sprintf("유의수준 %.2f 하에서 귀무가설을 기각한다.", alpha)
+} else {
+  message = sprintf("유의수준 %.2f 하에서 귀무가설을 기각할 수 없다.", alpha)
+}
+p_value = pt(q=t, df=n-1)
+answer_2 = paste(
+  "검정통계량 t가", round(t, 4), "이고, p-value가", 
+  round(p_value, 4), "이므로,\n   ", message
+)
 
+# 3번
+lowerbound = x_bar + qt(p=0.025, df=n-1) * s / sqrt(n)
+upperbound = x_bar + qt(p=0.975, df=n-1) * s / sqrt(n)
+answer_3 = paste("(", lowerbound, ",", upperbound, ")")
 
-
-
-
-
-
-
-
-
+cat("(1)", answer_1, "\n(2)", answer_2, "\n(3)", answer_3)
+```
+&nbsp;   
+&nbsp;  
+■ 11장 끝 - 2024.10.22.
