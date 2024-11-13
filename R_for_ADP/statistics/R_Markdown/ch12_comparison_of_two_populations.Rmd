@@ -1,0 +1,67 @@
+---
+title: "12장 두 모집단의 비교"
+author: "Taeyoon Kim"
+date: "2024-11-13"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+<br/>
+
+### 12.2 두 개의 독립 표본 
+
+<br/>
+
+#### 12.2.2 한자능력검정시험에서의 점수를 근거로 하여 도시 A, B 의 학생들을 비교하였다. 중학교 1학년의 A 도시 학생 90명과 B 도시 학생 100명의 표본으로부터 구한 대회 점수에 대한 통계량 값이 자료와 같다. 두 도시 간의 모평균 점수의 차에 대한 98% 신뢰구간을 구하라.
+
+```{r}
+data = read.csv("../Data/exercise_12_2_02.csv", row.names = 1)
+
+x_bar = data['평균', 'A']
+y_bar = data['평균', 'B']
+s_1 = data['표준편차', 'A']
+s_2 = data['표준편차', 'B']
+n_1 = data['표본크기', 'A']
+n_2 = data['표본크기', 'B']
+
+lowerbound = (x_bar - y_bar) + qnorm(p=0.01) * sqrt(s_1^2/n_1 + s_2^2/n_2)
+upperbound = (x_bar - y_bar) + qnorm(p=0.99) * sqrt(s_1^2/n_1 + s_2^2/n_2)
+answer = paste("(", lowerbound, ",", upperbound, ")")
+
+cat(answer)
+```
+
+<br/>
+
+#### 12.2.4 두 개의 처리를 비교하기 위한 실험에 141개의 실험재료를 사용하였다. 79개의 실험재료를 임의로 추출하여 처리 1을 행하고 나머지 62개의 실험재료에 대하여 처리 2를 행하였다. 두 처리에 대한 반응의 평균과 표준편차는 자료와 같다. 처리효과의 평균의 차에 대한 98% 신뢰구간을 구하라.
+
+```{r}
+data = read.csv("../Data/exercise_12_2_04.csv", row.names = 1)
+
+x_bar = data['평균', '처리1']
+y_bar = data['평균', '처리2']
+s_1 = data['표준편차', '처리1']
+s_2 = data['표준편차', '처리2']
+n_1 = 79
+n_2 = 62
+
+lowerbound = (x_bar - y_bar) + qnorm(p=0.01) * sqrt(s_1^2/n_1 + s_2^2/n_2)
+upperbound = (x_bar - y_bar) + qnorm(p=0.99) * sqrt(s_1^2/n_1 + s_2^2/n_2)
+answer = paste("(", lowerbound, ",", upperbound, ")")
+
+cat(answer)
+
+```
+
+
+
+
+
+
+
+
+
+
