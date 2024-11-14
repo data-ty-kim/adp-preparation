@@ -56,10 +56,93 @@ cat(answer)
 
 ```
 
+<br/>
 
+#### 12.2.6 어린이 성장과 사회환경에 관한 연구의 한 분야로서 부모가 고등교육을 받지 못한 1학년생(집단1)과 부모가 대학교육을 받은 1학년생(집단2)의 언어능력의 비교에 대한 연구가 이루어졌다. 집단1과 집단2로부터 각각 66명, 38명의 어린이를 임의로 뽑아서 그들의 언어능력을 점수로 계산한 통계량이 자료와 같다,
 
+##### (1) 두 집단 간 언어능력의 차이가 있는가? (유의수준 $\alpha=0.01$로 검정하라.)
 
+##### (2) 두 어린이 집단의 모평균 점수차에 대한 98% 신뢰구간을 계산하라.
 
+```{r}
+data = read.csv("../Data/exercise_12_2_06.csv", row.names = 1)
+
+x_bar = data['평균', '집단1']
+y_bar = data['평균', '집단2']
+s_1 = data['표준편차', '집단1']
+s_2 = data['표준편차', '집단2']
+n_1 = 66
+n_2 = 38
+alpha = 0.01
+
+z = ((x_bar - y_bar) - 0) / sqrt(s_1^2/n_1 + s_2^2/n_2)
+
+if ((z < qnorm(alpha/2)) | (z > qnorm(1 - alpha/2))) {
+  message = sprintf("유의수준 %.2f 하에서 귀무가설을 기각한다.", alpha)
+} else {
+  message = sprintf("유의수준 %.2f 하에서 귀무가설을 기각할 수 없다.", alpha)
+}
+
+if (z < 0) {
+  p_value = pnorm(q=z)
+} else {
+  p_value = 1 - pnorm(q=z)
+}
+
+answer_1 = paste(
+  "검정통계량 z가", round(z, 4), "이고, p-value가", 
+  round(p_value, 4), "이므로,\n   ", message
+)
+
+lowerbound = (x_bar - y_bar) + qnorm(0.01) * sqrt(s_1^2/n_1 + s_2^2/n_2)
+upperbound = (x_bar - y_bar) + qnorm(0.99) * sqrt(s_1^2/n_1 + s_2^2/n_2)
+
+answer_2 = paste("(", lowerbound, ",", upperbound, ")")
+
+cat("(1)", answer_1, "\n(2)", answer_2)
+```
+
+<br/>
+
+#### 12.2.8 국내 고용평등추진위원회는 여성 고용인에 대한 임금이 같은 처지의 남성 고용인의 임금만큼 지급되는지에 대한 조사를 실시하였다. 하급사원에서 남성 75명, 여성 64명을 임의로 뽑아서 그들의 임금 자료로부터 자료와 같은 값을 얻었다.
+
+##### (1) 남녀 하급사원의 평균임금의 차에 대한 95% 신뢰구간을 구하라. 
+
+##### (2) **(1)**에서 구한 신뢰구간을 참조하여 평균임금이 같다는 귀무가설에 대하여 남성의 임금이 더 높다고 할 수 있는지 검정하고자 한다. 유의수준 $\alpha=0.05$로 가설검정에 대한 결론을 내려라.
+
+```{r}
+data = read.csv("../Data/exercise_12_2_07.csv", row.names = 1)
+
+x_bar = data['평균', '남성']
+y_bar = data['평균', '여성']
+s_1 = data['표준편차', '남성']
+s_2 = data['표준편차', '여성']
+n_1 = 75
+n_2 = 64
+alpha = 0.05
+
+lowerbound = (x_bar - y_bar) + qnorm(alpha/2) * sqrt(s_1^2/n_1 + s_2^2/n_2)
+upperbound = (x_bar - y_bar) + qnorm(1-alpha/2) * sqrt(s_1^2/n_1 + s_2^2/n_2)
+
+answer_1 = paste("(", lowerbound, ",", upperbound, ")")
+
+z = ((x_bar - y_bar) - 0) / sqrt(s_1^2/n_1 + s_2^2/n_2)
+
+if ((z > qnorm(1-alpha))) {
+  message = sprintf("유의수준 %.2f 하에서 귀무가설을 기각한다.", alpha)
+} else {
+  message = sprintf("유의수준 %.2f 하에서 귀무가설을 기각할 수 없다.", alpha)
+}
+
+p_value = 1 - pnorm(q=z)
+
+answer_2 = paste(
+  "검정통계량 z가", round(z, 4), "이고, p-value가", 
+  round(p_value, 4), "이므로,\n   ", message
+)
+
+cat("(1)", answer_1, "\n(2)", answer_2)
+```
 
 
 
