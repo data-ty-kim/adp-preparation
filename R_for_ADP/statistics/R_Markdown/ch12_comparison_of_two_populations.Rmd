@@ -144,6 +144,81 @@ answer_2 = paste(
 cat("(1)", answer_1, "\n(2)", answer_2)
 ```
 
+<br/>
+
+#### 12.2.10 섬세함을 요구하는 어느 작업에서 성별에 따라 작업하는 데 걸리는 시간이 차이가 있는지 판단하고자 48명의 남성을 대상으로 작업시간을 조사한 결과 평균 7.92분, 표준편차 3.45분이고, 38명 여성의 작업시간은 평균 5.80분, 표준편차 2.87분이었다. 여성보다 남성이 작업하는 데 시간이 오래 걸린다고 할 수 있는지 검정하라. (P-값을 이용하여 답하라.)
+
+```{r}
+x_bar = 7.92
+y_bar = 5.80
+s_1 = 3.45
+s_2 = 2.87
+n_1 = 48
+n_2 = 38
+alpha = 0.05
+
+z = ((x_bar - y_bar) - 0) / sqrt(s_1^2/n_1 + s_2^2/n_2)
+
+if ((z > qnorm(1-alpha))) {  # 주의! 여성보다 남성이 오래 걸리는 거다!
+  message = sprintf("유의수준 %.2f 하에서 귀무가설을 기각한다.", alpha)
+} else {
+  message = sprintf("유의수준 %.2f 하에서 귀무가설을 기각할 수 없다.", alpha)
+}
+
+p_value = 1 - pnorm(q=z)
+
+answer = paste(
+  "검정통계량 z가", round(z, 4), "이고, p-value가", 
+  round(p_value, 4), "이므로,\n", message
+)
+
+cat(answer)
+```
+
+<br/>
+
+#### 12.2.12 두 개의 모집단에서 얻은 서로 독립인 표본에 대한 통계량이 자료와 같이 주어졌다. 필요한 가정이 있으면 기술하고 다음에 답하라.
+
+##### (1) $(\mu_1 - \mu_2)$에 대한 95% 신뢰구간을 구하라.
+
+##### (2) 가설 $H_0: \mu_1 - \mu_2 = 10$ 대 $H_0: \mu_1 - \mu_2 > 10$에 대한 검정을 하라. ($\alpha=0.01$)
+
+
+```{r}
+data = read.csv("../Data/exercise_12_2_12.csv", row.names = 1)
+
+x_bar = data['mean', '표본1']
+y_bar = data['mean', '표본2']
+s_1 = data['sd', '표본1']
+s_2 = data['sd', '표본2']
+n_1 = data['n', '표본1']
+n_2 = data['n', '표본2']
+alpha = 0.01
+
+lowerbound = (x_bar - y_bar) + qt(0.05/2, df = n_1 + n_2-1) * sqrt(s_1^2/n_1 + s_2^2/n_2)
+upperbound = (x_bar - y_bar) + qt(1-0.05/2, df = n_1 + n_2-1) * sqrt(s_1^2/n_1 + s_2^2/n_2)
+
+answer_1 = paste("(", lowerbound, ",", upperbound, ")")
+
+t = ((x_bar - y_bar) - 10) / sqrt(s_1^2/n_1 + s_2^2/n_2)
+
+if ((t > qt(1-alpha, df = min(n_1-1, n_2-1)))) {
+  message = sprintf("유의수준 %.2f 하에서 귀무가설을 기각한다.", alpha)
+} else {
+  message = sprintf("유의수준 %.2f 하에서 귀무가설을 기각할 수 없다.", alpha)
+}
+
+p_value = 1 - pt(q=t, df = min(n_1-1, n_2-1))
+
+answer_2 = paste(
+  "검정통계량 z가", round(t, 4), "이고, p-value가", 
+  round(p_value, 4), "이므로,\n   ", message
+)
+
+cat("(1)", answer_1, "\n(2)", answer_2)
+```
+
+
 
 
 
