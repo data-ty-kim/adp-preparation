@@ -393,5 +393,106 @@ answer_3 = paste("(", lowerbound, ",", upperbound, ")")
 cat("(1)", answer_1, "\n(2)", answer_2, "\n(3)", answer_3)
 ```
 
+<br/>
+
+#### 12.2.22 성장 호르몬 투약이 새끼를 밴 쥐의 체중 증가에 미치는 영향에 대하여 조사를 하였다. 6마리의 정상인 쥐(집단1)와 성장 호르몬을 주입한 6마리 쥐(집단2)에 대하여 체중 증가에 대한 자료와 같은 통계량 값이주어졌다. 모집단에 대한 가정을 기술하고, 호르몬 투약을 한 쥐가 정상인 쥐보다 평균 체중 증가가 크다고 할 수 있는지에 대한 가설을 검정하라.
+
+```{r}
+data = read.csv("../Data/exercise_12_2_22.csv", row.names = 1)
+
+assumption = " 가정: 두 모집단이 정규분포를 따르지만 두 모표준편차가 다르다고 하자."
+x_bar = data["mean", "group_1"]
+y_bar = data["mean", "group_2"]
+s_1 = data["sd", "group_1"]
+s_2 = data["sd", "group_2"]
+n_1 = 6
+n_2 = 6
+alpha = 0.05
+
+t = ((x_bar - y_bar) - 0) / sqrt(s_1^2/n_1 + s_2^2/n_2)
+
+if (t < qt(alpha, df=min(n_1-1, n_2-1))) {
+  message = sprintf("유의수준 %.2f 하에서 귀무가설을 기각한다.", alpha)
+} else {
+  message = sprintf("유의수준 %.2f 하에서 귀무가설을 기각할 수 없다.", alpha)
+}
+
+p_value = pt(t, df = min(n_1-1, n_2-1))
+
+answer = paste(
+  "검정통계량 t가", round(t, 4), "이고, p-value가", 
+  round(p_value, 4), "이므로,\n", message
+)
+
+cat(assumption, "\n", answer)
+```
+
+<br/>
+
+#### 12.2.24 두 모집단으로부터 서로 독립인 두 개의 표본에 대한 통계량들이 자료와 같이 4번 주어졌다. 각 경우에 모평균의 차에 대한 98% 신뢰구간을 구하고 실험에 필요한 가정을 말하라.
+
+```{r}
+data = read.csv("../Data/exercise_12_2_24.csv", row.names = 1)
+
+# 1번 풀이
+x_bar = data["(1) mean", "group_1"]
+y_bar = data["(1) mean", "group_2"]
+s_1 = data["(1) sd", "group_1"]
+s_2 = data["(1) sd", "group_2"]
+n_1 = data["(1) n", "group_2"]
+n_2 = data["(1) n", "group_2"]
+s_p = sqrt(((n_1 - 1) * s_1^2 + (n_2 - 1) * s_2^2) / (n_1 + n_2 - 2))
+lowerbound = (x_bar - y_bar) + qt(0.01, df=n_1 + n_2 - 2) * s_p * sqrt(1/n_1 + 1/n_2)
+upperbound = (x_bar - y_bar) + qt(0.99, df=n_1 + n_2 - 2) * s_p * sqrt(1/n_1 + 1/n_2)
+answer_1 = paste("(", lowerbound, ",", upperbound, ")")
+
+# 2번 풀이
+x_bar = data["(2) mean", "group_1"]
+y_bar = data["(2) mean", "group_2"]
+s_1 = data["(2) sd", "group_1"]
+s_2 = data["(2) sd", "group_2"]
+n_1 = data["(2) n", "group_2"]
+n_2 = data["(2) n", "group_2"]
+lowerbound = (x_bar - y_bar) + qnorm(0.01) * sqrt(s_1^2/n_1 + s_2^2/n_2)
+upperbound = (x_bar - y_bar) + qnorm(0.99) * sqrt(s_1^2/n_1 + s_2^2/n_2)
+answer_2 = paste("(", lowerbound, ",", upperbound, ")")
+
+# 3번 풀이
+x_bar = data["(3) mean", "group_1"]
+y_bar = data["(3) mean", "group_2"]
+s_1 = data["(3) sd", "group_1"]
+s_2 = data["(3) sd", "group_2"]
+n_1 = data["(3) n", "group_2"]
+n_2 = data["(3) n", "group_2"]
+lowerbound = (x_bar - y_bar) + qt(0.01, df=min(n_1-1, n_2-1)) * sqrt(s_1^2/n_1 + s_2^2/n_2)
+upperbound = (x_bar - y_bar) + qt(0.99, df=min(n_1-1, n_2-1)) * sqrt(s_1^2/n_1 + s_2^2/n_2)
+answer_3 = paste("(", lowerbound, ",", upperbound, ")")
+
+# 4번 풀이
+x_bar = data["(4) mean", "group_1"]
+y_bar = data["(4) mean", "group_2"]
+s_1 = data["(4) sd", "group_1"]
+s_2 = data["(4) sd", "group_2"]
+n_1 = data["(4) n", "group_2"]
+n_2 = data["(4) n", "group_2"]
+lowerbound = (x_bar - y_bar) + qnorm(0.01) * sqrt(s_1^2/n_1 + s_2^2/n_2)
+upperbound = (x_bar - y_bar) + qnorm(0.99) * sqrt(s_1^2/n_1 + s_2^2/n_2)
+answer_4 = paste("(", lowerbound, ",", upperbound, ")")
+
+cat(
+  "(1) 가정: 두 모집단이 정규분포를 따르고 두 모표준편차가 같다고 하자.", 
+  "\n   ", answer_1, "\n(2)", answer_2,
+  "\n(3) 가정: 두 모집단이 정규분포를 따르지만 두 모표준편차가 다르다고 하자.", 
+  "\n   ", answer_3, "\n(4)", answer_4
+)
+
+```
+
+
+
+
+
+
+
 
 
