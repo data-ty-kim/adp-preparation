@@ -488,6 +488,83 @@ cat(
 
 ```
 
+<br/>
+
+### 12.3 짝비교 
+
+<br/>
+
+#### 12.3.2 자료와 같이 짝이 이루어져 있다고 하자.
+
+##### (1) 통계량 $t = \frac{\bar{D}}{s_D / \sqrt(n)}$ 의 값을 계산하라.
+
+##### (2) 위의 $t$ 분포의 자유도는 얼마인가?
+
+```{r}
+data = read.csv("../Data/exercise_12_3_02.csv")
+
+data$d = data$x - data$y
+d_bar = mean(data$d)
+s_d = sd(data$d)
+
+answer_1 = d_bar / (s_d / sqrt(length(data$d)))
+answer_2 = nrow(data) - 1
+
+cat("(1)", answer_1, "\n(2)", answer_2)
+```
+
+<br/>
+
+#### 12.3.6 어떤 영양학자는 사이크로트롭스(PC)라고 불리는 일종의 박테리아를 넣은 탈지유와 PC를 넣지 않은 탈지유로 만들어진 요구르트 질에 차가 있는지를 연구하고자 한다. 탈지유의 표본을 7곳의 우유 농장에서 채취한 후, 각각 절반의 우유에는 PC를 주입하고 나머지 절반의 우유에는 PC를 주입하지 않았다. 이렇게 얻어진 우유로 요구르트를 만들어 각각 응고된 정도를 측정하여 기록하였더니 결과가 자료와 같았다. (수치가 큰 것이 응고 정도가 강함을 나타낸다고 하자.) 자료로부터 PC가 주입된 우유로 만든 요구르트의 응고 정도가 더 강하다고 결론을 내릴 수 있겠는가? ($\alpha=0.05$로 검정하라.)
+
+
+```{r}
+data = read.csv("../Data/exercise_12_3_06.csv", row.names = 1)
+
+data$d = data$PC_added - data$PC_not_added
+d_bar = mean(data$d)
+s_d = sd(data$d)
+n = length(data$d)
+alpha = 0.05
+
+t = d_bar / (s_d / sqrt(n))
+
+if (t > qt(p=1-alpha, df=n-1)) {
+  message = sprintf("유의수준 %.2f 하에서 귀무가설을 기각한다.", alpha)
+} else {
+  message = sprintf("유의수준 %.2f 하에서 귀무가설을 기각할 수 없다.", alpha)
+}
+
+p_value = 1 - pt(t, df=n-1)
+
+answer = paste(
+  " 검정통계량 t가", round(t, 4), "이고, p-value가", 
+  round(p_value, 4), "이므로,\n", message
+)
+
+cat(answer)
+```
+
+<br/>
+
+#### 12.3.8 통조림 공장에서 통조림을 제조하기 전에 많은 양의 끓는 물로 채소를 세척하고 있다. 그런데 새로 개발된 방법인 증기를 이용한 세척방법(SBP)을 사용하면 채소에 들어 있는 비타민과 미네랄이 기존의 방법보다 적게 손실된다고 한다. 10곳의 농장에서 얻은 10다발의 콩을 가지고 SBP 방법과 기존의 방법을 비교하고자 한다. 각 다발의 콩 중에서 반은 기존의 방법으로, 나머지 반은 SBP 방법으로 처리한 후 통조림 된 콩에서 450g당 비타민의 양을 측정하였다. 두 가지 방법을 사용하였을 때 450g당 비타민 양의 평균차에 대한 98% 신뢰구간을 구하라.
+
+```{r}
+data = read.csv("../Data/exercise_12_3_08.csv")
+
+data$d = data$SBP - data$not_SBP 
+d_bar = mean(data$d)
+s_d = sd(data$d)
+n = length(data$d)
+
+lowerbound = d_bar + qt(0.01, df=n-1) * s_d / sqrt(n)
+upperbound = d_bar + qt(0.99, df=n-1) * s_d / sqrt(n)
+
+answer = paste("(", lowerbound, ",", upperbound, ")")
+cat(answer)
+```
+
+
 
 
 
