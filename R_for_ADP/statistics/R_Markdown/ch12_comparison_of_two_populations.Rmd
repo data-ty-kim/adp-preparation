@@ -283,7 +283,7 @@ n_2 = 67
 alpha=0.05
 z = ((x_bar - y_bar) - 0) / sqrt(s_1^2/n_1 + s_2^2/n_2)
 
-if (z > qnorm(alpha)) {
+if (z > qnorm(1-alpha)) {
   message = sprintf("유의수준 %.2f 하에서 귀무가설을 기각한다.", alpha)
 } else {
   message = sprintf("유의수준 %.2f 하에서 귀무가설을 기각할 수 없다.", alpha)
@@ -564,11 +564,122 @@ answer = paste("(", lowerbound, ",", upperbound, ")")
 cat(answer)
 ```
 
+<br/>
 
+#### 12.3.10 어려운 것을 기억하는 두 가지 방법 중 어떤 것이 더 효과적인지 결정하고자 한다. 자료는 IQ와 성적을 기준으로 짝지은 9쌍의 학생들을 대상으로 두 방법을 각 쌍에서 임의로 배정하여 기억력 실험을 시행한 결과이다. $\alpha=0.05$에서 두 가지 방법의 효과의 차이가 유의한지를 검정하라.
 
+```{r}
+data = read.csv("../Data/exercise_12_3_10.csv")
 
+data$d = data$A - data$B
+d_bar = mean(data$d)
+s_d = sd(data$d)
+n = length(data$d)
+alpha = 0.05
 
+t = d_bar / (s_d / sqrt(n))
 
+if ((t < qt(alpha/2, df=n-1)) | (t > qt(1-alpha/2, df=n-1))) {
+  message = sprintf("유의수준 %.2f 하에서 귀무가설을 기각한다.", alpha)
+} else {
+  message = sprintf("유의수준 %.2f 하에서 귀무가설을 기각할 수 없다.", alpha)
+}
+
+if (t > 0) {
+  p_value = 1 - pt(t, df=n-1)
+} else {
+  p_value = pt(t, df=n-1)
+}
+
+answer = paste(
+  " 검정통계량 t가", round(t, 4), "이고, p-value가", 
+  round(p_value, 4), "이므로,\n", message
+)
+
+cat(answer)
+```
+
+<br/>
+
+#### 12.3.11 각각 다른 도에 위치한 8곳의 농장에서 A와 B 두 종류의 우리밀을 같은 면적에서 재배하여 생산량 비교 실험을 하였다. 단위면적당 수확량을 결과는 자료와 같다.
+
+##### (1) 우리밀 A가 우리밀 B보다 더 높은 평균생산량을 갖는다는 강력한 증거가 있는가? 유의수준 $\alpha=0.05$로 검정하라.
+
+##### (2) 이 실험에서 랜덤화를 하기 위해서는 어떻게 하겠는가?
+
+```{r}
+data = read.csv("../Data/exercise_12_3_11.csv")
+
+data$d = data$A - data$B
+d_bar = mean(data$d)
+s_d = sd(data$d)
+n = length(data$d)
+alpha = 0.05
+
+t = d_bar / (s_d / sqrt(n))
+
+if (t > qt(1-alpha, df=n-1)) {
+  message = sprintf("유의수준 %.2f 하에서 귀무가설을 기각한다.", alpha)
+} else {
+  message = sprintf("유의수준 %.2f 하에서 귀무가설을 기각할 수 없다.", alpha)
+}
+
+p_value = 1 - pt(t, df=n-1)
+
+answer_1 = paste(
+  "검정통계량 t가", round(t, 4), "이고, p-value가", 
+  round(p_value, 4), "이므로,\n   ", message, 
+  "\n    따라서 우리밀 A가 우리밀 B보다 더 높은 평균생산량을 갖는다고 볼 수 있다."
+)
+
+answer_2 = "이 문제와 같이 자료가 처음부터 짝지워져 있는 경우,\n    두 개의 처리를 어떻게 배정할 것인가는 전혀 문제되지 않는다.\n    따라서 랜덤화가 필요하지 않다."
+
+cat("(1)", answer_1, "\n(2)", answer_2)
+
+```
+
+#### 12.3.12 연습문제 **3.11**에서 이번에는 16곳의 농장을 선택해서 8곳에는 우리밀 A를 나머지에는 우리밀 B를 심었다고 한다. 단위면적당 수확량은 자료와 같다.
+
+##### (1) 우리밀 A가 우리밀 B보다 더 높은 평균생산량을 갖는다는 강력한 증거가 있는가? 유의수준 $\alpha=0.05$로 검정하라.
+
+##### (2) 이 실험에서 랜덤화란 무엇이며 랜덤화를 하고자 하면 어떻게 하여야 하겠는가?
+
+##### (3) 이 자료는 연습문제 **3.11**의 자료를 뒤섞어 놓은 형태이다. 두 가지 상황에서 결과가 다른 이유를 설명하라. 
+
+```{r}
+data = read.csv("../Data/exercise_12_3_12.csv")
+
+x_bar = mean(data$A)
+y_bar = mean(data$B)
+s_1 = sd(data$A)
+s_2 = sd(data$B)
+n_1 = length(data$A)
+n_2 = length(data$B)
+s_p = sqrt( ((n_1-1) * s_1^2 + (n_2-1) * s_2^2) / (n_1 + n_2 - 2))
+alpha = 0.05
+
+t = (x_bar - y_bar) / (s_p * sqrt(1/n_1 + 1/n_2))
+
+if (t > qt(1-alpha, df=n_1 + n_2 - 2)) {
+  message = sprintf("유의수준 %.2f 하에서 귀무가설을 기각한다.", alpha)
+} else {
+  message = sprintf("유의수준 %.2f 하에서 귀무가설을 기각할 수 없다.", alpha)
+}
+
+p_value = 1 - pt(t, df=n_1 + n_2 - 2)
+
+answer_1 = paste(
+  "검정통계량 t가", round(t, 4), "이고, p-value가", 
+  round(p_value, 4), "이므로,\n   ", message, 
+  "\n    따라서 우리밀 A가 우리밀 B보다 더 높은 평균생산량을 갖는다고 볼 수 있다."
+)
+
+answer_2 = "이 실험에서 랜덤화란, 여러 조건들이 어느 한 쪽의 처리에만 영향을 주지 않고\n    확률적으로 같은 정도로 영향을 미치도록 처리를 무작위로 배정하는 것을 뜻한다.\n    랜덤화를 하고자 하면 각 쌍에서 동전 던지기를 통해 A 또는 B를 심도록 할 수 있다."
+
+answer_3 = "3.11과 3.12의 상황에서 결과가 다른 이유는, 각 쌍 내에서 독립이냐 독립이 아니냐의\n    차이가 있기 때문이다. 3.11의 경우 각 쌍 내에서 독립이 아니지만, 3.21의 경우는\n    각 쌍 내에서 독립이라 볼 수 있다."
+
+cat("(1)", answer_1, "\n(2)", answer_2, "\n(3)", answer_3)
+```
 
 
 
