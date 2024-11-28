@@ -681,6 +681,57 @@ answer_3 = "3.11과 3.12의 상황에서 결과가 다른 이유는, 각 쌍 내
 cat("(1)", answer_1, "\n(2)", answer_2, "\n(3)", answer_3)
 ```
 
+#### 12.4.2 두 집단 A와 B에서 각각 100명의 여성을 뽑아 "24세가 되기 전에 결혼하셨습니까?"라는 질문을 하였다. 그 결과는 자료와 같이 얻어졌다.
+
+##### (1) 양측검정의 방법으로 두 집단의 24세 이전에 결혼한 비율이 같은지를 검정하라. (유의수준 $\alpha=0.05$)
+
+##### (2) $(p_A - p_B)$에 대한 95% 신뢰구간을 구하라.
+
+```{r}
+data = read.csv("../Data/exercise_12_4_02.csv", row.names = 1)
+p_1 = data["Yes", "A"] / sum(data$A)
+p_2 = data["Yes", "B"] / sum(data$B)
+n_1 = sum(data$A)
+n_2 = sum(data$B)
+p_hat = sum(data["Yes",]) / sum(data)
+alpha = 0.05
+
+# 1번
+z = (p_1 - p_2) / (sqrt(p_hat * (1-p_hat)) * sqrt(1/n_1 + 1/n_2))
+
+if ( (z > qnorm(1-alpha/2)) | (z < qnorm(alpha/2))) {
+  message = sprintf("유의수준 %.2f 하에서 귀무가설을 기각한다.", alpha)
+} else {
+  message = sprintf("유의수준 %.2f 하에서 귀무가설을 기각할 수 없다.", alpha)
+}
+
+p_value = 1 - pnorm(z)
+
+answer_1 = paste(
+  "검정통계량 z가", round(z, 4), "이고, p-value가", 
+  p_value, "이므로,\n   ", message, 
+  "\n    따라서 두 집단의 24세 이전에 결혼한 비율이 다르다고 볼 수 있다."
+)
+
+# 2번
+lowerbound = (p_1 - p_2) + qnorm(alpha/2) * sqrt(p_1*(1-p_1)/n_1 + p_2*(1-p_2)/n_2)
+upperbound = (p_1 - p_2) + qnorm(1-alpha/2) * sqrt(p_1*(1-p_1)/n_1 + p_2*(1-p_2)/n_2)
+answer_2 = paste("(", lowerbound, ",", upperbound, ")")
+
+cat("(1)", answer_1, "\n(2)", answer_2)
+```
+
+#### 12.4.4 두 가지 새로운 약 A와 약 B를 비교 연구하기 위해, 120명의 환자에게는 약 A를, 150명의 환자에게는 약 B를 복용시킨 후 자료와 같은 결과를 얻었다.
+
+##### (1) 이 결과로부터 약 A보다 약 B가 더 높은 치유율을 갖는다고 설명할 수 있겠는가?
+
+##### (2) 두 약의 치유율의 차에 대한 95% 신뢰구간을 구하라.
+
+##### (3) 각 약의 치유율에 대한 95% 신뢰구간을 각각 구하라.
+
+```{r}
+
+```
 
 
 
