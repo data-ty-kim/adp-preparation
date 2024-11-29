@@ -730,7 +730,46 @@ cat("(1)", answer_1, "\n(2)", answer_2)
 ##### (3) 각 약의 치유율에 대한 95% 신뢰구간을 각각 구하라.
 
 ```{r}
+data = read.csv("../Data/exercise_12_4_03.csv", row.names = 1)
 
+p_1 = data["Cured", "A"] / sum(data$A)
+p_2 = data["Cured", "B"] / sum(data$B)
+n_1 = sum(data$A)
+n_2 = sum(data$B)
+p_hat = sum(data["Cured", ]) / sum(data)
+alpha = 0.05
+
+# 1번
+z = (p_1 - p_2) / (sqrt(p_hat * (1 - p_hat)) * sqrt(1/n_1 + 1/n_2))
+
+if (z < qnorm(alpha)) {
+  message = sprintf("유의수준 %.2f 하에서 귀무가설을 기각한다.", alpha)
+} else {
+  message = sprintf("유의수준 %.2f 하에서 귀무가설을 기각할 수 없다.", alpha)
+}
+
+p_value = pnorm(z)
+
+answer_1 = paste(
+  "검정통계량 z가", round(z, 4), "이고, p-value가", 
+  round(p_value, 4), "이므로,\n   ", message, 
+  "\n    따라서 약 A보다 약 B가 더 높은 치유율을 갖는다고 설명 할 수 있다."
+)
+
+# 2번
+lowerbound = (p_1 - p_2) + qnorm(alpha/2) * sqrt(p_1*(1-p_1)/n_1 + p_2*(1-p_2)/n_2)
+upperbound = (p_1 - p_2) + qnorm(1-alpha/2) * sqrt(p_1*(1-p_1)/n_1 + p_2*(1-p_2)/n_2)
+answer_2 = paste("(", lowerbound, ",", upperbound, ")")
+
+# 3번
+lowerbound_1 = p_1 + qnorm(alpha/2) * sqrt(p_1 * (1-p_1) / n_1)
+upperbound_1 = p_1 + qnorm(1-alpha/2) * sqrt(p_1 * (1-p_1) / n_1)
+lowerbound_2 = p_2 + qnorm(alpha/2) * sqrt(p_2 * (1-p_2) / n_2)
+upperbound_2 = p_2 + qnorm(1-alpha/2) * sqrt(p_2 * (1-p_2) / n_2)
+answer_3_1 = paste("(", lowerbound_1, ",", upperbound_1, ")")
+answer_3_2 = paste("(", lowerbound_2, ",", upperbound_2, ")")
+
+cat("(1)", answer_1, "\n(2)", answer_2, "\n(3)", answer_3_1, "\n   ", answer_3_2)
 ```
 
 
