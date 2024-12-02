@@ -638,6 +638,8 @@ cat("(1)", answer_1, "\n(2)", answer_2)
 
 ```
 
+<br/>
+
 #### 12.3.12 연습문제 **3.11**에서 이번에는 16곳의 농장을 선택해서 8곳에는 우리밀 A를 나머지에는 우리밀 B를 심었다고 한다. 단위면적당 수확량은 자료와 같다.
 
 ##### (1) 우리밀 A가 우리밀 B보다 더 높은 평균생산량을 갖는다는 강력한 증거가 있는가? 유의수준 $\alpha=0.05$로 검정하라.
@@ -681,6 +683,8 @@ answer_3 = "3.11과 3.12의 상황에서 결과가 다른 이유는, 각 쌍 내
 cat("(1)", answer_1, "\n(2)", answer_2, "\n(3)", answer_3)
 ```
 
+<br/>
+
 #### 12.4.2 두 집단 A와 B에서 각각 100명의 여성을 뽑아 "24세가 되기 전에 결혼하셨습니까?"라는 질문을 하였다. 그 결과는 자료와 같이 얻어졌다.
 
 ##### (1) 양측검정의 방법으로 두 집단의 24세 이전에 결혼한 비율이 같은지를 검정하라. (유의수준 $\alpha=0.05$)
@@ -720,6 +724,8 @@ answer_2 = paste("(", lowerbound, ",", upperbound, ")")
 
 cat("(1)", answer_1, "\n(2)", answer_2)
 ```
+
+<br/>
 
 #### 12.4.4 두 가지 새로운 약 A와 약 B를 비교 연구하기 위해, 120명의 환자에게는 약 A를, 150명의 환자에게는 약 B를 복용시킨 후 자료와 같은 결과를 얻었다.
 
@@ -771,6 +777,60 @@ answer_3_2 = paste("(", lowerbound_2, ",", upperbound_2, ")")
 
 cat("(1)", answer_1, "\n(2)", answer_2, "\n(3)", answer_3_1, "\n   ", answer_3_2)
 ```
+
+<br/>
+
+#### 12.4.6 높은 반응능력(HRL)을 가진 49명 여자 고등학생과 낮은 반응능력(LRL)을 가진 54명 여자 고등학생을 대상으로 또래 집단으로부터 받게 되는 정신적인 압력에 대한 반응을 조사하였더니 결과가 자료와 같았다.
+
+##### (1) LRL 집단보다 HRL 집단이 정신적인 압력에 대한 저항이 낮다고 할 수 있는가? (P-값을 계산하여 결론을 내려라.)
+
+##### (2) HRL과 LRL 집단의 정신적인 압력에 대한 저항률의 차의 99% 신뢰구간을 구하라.
+
+```{r}
+data = read.csv("../Data/exercise_12_4_05.csv", row.names = 1)
+
+p_1 = data["resistant", "HRL"] / sum(data$HRL)
+p_2 = data["resistant", "LRL"] / sum(data$LRL)
+p_hat = sum(data["resistant", ]) / sum(data)
+n_1 = sum(data$HRL)
+n_2 = sum(data$LRL)
+alpha = 0.01
+
+# 1번
+z = (p_1 - p_2) / (sqrt(p_hat * (1-p_hat)) * sqrt(1/n_1 + 1/n_2))
+
+if (z < qnorm(alpha)) {
+  message = sprintf("유의수준 %.2f 하에서 귀무가설을 기각한다.", alpha)
+} else {
+  message = sprintf("유의수준 %.2f 하에서 귀무가설을 기각할 수 없다.", alpha)
+}
+
+p_value = pnorm(z)
+
+answer_1 = paste(
+  "검정통계량 z가", round(z, 4), "이고, p-value가", 
+  p_value, "이므로,\n   ", message, 
+  "\n    LRL 집단보다 HRL 집단이 정신적인 압력에 대한 저항이 낮다고 볼 수 있다."
+)
+
+# 2번
+lowerbound = (p_1 - p_2) + qnorm(alpha/2) * sqrt(p_1*(1-p_1) / n_1 + p_2*(1-p_2) / n_2)
+upperbound = (p_1 - p_2) + qnorm(1-alpha/2) * sqrt(p_1*(1-p_1) / n_1 + p_2*(1-p_2) / n_2)
+
+answer_2 = paste("(", lowerbound, ",", upperbound, ")")
+
+cat("(1)", answer_1, "\n(2)", answer_2)
+```
+
+
+
+
+
+
+
+
+
+
 
 
 
