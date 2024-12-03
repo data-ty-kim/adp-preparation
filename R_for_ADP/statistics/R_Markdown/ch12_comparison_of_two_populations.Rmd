@@ -822,6 +822,53 @@ answer_2 = paste("(", lowerbound, ",", upperbound, ")")
 cat("(1)", answer_1, "\n(2)", answer_2)
 ```
 
+<br/>
+
+#### 12.4.8 아동학대와 범죄행위 간의 관련성에 대한 연구에서 85명의 소년이 어른들로부터 학대를 받았고 120명의 소년이 받지 않았다고 하자. 학대를 받은 집단의 21명, 받지 않은 집단의 11명이 십대에 고질적인 범죄자가 되었다는 것을 알아내었다. 
+
+##### (1) 이 자료로부터 학대 받은 소년들이 학대 받지 않은 집단보다 고질적 범죄자가 되기 쉽다는 추측을 증명할 수 있겠는가? 유의수준 $\alpha=0.01$로 검정하라.
+
+##### (2) 학대 받은 모집단, 받지 않은 모집단에서 고질적 범죄자가 되는 실제 비율의 차에 대한 95% 신뢰구간을 구하라.
+
+```{r}
+data = read.csv("../Data/exercise_12_4_07.csv", row.names = 1)
+
+p_1 = data["Criminal", "Abused"] / sum(data$Abused)
+p_2 = data["Criminal", "Not_Abused"] / sum(data$Not_Abused)
+n_1 = sum(data$Abused)
+n_2 = sum(data$Not_Abused)
+p_hat = sum(data["Criminal",]) / sum(data)
+
+# 1번
+alpha = 0.01
+z = (p_1 - p_2) / sqrt((p_hat * (1-p_hat)) * (1/n_1 + 1/n_2))
+
+if (z > qnorm(1-alpha)) {
+  message = sprintf(
+    "유의수준 %.2f 하에서 귀무가설을 기각한다.\n    따라서 학대 받은 소년들이 학대 받지 않은 집단보다 범죄자가 되기 쉽다고 추측할 수 있다.", 
+    alpha
+  )
+} else {
+  message = sprintf("유의수준 %.2f 하에서 귀무가설을 기각할 수 없다.\n    따라서 학대 받은 소년들이 학대 받지 않은 집단보다 범죄자가 되기 쉽다는 추측하기 어렵다.", alpha)
+}
+
+p_value = 1 - pnorm(z)
+
+answer_1 = paste(
+  "검정통계량 z가", round(z, 4), "이고, p-value가", 
+  round(p_value, 4), "이므로,\n   ", message 
+)
+
+# 2번
+alpha = 0.05
+lowerbound = (p_1 - p_2) + qnorm(alpha/2) * sqrt(p_1*(1-p_1) / n_1 + p_2*(1-p_2) / n_2)
+upperbound = (p_1 - p_2) + qnorm(1-alpha/2) * sqrt(p_1*(1-p_1) / n_1 + p_2*(1-p_2) / n_2)
+
+answer_2 = paste("(", lowerbound, ",", upperbound, ")")
+
+cat("(1)", answer_1, "\n(2)", answer_2)
+
+```
 
 
 
