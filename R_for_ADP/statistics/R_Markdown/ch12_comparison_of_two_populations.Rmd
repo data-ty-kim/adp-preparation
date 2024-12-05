@@ -919,6 +919,52 @@ answer_2 = paste("(", lowerbound, ",", upperbound, ")")
 cat("(1)", answer_1, "\n(2)", answer_2)
 ```
 
+<br/>
+
+#### 12.4.12 30, 40대의 250명과 60, 70대의 250명을 임의추출하여 그들의 하루 수면시간을 조사 정리한 결과의 일부가 자료와 같이 주어졌다.
+
+##### (1) 하루 수면시간이 8시간 이하인 사람들의 비율이 30, 40대가 60, 70대보다 많다는 것이 통계적으로 유의한가? (P-값을 계산하라.)
+
+##### (2) 자료로부터 30, 40대와 60, 70대의 두 모집단에서 하루 수면시간이 8시간 이하인 사람의 모비율을 각각 $p_1$, $p_2$라고 할 때 $(p_1 - p_2)$의 95% 신뢰구간을 구하라.
+
+```{r}
+data = read.csv("../Data/exercise_12_4_11.csv", row.names = 1)
+
+p_1 = data["<=8", "X30_40"] / sum(data$X30_40)
+p_2 = data["<=8", "X60_70"] / sum(data$X60_70)
+n_1 = 250
+n_2 = 250
+p_hat = sum(data["<=8", ]) / (n_1 + n_2) 
+alpha = 0.05
+
+# 1번
+z = (p_1 - p_2) / sqrt(p_hat * (1 - p_hat) * (1/n_1 + 1/n_2))
+
+if (z > qnorm(1-alpha)) {
+  message = sprintf(
+    "유의수준 %.2f 하에서 귀무가설을 기각한다.\n    따라서 30, 40대의 비율이 60, 70대보다 많다고 볼 수 있다.", 
+    alpha
+  )
+} else {
+  message = sprintf("유의수준 %.2f 하에서 귀무가설을 기각할 수 없다.\n    따라서 두 집단 사이 비율의 차이가 없다고 볼 수 있다.", alpha)
+}
+
+p_value = 1 - pnorm(z)
+
+answer_1 = paste(
+  "검정통계량 z가", round(z, 4), "이고, p-value가", 
+  round(p_value, 4), "이므로,\n   ", message 
+)
+
+# 2번 
+lowerbound = (p_1 - p_2) + qnorm(alpha/2) * sqrt(p_1*(1-p_1) / n_1 + p_2*(1-p_2) / n_2)
+upperbound = (p_1 - p_2) + qnorm(1-alpha/2) * sqrt(p_1*(1-p_1) / n_1 + p_2*(1-p_2) / n_2)
+
+answer_2 = paste("(", lowerbound, ",", upperbound, ")")
+
+cat("(1)", answer_1, "\n(2)", answer_2)
+```
+
 
 
 
