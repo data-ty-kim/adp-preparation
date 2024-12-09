@@ -953,7 +953,7 @@ p_value = 1 - pnorm(z)
 
 answer_1 = paste(
   "검정통계량 z가", round(z, 4), "이고, p-value가", 
-  round(p_value, 4), "이므로,\n   ", message 
+  p_value, "이므로,\n   ", message 
 )
 
 # 2번 
@@ -965,7 +965,169 @@ answer_2 = paste("(", lowerbound, ",", upperbound, ")")
 cat("(1)", answer_1, "\n(2)", answer_2)
 ```
 
+<br/>
 
+#### 12.4.14 두 모집단으로부터 크기가 $n_1$, $n_2$인 서로 독립인 표본을 추출하였다고 하자. 또한 그 표본의 성공률을 $\hat{p_1} = 0.62$, $\hat{p_2} = 0.51$이라고 하자. 다음의 각 경우에 대해 두 모비율이 통계적으로 차이가 있다고 할 수 있는지를 각각에 주어진 유의수준에 대하여 검정하라.
+
+##### (1) $n_1=42$, $n_2=50$, $\alpha=0.05$
+
+##### (2) $n_1=200$, $n_2=210$, $\alpha=0.05$
+
+##### (3) $n_1=200$, $n_2=210$, $\alpha=0.01$
+
+```{r}
+p_1 = 0.62
+p_2 = 0.51
+
+# 1번
+n_1 = 42
+n_2 = 50
+p_hat = (n_1 * p_1 + n_2 * p_2) / (n_1 + n_2)
+alpha = 0.05
+
+z = (p_1 - p_2) / sqrt(p_hat * (1-p_hat) * (1/n_1 + 1/n_2))
+
+if ((z < qnorm(alpha/2)) | (z > qnorm(1-alpha/2))) {
+  message = sprintf(
+    "유의수준 %.2f 하에서 귀무가설을 기각한다.\n    따라서 두 모비율이 통계적으로 차이가 있다.", 
+    alpha
+  )
+} else {
+  message = sprintf("유의수준 %.2f 하에서 귀무가설을 기각할 수 없다.\n    따라서 두 모비율이 통계적으로 차이가 없다.", alpha)
+}
+
+if (z > 0) {
+  p_value = 1 - pnorm(z)  
+} else {
+  p_value = pnorm(z)
+}
+
+answer_1 = paste(
+  "검정통계량 z가", round(z, 4), "이고, p-value가", 
+  round(p_value, 4), "이므로,\n   ", message 
+)
+
+# 2번
+n_1 = 200
+n_2 = 210
+p_hat = (n_1 * p_1 + n_2 * p_2) / (n_1 + n_2)
+alpha = 0.05
+
+z = (p_1 - p_2) / sqrt(p_hat * (1-p_hat) * (1/n_1 + 1/n_2))
+
+if ((z < qnorm(alpha/2)) | (z > qnorm(1-alpha/2))) {
+  message = sprintf(
+    "유의수준 %.2f 하에서 귀무가설을 기각한다.\n    따라서 두 모비율이 통계적으로 차이가 있다.", 
+    alpha
+  )
+} else {
+  message = sprintf("유의수준 %.2f 하에서 귀무가설을 기각할 수 없다.\n    따라서 두 모비율이 통계적으로 차이가 없다.", alpha)
+}
+
+if (z > 0) {
+  p_value = 1 - pnorm(z)  
+} else {
+  p_value = pnorm(z)
+}
+
+answer_2 = paste(
+  "검정통계량 z가", round(z, 4), "이고, p-value가", 
+  round(p_value, 4), "이므로,\n   ", message 
+)
+
+# 3번
+alpha = 0.01
+
+z = (p_1 - p_2) / sqrt(p_hat * (1-p_hat) * (1/n_1 + 1/n_2))
+
+if ((z < qnorm(alpha/2)) | (z > qnorm(1-alpha/2))) {
+  message = sprintf(
+    "유의수준 %.2f 하에서 귀무가설을 기각한다.\n    따라서 두 모비율이 통계적으로 차이가 있다.", 
+    alpha
+  )
+} else {
+  message = sprintf("유의수준 %.2f 하에서 귀무가설을 기각할 수 없다.\n    따라서 두 모비율이 통계적으로 차이가 없다.", alpha)
+}
+
+if (z > 0) {
+  p_value = 1 - pnorm(z)  
+} else {
+  p_value = pnorm(z)
+}
+
+answer_3 = paste(
+  "검정통계량 z가", round(z, 4), "이고, p-value가", 
+  round(p_value, 4), "이므로,\n   ", message 
+)
+
+cat("(1)", answer_1, "\n(2)", answer_2, "\n(3)", answer_3)
+```
+
+<br/>
+
+#### 12.4.16 당뇨병, 심장질환, 간질 등의 병을 가지고 있는 운전자들 집단과 질환을 갖지 않은 운전자들 집단에 대한 운전기록이 자료와 같이 주어져 있다. $p_1$, $p_2$, $p_3$, $p_4$를 자료의 네 집단(당뇨병, 심장질환, 간질, 질환 없음)에 대한 1회 이상 교통위반을 한 모비율이라고 하자.
+
+##### (1) 가설 $H_0: p_1 = p_4$ 대 $H_0: p_1 > p_4$에 대하여 유의수준 $\alpha=0.10$로 검정하라.
+
+##### (2) $p_3$가 $p_4$보다 높다는 강력한 증거가 되겠는가? P-값을 계산하여 답하라.
+
+```{r}
+data = read.csv("../Data/exercise_12_4_16.csv", row.names = 1)
+
+# 1번
+p_1 = data["Violations", "Diabetes"] / sum(data$Diabetes)
+p_4 = data["Violations", "No_Disease"] / sum(data$No_Disease)
+n_1 = sum(data$Diabetes)
+n_4 = sum(data$No_Disease)
+p_hat = (p_1 * n_1 + p_4 * n_4) / (n_1 + n_4)
+alpha = 0.10
+
+z = (p_1 - p_4) / sqrt(p_hat * (1-p_hat) * (1/n_1 + 1/n_4))
+
+if (z > qnorm(1-alpha)) {
+  message = sprintf(
+    "유의수준 %.2f 하에서 귀무가설을 기각한다.", 
+    alpha
+  )
+} else {
+  message = sprintf("유의수준 %.2f 하에서 귀무가설을 기각할 수 없다.", alpha)
+}
+
+p_value = 1 - pnorm(z)  
+
+answer_1 = paste(
+  "검정통계량 z가", round(z, 4), "이고, p-value가", 
+  round(p_value, 4), "이므로,\n   ", message 
+)
+
+# 2번
+p_3 = data["Violations", "Epilepsy"] / sum(data$Epilepsy)
+p_4 = data["Violations", "No_Disease"] / sum(data$No_Disease)
+n_3 = sum(data$Diabetes)
+n_4 = sum(data$No_Disease)
+p_hat = (p_3 * n_3 + p_4 * n_4) / (n_3 + n_4)
+alpha = 0.10
+
+z = (p_3 - p_4) / sqrt(p_hat * (1-p_hat) * (1/n_3 + 1/n_4))
+
+if (z > qnorm(1-alpha)) {
+  message = sprintf(
+    "유의수준 %.2f 하에서 귀무가설을 기각한다.", 
+    alpha
+  )
+} else {
+  message = sprintf("유의수준 %.2f 하에서 귀무가설을 기각할 수 없다.", alpha)
+}
+
+p_value = 1 - pnorm(z)  
+
+answer_2 = paste(
+  "검정통계량 z가", round(z, 4), "이고, p-value가", 
+  p_value, "이므로,\n   ", message 
+)
+
+cat("(1)", answer_1, "\n(2)", answer_2)
+```
 
 
 
