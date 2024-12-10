@@ -1071,6 +1071,12 @@ cat("(1)", answer_1, "\n(2)", answer_2, "\n(3)", answer_3)
 
 ##### (2) $p_3$가 $p_4$보다 높다는 강력한 증거가 되겠는가? P-값을 계산하여 답하라.
 
+##### (3) $(p_3 - p_2)$에 대한 95% 신뢰구간을 구하라.
+
+##### (4) $(p_2 - p_4)$에 대한 95% 신뢰구간을 구하라.
+
+##### (5) 각 모비율 $p_1$, $p_2$, $p_3$, $p_4$에 대한 95% 신뢰구간을 구하라.
+
 ```{r}
 data = read.csv("../Data/exercise_12_4_16.csv", row.names = 1)
 
@@ -1126,8 +1132,41 @@ answer_2 = paste(
   p_value, "이므로,\n   ", message 
 )
 
-cat("(1)", answer_1, "\n(2)", answer_2)
+# 3번
+p_2 = data["Violations", "Heart_Disease"] / sum(data$Heart_Disease)
+n_2 = sum(data$Heart_Disease)
+lowerbound = (p_3 - p_2) + qnorm(0.025) * sqrt(p_3*(1-p_3)/n_3 + p_2*(1-p_2)/n_2)
+upperbound = (p_3 - p_2) + qnorm(0.975) * sqrt(p_3*(1-p_3)/n_3 + p_2*(1-p_2)/n_2)
+answer_3 = paste("(", lowerbound, ",", upperbound, ")")
+
+# 4번
+lowerbound = (p_2 - p_4) + qnorm(0.025) * sqrt(p_2*(1-p_2)/n_2 + p_4*(1-p_4)/n_4)
+upperbound = (p_2 - p_4) + qnorm(0.975) * sqrt(p_2*(1-p_2)/n_2 + p_4*(1-p_4)/n_4)
+answer_4 = paste("(", lowerbound, ",", upperbound, ")")
+
+# 5번
+lowerbound_1 = p_1 + qnorm(0.025) * sqrt(p_1 * (1-p_1) / n_1)
+upperbound_1 = p_1 + qnorm(0.975) * sqrt(p_1 * (1-p_1) / n_1)
+lowerbound_2 = p_2 + qnorm(0.025) * sqrt(p_2 * (1-p_2) / n_2)
+upperbound_2 = p_2 + qnorm(0.975) * sqrt(p_2 * (1-p_2) / n_2)
+lowerbound_3 = p_3 + qnorm(0.025) * sqrt(p_3 * (1-p_3) / n_3)
+upperbound_3 = p_3 + qnorm(0.975) * sqrt(p_3 * (1-p_3) / n_3)
+lowerbound_4 = p_4 + qnorm(0.025) * sqrt(p_4 * (1-p_4) / n_4)
+upperbound_4 = p_4 + qnorm(0.975) * sqrt(p_4 * (1-p_4) / n_4)
+
+answer_5 = paste(
+  "(", lowerbound_1, ",", upperbound_1, ")\n",
+  "   (", lowerbound_2, ",", upperbound_2, ")\n",
+  "   (", lowerbound_3, ",", upperbound_3, ")\n",
+  "   (", lowerbound_4, ",", upperbound_4, ")"
+)
+
+cat(
+  "(1)", answer_1, "\n(2)", answer_2, "\n(3)", answer_3, 
+  "\n(4)", answer_4, "\n(5)", answer_5
+)
 ```
+
 
 
 
