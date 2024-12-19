@@ -1352,9 +1352,9 @@ x_bar = data$A[1]
 y_bar = data$B[1]
 s_1 = data$A[2]
 s_2 = data$B[2]
-s_p = ((n_1-1) * s_1^2 + (n_2-1) * s_2^2) / (n_1 + n_2 - 2)
 n_1 = 10
 n_2 = 12
+s_p = sqrt(((n_1-1) * s_1^2 + (n_2-1) * s_2^2) / (n_1 + n_2 - 2))
 alpha = 0.05
 
 t = (x_bar - y_bar) / (s_p * sqrt(1/n_1 + 1/n_2))
@@ -1389,9 +1389,9 @@ x_bar = data$sample_1[2]
 y_bar = data$sample_2[2]
 v_1 = data$sample_1[3]
 v_2 = data$sample_2[3]
-s_p = ((n_1-1) * v_1 + (n_2-1) * v_2) / (n_1 + n_2 - 2)
 n_1 = data$sample_1[1]
 n_2 = data$sample_2[1]
+s_p = sqrt(((n_1-1) * v_1 + (n_2-1) * v_2) / (n_1 + n_2 - 2))
 alpha = 0.05
 
 # 1번
@@ -1407,6 +1407,53 @@ answer_2 = paste(
 
 cat("(1)", answer_1, "\n(2)", answer_2)  # 8번과 10번이 답안과 숫자가 안 맞는데 다시 확인해보자.
 ```
+
+<br/>
+
+#### 12.5.12 한 과일 재배자는 새로운 살충제가 곤충으로 인한 손해를 줄일 수 있다는 주장을 확인하고자 한다. 따라서 과일 재배자는 그의 과수원에서 나무 27그루를 이용하여 실험을 하였는데, 나무 12그루에는 새로운 살충제로 처리하고 15그루에는 기존의 살충제로 처리하였다. 그 결과 과일 생산량의 자료가 자료와 같이 얻어졌다고 하자. 이들 자료는 새로운 살충제로 사용하는 것이 더 많은 산출량을 보이고 있음을 증명하는가? 필요한 가정에 대해 언급하고 유의수준 0.05에서 검정을 실시하라.
+
+```{r}
+data = read.csv("../Data/exercise_12_5_12.csv", row.names = 1)
+x_bar = data$new[1]
+y_bar = data$prev[1]
+s_1 = data$new[2]
+s_2 = data$prev[2]
+n_1 = 12
+n_2 = 15
+s_p = sqrt(((n_1-1) * s_1^2 + (n_2-1) * s_2^2) / (n_1 + n_2 - 2))
+alpha = 0.05
+
+t = (x_bar - y_bar) / (s_p * sqrt(1/n_1 + 1/n_2))
+
+if (t > qt(1-alpha, df= n_1 + n_2 - 2)) {
+  message = sprintf("유의수준 %.2f 하에서 귀무가설을 기각한다.", alpha)
+} else {
+  message = sprintf("유의수준 %.2f 하에서 귀무가설을 기각할 수 없다.", alpha)
+}
+
+p_value = 1 - pt(t, df = n_1 + n_2 - 2)
+
+answer_1 = paste(
+  "1. 두 모집단이 모두 정규분포를 따른다.\n",
+  "   2. 두 모집단의 표준편차가 일치한다."
+)
+
+answer_2 = paste(
+  "검정통계량 t가", round(t, 4), "이고, p-value가", 
+  p_value, 4, "이므로,\n   ", message
+)
+
+cat("(1)", answer_1, "\n(2)", answer_2)
+```
+
+
+
+
+
+
+
+
+
 
 
 
