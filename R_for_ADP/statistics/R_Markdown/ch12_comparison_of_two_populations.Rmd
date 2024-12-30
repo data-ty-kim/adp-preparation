@@ -1481,10 +1481,44 @@ cat(
 ##### (2) 스트리킹의 허용을 요구하는 학생이 반대하는 학생과 성격이 다를 수 있다. 이러한 가능성에 대한 분석의 결론은 어떻다고 할 수 있는가?
 
 ```{r}
+data = read.csv("../Data/exercise_12_5_16.csv", row.names = 1)
 
+x_bar = data$A[1]
+y_bar = data$B[1]
+s_1 = data$A[2]
+s_2 = data$B[2]
+n_1 = 16
+n_2 = 16
+s_p = sqrt(((n_1-1) * s_1^2 + (n_2-1) * s_2^2) / (n_1+n_2-2))
+alpha = 0.05
 
+# 1번
+lowerbound = (x_bar - y_bar) + qt(alpha/2, df=n_1+n_2-2) * s_p * sqrt(1/n_1+1/n_2)
+upperbound = (x_bar - y_bar) + qt(1-alpha/2, df=n_1+n_2-2) * s_p * sqrt(1/n_1+1/n_2)
+answer_1 = paste("(", lowerbound, ",", upperbound, ")")
+
+# 2번
+t = (x_bar - y_bar) / (s_p * sqrt(1/n_1 + 1/n_2))
+
+if ((t < qt(alpha/2, df= n_1 + n_2 - 2)) | (t > qt(1-alpha/2, df= n_1 + n_2 - 2))) {
+  message = sprintf("유의수준 %.2f 하에서 귀무가설을 기각한다.", alpha)
+} else {
+  message = sprintf("유의수준 %.2f 하에서 귀무가설을 기각할 수 없다.", alpha)
+}
+
+p_value = 2 * (1 - pt(abs(t), df = n_1 + n_2 - 2))
+
+answer_2 = paste(
+  "검정통계량 t가", round(t, 4), "이고, p-value가", 
+  round(p_value, 4), "이므로,\n   ", message
+)
+
+cat("(1)", answer_1, "\n(2)", answer_2)
 ```
 
+<br/>
+
+#### 12.5.18 
 
 
 
