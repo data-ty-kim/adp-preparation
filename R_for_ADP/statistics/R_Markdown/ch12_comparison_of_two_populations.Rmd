@@ -1518,7 +1518,48 @@ cat("(1)", answer_1, "\n(2)", answer_2)
 
 <br/>
 
-#### 12.5.18 
+#### 12.5.18 두 개의 처리방법을 비교하기 위해 9쌍의 실험재료에 짝비교 실험을 하였다. 처리1과 처리2의 반응 차에 대한 기록을 하였는데 자료와 같았다.
+
+##### (1) 두 개의 처리방법에 대한 평균 반응값에 차이가 있는가? 유의수준 0.02에서 검정하라.
+
+##### (2) 두 개의 처리방법에 대한 평균 반응 차의 90% 신뢰구간을 구하라.
+
+```{r}
+data = read.csv("../Data/exercise_12_5_18.csv")$x
+
+# 1번
+n = length(data)
+x_bar = mean(data)
+s = sd(data)
+alpha = 0.02
+
+t = (x_bar - 0) / (s / sqrt(n))
+
+if ((t < qt(alpha/2, df= n-1)) | (t > qt(1-alpha/2, df= n-1))) {
+  message = sprintf("유의수준 %.2f 하에서 귀무가설을 기각한다.", alpha)
+} else {
+  message = sprintf("유의수준 %.2f 하에서 귀무가설을 기각할 수 없다.", alpha)
+}
+
+if (t < 0) {
+  p_value = pt(t, df=n-1)
+} else {
+  p_value = 1 - pt(t, df=n-1)
+}
+
+answer_1 = paste(
+  "검정통계량 t가", round(t, 4), "이고, p-value가", 
+  round(p_value, 4), "이므로,\n   ", message
+)
+
+# 2번
+alpha = 0.1
+lowerbound = (x_bar) + qt(alpha/2, df=n-1) * s * sqrt(1/n)
+upperbound = (x_bar) + qt(1-alpha/2, df=n-1) * s * sqrt(1/n)
+answer_2 = paste("(", lowerbound, ",", upperbound, ")")
+
+cat("(1)", answer_1, "\n(2)", answer_2)
+```
 
 
 
