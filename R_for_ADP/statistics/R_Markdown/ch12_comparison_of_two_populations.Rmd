@@ -1561,6 +1561,57 @@ answer_2 = paste("(", lowerbound, ",", upperbound, ")")
 cat("(1)", answer_1, "\n(2)", answer_2)
 ```
 
+<br/>
+
+#### 12.5.20 표준 비료에 특별한 화학 첨가물을 사용하는 것이 식물의 성장을 촉진시키는가를 알아보기 위해서 실험을 하고자 한다. 실험을 할 10곳의 위치가 선정되었다. 각 위치에서 근접한 두 그루의 식물을 대상으로 실험을 수행하는데, 한 그루에는 표준 비료만을 사용하고 다른 한 그루에는 표준 비료에 특별한 화학 첨가물을 사용해서 실험을 하고자 한다. 4주 후에 그동안 식물이 자란 길이(cm)를 재어보았다. 아래의 자료는 표준 비료에 특별한 화학 첨가물을 사용하는 것이 식물의 성장을 촉진시킨다는 주장을 뒷받침하는가? 
+
+##### (1) 필요한 가정을 언급하고 유의수준 0.05에서 검정하라. 
+
+##### (2) 두 모평균의 차 $\delta$에 대한 95% 신뢰구간을 구하라.
+
+```{r}
+data = read.csv("../Data/exercise_12_5_20.csv")
+
+# 1번
+data$D = data$N - data$Y
+n = length(data$D)
+x_bar = mean(data$D)
+s = sd(data$D)
+alpha = 0.05
+
+t = (x_bar - 0) / (s * sqrt(1/n))
+
+if (t < qt(alpha, df=n-1)) {
+  message = sprintf("유의수준 %.2f 하에서 귀무가설을 기각한다.", alpha)
+} else {
+  message = sprintf("유의수준 %.2f 하에서 귀무가설을 기각할 수 없다.", alpha)
+}
+
+p_value = pt(t, df=n-1)
+
+assumption = paste(
+  "1. 쌍 간 독립성: \n",
+  "   각 쌍은 서로 독립이나, 각 쌍 내에서 N과 Y는 높은 상관관계를 가진다.\n",
+  "   2. 차이의 정규성:\n",
+  "   두 표본의 차이(D = N-Y)가 정규분포를 따라야 한다.(모집단이 정규분포)\n",
+  "   3. 측정의 동일성:\n",
+  "   동일한 방법과 조건에서 정확하게 측정되어야 한다.\n"
+)
+
+answer_1 = paste(
+  assumption,
+  "\n    검정통계량 t가", round(t, 4), "이고, p-value가", 
+  round(p_value, 4), "이므로,\n   ", message
+)
+
+# 2번
+lowerbound = (x_bar) + qt(alpha/2, df=n-1) * s * sqrt(1/n)
+upperbound = (x_bar) + qt(1-alpha/2, df=n-1) * s * sqrt(1/n)
+answer_2 = paste("(", lowerbound, ",", upperbound, ")")
+
+cat("(1)", answer_1, "\n(2)", answer_2)
+```
+
 
 
 
