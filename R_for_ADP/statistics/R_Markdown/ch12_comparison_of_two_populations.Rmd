@@ -1651,7 +1651,49 @@ cat("(1)", answer_1, "\n(2)", answer_2)
 
 ```
 
+<br/>
 
+#### 12.5.24 복부비만을 줄여 주는 두 종류의 운동방법의 효율성을 비교하기 위해 20명을 대상으로 실험하였다. 임의로 10명을 선택하여 한 운동방법을 택하게 하고 나머지 10명은 다른 운동방법을 택하게 하였다. 5주 후에 복부 측정에서의 감량이 자료와 같았다.
+
+##### (1) 이들 자료는 운동방법 2가 더 효율적이라는 주장을 지지하는가?
+
+##### (2) 두 운동방법에 따른 복부 감량의 평균차에 대한 95% 신뢰구간을 구하라.
+
+```{r}
+data = read.csv("../Data/exercise_12_5_24.csv", row.names = 1)
+
+x_bar = data$workout_1[1]
+y_bar = data$workout_2[1]
+s_1 = data$workout_1[2]
+s_2 = data$workout_2[2]
+n_1 = 10
+n_2 = 10
+s_p = sqrt( ((n_1-1) * s_1^2 + (n_2-1) * s_2^2) / (n_1+n_2-2) )
+alpha = 0.05
+
+# 1번
+t = (x_bar - y_bar) / (s_p * sqrt(1/n_1 + 1/n_2))
+
+if (t < qt(alpha, df=n_1+n_2-2)) {
+  message = sprintf("유의수준 %.2f 하에서 귀무가설을 기각한다.", alpha)
+} else {
+  message = sprintf("유의수준 %.2f 하에서 귀무가설을 기각할 수 없다.", alpha)
+}
+
+p_value = pt(t, df=n_1+n_2-2)
+
+answer_1 = paste(
+  "검정통계량 t가", round(t, 4), "이고, p-value가", 
+  round(p_value, 4), "이므로,\n   ", message
+)
+
+# 2번
+lowerbound = (x_bar - y_bar) + qt(alpha/2, df=n_1+n_2-2) * s_p * sqrt(1/n_1+1/n_2)
+upperbound = (x_bar - y_bar) + qt(1-alpha/2, df=n_1+n_2-2) * s_p * sqrt(1/n_1+1/n_2)
+answer_2 = paste("(", lowerbound, ",", upperbound, ")")
+
+cat("(1)", answer_1, "\n(2)", answer_2)
+```
 
 
 
