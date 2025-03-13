@@ -1772,11 +1772,46 @@ answer_1 = paste(
 cat(answer_1)
 ```
 
+<br/>
 
+#### 12.5.30 100명의 신장병 병력이 있는 환자와 100명의 보통 환자에게 폐렴 항생제를 투여하였다. 그리고 38명의 신장병 병력이 있는 환자와 21명의 보통환자에게서 알레르기 반응이 나타났다.
 
+##### (1) 이들 자료는 항생제에 대한 알레르기 반응의 비율이 보통 환자보다 신장병 병력이 있는 환자에게서 더 높다고 할 수 있는가?
 
+##### (2) 모비율의 차에 대한 95% 신뢰구간을 구하라.
 
+```{r}
+n_1 = 100
+n_2 = 100
+p_1 = 38 / n_1
+p_2 = 21 / n_2
+p_hat = (38+21) / (n_1+n_2)
+alpha = 0.05
 
+z = (p_1 - p_2) / sqrt(p_hat * (1 - p_hat) * (1/n_1 + 1/n_2))
 
+if (z > qnorm(1-alpha)) {
+  message = sprintf(
+    "유의수준 %.2f 하에서 귀무가설을 기각한다.", 
+    alpha
+  )
+} else {
+  message = sprintf("유의수준 %.2f 하에서 귀무가설을 기각할 수 없다.", alpha)
+}
 
+p_value = round(1 - pnorm(z), 4)
 
+answer_1 = paste(
+  " 검정통계량 z가", round(z, 4), "이고, p-value가", 
+  p_value, "이므로,\n", message 
+)
+
+lowerbound = (p_1 - p_2) + qnorm(alpha/2) * sqrt(p_1*(1-p_1) / n_1 + p_2*(1-p_2) / n_2)
+upperbound = (p_1 - p_2) + qnorm(1-alpha/2) * sqrt(p_1*(1-p_1) / n_1 + p_2*(1-p_2) / n_2)
+answer_2 = paste("(", lowerbound, ",", upperbound, ")")
+
+cat("(1)", answer_1, "\n(2)", answer_2)
+```
+&nbsp;   
+&nbsp;  
+■ 12장 끝 - 2025.03.13.

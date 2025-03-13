@@ -378,8 +378,1114 @@ display: none;
 <div id="자유도가-10일-때--1.372-t-2.764-일-확률" class="section level5">
 <h5>(4) 자유도가 10일 때, <span class="math inline">\(-1.372 &lt; t &lt;
 2.764\)</span> 일 확률</h5>
-<pre class="r"><code>  # pt: 누적분포함수, dt: pdf, qt: 누적분포함수의 역함수, rt: 임의추출</code></pre>
+<pre class="r"><code># pt: 누적분포함수, dt: pdf, qt: 누적분포함수의 역함수, rt: 임의추출
+answer_1 = pt(-1.740, 17)
+answer_2 = (pt(3.143, 6) - 0.5) * 2
+answer_3 = (pt(1.330, 18) - 0.5) * 2
+answer_4 = 0.5 - pt(-1.372, 10) + pt(2.764, 10) - 0.5
+
+cat(&quot;(1)&quot;, answer_1, &quot;\n(2)&quot;, answer_2, &quot;\n(3)&quot;, answer_3, &quot;\n(4)&quot;, answer_4)</code></pre>
+<pre><code>## (1) 0.04996462 
+## (2) 0.9800084 
+## (3) 0.7998738 
+## (4) 0.8899763</code></pre>
+<p><br /></p>
 </div>
+</div>
+<div id="자유도가-5-10-15-20-29일-때-t_0.05값을-찾아라.-이-값이-자유도에-따라-증가하는가-아니면-감소하는가" class="section level4">
+<h4>11.2.6 자유도가 5, 10, 15, 20, 29일 때, <span class="math inline">\(t_0.05\)</span>값을 찾아라. 이 값이 자유도에 따라
+증가하는가? 아니면 감소하는가?</h4>
+<pre class="r"><code>cat(   # 주의! 상위 0.05를 찾는 것이므로 누적 0.95의 역함수로 찾아야 함
+  qt(p=0.95, df=5),
+  qt(p=0.95, df=10),
+  qt(p=0.95, df=15),
+  qt(p=0.95, df=20),
+  qt(p=0.95, df=29),
+  sep=&#39;    &#39;
+)</code></pre>
+<pre><code>## 2.015048    1.812461    1.75305    1.724718    1.699127</code></pre>
+<pre class="r"><code>cat(&quot;\n이 값은 자유도에 따라 감소한다.&quot;)</code></pre>
+<pre><code>## 
+## 이 값은 자유도에 따라 감소한다.</code></pre>
+<p><br /></p>
+</div>
+<div id="다음의-각-경우를-만족하는-c값을-추측하라." class="section level4">
+<h4>11.2.8 다음의 각 경우를 만족하는 <span class="math inline">\(c\)</span>값을 추측하라.</h4>
+<div id="자유도가-5일-때-ptc0.03" class="section level5">
+<h5>(1) 자유도가 5일 때, <span class="math inline">\(P[t&gt;c]=0.03\)</span></h5>
+</div>
+<div id="자유도가-9일-때-ptc0.016" class="section level5">
+<h5>(2) 자유도가 9일 때, <span class="math inline">\(P[t&gt;c]=0.016\)</span></h5>
+</div>
+<div id="자유도가-12일-때-ptc0.004" class="section level5">
+<h5>(3) 자유도가 12일 때, <span class="math inline">\(P[t&lt;c]=0.004\)</span></h5>
+</div>
+<div id="자유도가-5일-때-ptc0.03-1" class="section level5">
+<h5>(4) 자유도가 5일 때, <span class="math inline">\(P[|t|&gt;c]=0.03\)</span></h5>
+</div>
+<div id="자유도가-21일-때-ptc0.96" class="section level5">
+<h5>(5) 자유도가 21일 때, <span class="math inline">\(P[|t|&lt;c]=0.96\)</span></h5>
+<pre class="r"><code>answer_1 = qt(p=1-0.03, df=5)
+answer_2 = qt(p=1-0.016, df=9)
+answer_3 = qt(p=0.004, df=12)
+answer_4 = qt(p=1-0.03/2, df=5)
+answer_5 = qt(p=0.98, df=21)
+
+cat(&quot;(1)&quot;, answer_1, &quot;\n(2)&quot;, answer_2, 
+    &quot;\n(3)&quot;, answer_3, &quot;\n(4)&quot;, answer_4, &quot;\n(5)&quot;, answer_5)</code></pre>
+<pre><code>## (1) 2.421585 
+## (2) 2.534466 
+## (3) -3.174667 
+## (4) 3.002875 
+## (5) 2.189427</code></pre>
+<p><br /></p>
+</div>
+</div>
+</div>
+<div id="모평균에-대한-추론" class="section level3">
+<h3>11.3 모평균에 대한 추론</h3>
+<p><br /></p>
+<div id="새로운-종자에서-얻은-7개의-강낭콩에-대한-발아시기를-기록하였다.-자료의-분석에-필요한-가정에-대해-설명하고-이-새로운-종자에-대한-실제-평균-발아시기의-95-신뢰구간을-구하라." class="section level4">
+<h4>11.3.2 새로운 종자에서 얻은 7개의 강낭콩에 대한 발아시기를
+기록하였다. 자료의 분석에 필요한 가정에 대해 설명하고, 이 새로운 종자에
+대한 실제 평균 발아시기의 95% 신뢰구간을 구하라.</h4>
+<pre class="r"><code>data = read.csv(&quot;../Data/exercise_11_3_02.csv&quot;)
+
+x_bar = mean(data[,1])
+s = sd(data[,1])
+n = length(data[,1])
+alpha = 0.05
+
+lowerbound = x_bar + qt(p = alpha/2, df = n-1) * s / sqrt(n)
+upperbound = x_bar + qt(p = 1-alpha/2, df = n-1) * s / sqrt(n)
+
+message = paste(
+  &quot;위 자료에 대한 분석에는 모집단에 대한 정규분포 가정이 필요하다.&quot;, 
+  &quot;\n다만, 모분산이 알려져있지 않으므로 t분포를 이용한다.&quot;
+)
+answer = paste(&quot;(&quot;, lowerbound, &quot;,&quot;, upperbound, &quot;)&quot;)
+
+cat(message, answer, sep=&quot;\n&quot;)</code></pre>
+<pre><code>## 위 자료에 대한 분석에는 모집단에 대한 정규분포 가정이 필요하다. 
+## 다만, 모분산이 알려져있지 않으므로 t분포를 이용한다.
+## ( 12.6053234921537 , 18.5375336507034 )</code></pre>
+<p><br /></p>
+</div>
+<div id="푸른곰팡이에-의해-생성되어-옥수수-등의-농산물을-전염시키는-독소에-대한-검사에서-한-생화학자는-유기용매를-이용하여-곰팡이-배양균의-추출물을-얻은-후-용액의-g당-독소성분의-양을-측정하였다.-9개의-곰팡이-배양균으로부터-얻은-독소성분의-측정치들은-자료와-같다." class="section level4">
+<h4>11.3.4 푸른곰팡이에 의해 생성되어 옥수수 등의 농산물을 전염시키는
+독소에 대한 검사에서 한 생화학자는 유기용매를 이용하여 곰팡이 배양균의
+추출물을 얻은 후 용액의 g당 독소성분의 양을 측정하였다. 9개의 곰팡이
+배양균으로부터 얻은 독소성분의 측정치들은 자료와 같다.</h4>
+<div id="자료로부터-평균과-표준편차를-계산하라." class="section level5">
+<h5>(1) 자료로부터 평균과 표준편차를 계산하라.</h5>
+</div>
+<div id="곰팡이-배양균의-g당-독소성분의-평균-무게에-대한-98-신뢰구간을-계산하라." class="section level5">
+<h5>(2) 곰팡이 배양균의 g당 독소성분의 평균 무게에 대한 98% 신뢰구간을
+계산하라.</h5>
+<pre class="r"><code>data = read.csv(&quot;../Data/exercise_11_3_04.csv&quot;)[,1]
+
+x_bar = mean(data)
+s = sd(data)
+answer_1 = paste(&quot;평균:&quot;, x_bar, &quot;, 표준편차&quot;, s)
+
+alpha = 0.02
+n = length(data)
+lowerbound = x_bar + qt(p = alpha/2, df = n-1) * s / sqrt(n)
+upperbound = x_bar + qt(p = 1 - alpha/2, df = n-1) * s / sqrt(n)
+answer_2 = paste(&quot;(&quot;, lowerbound, &quot;,&quot;, upperbound, &quot;)&quot;)
+
+cat(&quot;(1)&quot;, answer_1, &quot;\n(2)&quot;, answer_2)</code></pre>
+<pre><code>## (1) 평균: 1.02222222222222 , 표준편차 0.263523138347365 
+## (2) ( 0.767794194303451 , 1.27665025014099 )</code></pre>
+<p><br /></p>
+</div>
+</div>
+<div id="호수오염을-조사하기-위해서-호수-바닥의-침전물층의-상단-25곳에서-각각-1000-cm3의-표본을-채취하여-납의-농도를-측정하였다.-이들-측정치들의-표본평균과-표준편차는-각각-0.38과-0.06으로-나타났다.-호수바닥에서-침전물-1000-cm3당-납의-평균-농도에-대한-99-신뢰구간을-구하라." class="section level4">
+<h4>11.3.6 호수오염을 조사하기 위해서 호수 바닥의 침전물층의 상단
+25곳에서 각각 <span class="math inline">\(1000 cm^3\)</span>의 표본을
+채취하여 납의 농도를 측정하였다. 이들 측정치들의 표본평균과 표준편차는
+각각 0.38과 0.06으로 나타났다. 호수바닥에서 침전물 <span class="math inline">\(1000 cm^3\)</span>당 납의 평균 농도에 대한 99%
+신뢰구간을 구하라.</h4>
+<pre class="r"><code>n = 25
+x_bar = 0.38
+s = 0.06
+alpha = 0.01
+lowerbound = x_bar + qt(p=alpha/2, df=n-1) * s / sqrt(n)
+upperbound = x_bar + qt(p=1-alpha/2, df=n-1) * s / sqrt(n)
+answer = paste(&quot;(&quot;, lowerbound, &quot;,&quot;, upperbound, &quot;)&quot;)
+
+cat(answer)</code></pre>
+<pre><code>## ( 0.346436725942707 , 0.413563274057293 )</code></pre>
+<p><br /></p>
+</div>
+<div id="정규모집단으로부터-크기가-18인-표본을-이용하여-모평균-mu에-대한-90-신뢰구간을-계산하여-122-146의-결과를-얻었다.-이-결과를-사용하여-아래의-문제에-대하여-답하라." class="section level4">
+<h4>11.3.8 정규모집단으로부터 크기가 18인 표본을 이용하여 모평균 <span class="math inline">\(\mu\)</span>에 대한 90% 신뢰구간을 계산하여 (122,
+146)의 결과를 얻었다. 이 결과를 사용하여 아래의 문제에 대하여
+답하라.</h4>
+<div id="모평균-mu의-추정값과-추정량의-90-오차범위를-구하라." class="section level5">
+<h5>(1) 모평균 <span class="math inline">\(\mu\)</span>의 추정값과
+추정량의 90% 오차범위를 구하라.</h5>
+</div>
+<div id="모평균-mu에-대한-95-신뢰구간을-구하라." class="section level5">
+<h5>(2) 모평균 <span class="math inline">\(\mu\)</span>에 대한 95%
+신뢰구간을 구하라.</h5>
+<pre class="r"><code>n = 18
+x_bar = (122 + 146) / 2
+margin_of_error = 146 - x_bar
+answer_1 = paste(&quot;모평균 추정값:&quot;, x_bar, &quot;, 오차범위&quot;, margin_of_error)
+
+se = margin_of_error / qt(p=0.95, df=n-1)
+lowerbound = x_bar + qt(p=0.025, df=n-1) * se
+upperbound = x_bar + qt(p=0.975, df=n-1) * se
+answer_2 = paste(&quot;(&quot;, lowerbound, &quot;,&quot;, upperbound, &quot;)&quot;)
+
+cat(&quot;(1)&quot;, answer_1, &quot;\n(2)&quot;, answer_2)</code></pre>
+<pre><code>## (1) 모평균 추정값: 134 , 오차범위 12 
+## (2) ( 119.446258309703 , 148.553741690297 )</code></pre>
+<p><br /></p>
+</div>
+</div>
+<div id="정규모집단으로부터-추출한-크기가-20인-표본의-평균과-표준편차가-각각-barx182와-s2.3이다.-가설-h_0-mu181-대-h_1-mu-181에-대하여-유의수준-0.05로-검정하라." class="section level4">
+<h4>11.3.10 정규모집단으로부터 추출한 크기가 20인 표본의 평균과
+표준편차가 각각 <span class="math inline">\(\bar{x}=182\)</span>와 <span class="math inline">\(s=2.3\)</span>이다. 가설 <span class="math inline">\(H_0: \mu=181\)</span> 대 <span class="math inline">\(H_1: \mu &gt; 181\)</span>에 대하여 유의수준
+0.05로 검정하라.</h4>
+<pre class="r"><code>x_bar = 182
+s = 2.3
+n = 20
+alpha = 0.05
+t = (x_bar - 181) / (s / sqrt(n))
+
+if (t &gt; qt(1-alpha, df=n-1)) {
+  message = sprintf(&quot;유의수준 %.2f 하에서 귀무가설을 기각한다.&quot;, alpha)
+} else {
+  message = sprintf(&quot;유의수준 %.2f 하에서 귀무가설을 기각할 수 없다.&quot;, alpha)
+}
+
+p_value = 1 - pt(t, df=n-1)
+
+
+cat(&quot;P-값:&quot;, p_value, &quot;이므로,&quot;, message)</code></pre>
+<pre><code>## P-값: 0.03340126 이므로, 유의수준 0.05 하에서 귀무가설을 기각한다.</code></pre>
+<p><br /></p>
+</div>
+<div id="위의-연습문제-3.6의-자료는-납-농도의-실제-평균이-0.35보다-높다는-강한-증거를-제시하는가-p-값을-이용하여-답하라." class="section level4">
+<h4>11.3.12 위의 연습문제 <strong>3.6</strong>의 자료는 납 농도의 실제
+평균이 0.35보다 높다는 강한 증거를 제시하는가? (P-값을 이용하여
+답하라.)</h4>
+<pre class="r"><code>n = 25
+x_bar = 0.38
+s = 0.06
+alpha = 0.01
+
+t = (x_bar - 0.35) / (s / sqrt(n))
+
+if (t &gt; qt(1-alpha, df=n-1)) {
+  message = sprintf(&quot;유의수준 %.2f 하에서 귀무가설을 기각한다.&quot;, alpha)
+} else {
+  message = sprintf(&quot;유의수준 %.2f 하에서 귀무가설을 기각할 수 없다.&quot;, alpha)
+}
+
+p_value = 1 - pt(t, df=n-1)
+
+cat(&quot;P-값:&quot;, p_value, &quot;이므로,&quot;, message)</code></pre>
+<pre><code>## P-값: 0.009827088 이므로, 유의수준 0.01 하에서 귀무가설을 기각한다.</code></pre>
+<p><br /></p>
+</div>
+<div id="산업지역-내-13구역에서-비의-산성도를-측정하여-자료를-얻었다.-이-지역에서-비의-산성도에-대한-평균의-95-신뢰구간을-구하라." class="section level4">
+<h4>11.3.14 산업지역 내 13구역에서 비의 산성도를 측정하여 자료를 얻었다.
+이 지역에서 비의 산성도에 대한 평균의 95% 신뢰구간을 구하라.</h4>
+<pre class="r"><code>data = read.csv(&quot;../Data/exercise_11_3_14.csv&quot;)[,1]
+
+n = length(data)
+x_bar = mean(data)
+s = sd(data)
+
+lowerbound = x_bar + qt(0.025, df=n-1) * s / sqrt(n)
+upperbound = x_bar + qt(0.975, df=n-1) * s / sqrt(n)
+answer = paste(&quot;(&quot;, lowerbound, &quot;,&quot;, upperbound, &quot;)&quot;)
+
+cat(answer)</code></pre>
+<pre><code>## ( 4.10151824399434 , 4.77540483292874 )</code></pre>
+<p><br /></p>
+</div>
+<div id="어느-지방법원의-기록에-과실치사-사고를-낸-19명의-피고인들에-대한-선고형량이-적혀-있다고-한다.-이-선고형량의-평균과-표준편차는-각각-72.7개월과-10.2개월로-나타났다.-이-범죄에-대한-선고형량의-평균에-대한-95-신뢰구간을-구하라." class="section level4">
+<h4>11.3.16 어느 지방법원의 기록에 과실치사 사고를 낸 19명의 피고인들에
+대한 선고형량이 적혀 있다고 한다. 이 선고형량의 평균과 표준편차는 각각
+72.7개월과 10.2개월로 나타났다. 이 범죄에 대한 선고형량의 평균에 대한
+95% 신뢰구간을 구하라.</h4>
+<pre class="r"><code>n = 19
+x_bar = 72.7
+s = 10.2
+
+lowerbound = x_bar + qt(0.025, df=n-1) * s / sqrt(n)
+upperbound = x_bar + qt(0.975, df=n-1) * s / sqrt(n)
+answer = paste(&quot;(&quot;, lowerbound, &quot;,&quot;, upperbound, &quot;)&quot;)
+
+cat(answer)</code></pre>
+<pre><code>## ( 67.7837573689993 , 77.6162426310007 )</code></pre>
+<p><br /></p>
+</div>
+<div id="년-전-어느-도에-있는-농장의-평균-넓이는-5000-m2이었다고-한다.-최근-27군데의-농장에-대한-조사에서-농장넓이의-표본평균과-표본표준편차는-각각-5500-m2-1200-m2-이었다." class="section level4">
+<h4>11.3.18 5년 전 어느 도에 있는 농장의 평균 넓이는 <span class="math inline">\(5000 m^2\)</span>이었다고 한다. 최근 27군데의
+농장에 대한 조사에서 농장넓이의 표본평균과 표본표준편차는 각각 <span class="math inline">\(5500 m^2\)</span>, <span class="math inline">\(1200 m^2\)</span> 이었다.</h4>
+<div id="농장-넓이의-평균이-5년-전보다-커졌다는-강한-증거가-있는가" class="section level5">
+<h5>(1) 농장 넓이의 평균이 5년 전보다 커졌다는 강한 증거가 있는가?</h5>
+</div>
+<div id="현재-평균-넓이에-대한-98-신뢰구간을-구하라." class="section level5">
+<h5>(2) 현재 평균 넓이에 대한 98% 신뢰구간을 구하라.</h5>
+<pre class="r"><code>x_bar = 5500
+s = 1200
+n = 27
+alpha = 0.05
+
+t = (x_bar - 5000) / (s / sqrt(n))
+
+if (t &gt; qt(1-alpha, df=n-1)) {
+  message = sprintf(&quot;유의수준 %.2f 하에서 귀무가설을 기각한다.&quot;, alpha)
+} else {
+  message = sprintf(&quot;유의수준 %.2f 하에서 귀무가설을 기각할 수 없다.&quot;, alpha)
+}
+
+p_value = 1 - pt(t, df=n-1)
+answer_1 = paste(&quot;P-값:&quot;, p_value, &quot;이므로,&quot;, message)
+
+
+lowerbound = x_bar + qt(0.01, df=n-1) * s / sqrt(n)
+upperbound = x_bar + qt(0.99, df=n-1) * s / sqrt(n)
+answer_2 = paste(&quot;(&quot;, lowerbound, &quot;,&quot;, upperbound, &quot;)&quot;)
+
+cat(&quot;(1)&quot;, answer_1, &quot;\n(2)&quot;, answer_2)</code></pre>
+<pre><code>## (1) P-값: 0.019871691014976 이므로, 유의수준 0.05 하에서 귀무가설을 기각한다. 
+## (2) ( 4927.58496165127 , 6072.41503834873 )</code></pre>
+<p><br /></p>
+</div>
+</div>
+<div id="오수침전물이-비료로-쓰였던-6개의-대표적인-정원에서-양상추잎을-대상으로-중금속인-카드뮴cd과-아연zn의-농도를-측정하여-자료와-같은-값을-얻었다." class="section level4">
+<h4>11.3.20 오수침전물이 비료로 쓰였던 6개의 대표적인 정원에서
+양상추잎을 대상으로 중금속인 카드뮴(Cd)과 아연(Zn)의 농도를 측정하여
+자료와 같은 값을 얻었다.</h4>
+<div id="카드뮴과-아연의-평균-농도에-대한-95-신뢰구간을-구하라." class="section level5">
+<h5>(1) 카드뮴과 아연의 평균 농도에 대한 95% 신뢰구간을 구하라.</h5>
+</div>
+<div id="카드뮴의-평균-농도가-12보다-크다는-증거가-있는가" class="section level5">
+<h5>(2) 카드뮴의 평균 농도가 12보다 크다는 증거가 있는가?</h5>
+<pre class="r"><code>data = read.csv(&quot;../Data/exercise_11_3_20.csv&quot;)
+df_stat = data.frame(
+  Mean = apply(data, 2, mean),
+  SD = apply(data, 2, sd)
+)
+
+n = nrow(data)
+
+lowerbound_cd = df_stat[&quot;Cd&quot;, &quot;Mean&quot;] + qt(0.025, df=n-1) * df_stat[&quot;Cd&quot;, &quot;SD&quot;] / sqrt(n)
+upperbound_cd = df_stat[&quot;Cd&quot;, &quot;Mean&quot;] + qt(0.975, df=n-1) * df_stat[&quot;Cd&quot;, &quot;SD&quot;] / sqrt(n)
+
+lowerbound_zn = df_stat[&quot;Zn&quot;, &quot;Mean&quot;] + qt(0.025, df=n-1) * df_stat[&quot;Zn&quot;, &quot;SD&quot;] / sqrt(n)
+upperbound_zn = df_stat[&quot;Zn&quot;, &quot;Mean&quot;] + qt(0.975, df=n-1) * df_stat[&quot;Zn&quot;, &quot;SD&quot;] / sqrt(n)
+
+answer_1_1 = paste(&quot;(&quot;, lowerbound_cd, &quot;,&quot;, upperbound_cd, &quot;)&quot;)
+answer_1_2 = paste(&quot;(&quot;, lowerbound_zn, &quot;,&quot;, upperbound_zn, &quot;)&quot;)
+
+t = (df_stat[&quot;Cd&quot;, &quot;Mean&quot;] - 12) / (df_stat[&quot;Cd&quot;, &quot;SD&quot;] / sqrt(n))
+alpha = 0.05
+
+if (t &gt; qt(1-alpha, df=n-1)) {
+  message = sprintf(&quot;유의수준 %.2f 하에서 귀무가설을 기각한다.&quot;, alpha)
+} else {
+  message = sprintf(&quot;유의수준 %.2f 하에서 귀무가설을 기각할 수 없다.&quot;, alpha)
+}
+
+p_value = 1 - pt(t, df=n-1)
+answer_2 = paste(&quot;P-값:&quot;, p_value, &quot;이므로,&quot;, message)
+
+cat(&quot;(1)&quot;, answer_1_1, &quot;\n   &quot;, answer_1_2, &quot;\n(2)&quot;, answer_2)</code></pre>
+<pre><code>## (1) ( 6.79509355236002 , 29.20490644764 ) 
+##     ( 129.240478312208 , 174.092855021125 ) 
+## (2) P-값: 0.113557359962829 이므로, 유의수준 0.05 하에서 귀무가설을 기각할 수 없다.</code></pre>
+<p><br /></p>
+</div>
+</div>
+<div id="접착제를-만드는-어느-공장에서-제품의-접착력이-다른-회사-제품보다-좋다고-주장하고자-한다.-다른-회사-접착제의-평균-접착력이-500kg-이라고-할-때-다음-물음에-답하라." class="section level4">
+<h4>11.3.22 접착제를 만드는 어느 공장에서 제품의 접착력이 다른 회사
+제품보다 좋다고 주장하고자 한다. 다른 회사 접착제의 평균 접착력이 500kg
+이라고 할 때 다음 물음에 답하라.</h4>
+<div id="검정하고자-하는-가설을-세워라." class="section level5">
+<h5>(1) 검정하고자 하는 가설을 세워라.</h5>
+</div>
+<div id="실제로-이-공장의-제품의-접착력이-500kg보다-크다면-검정에서-어떤-오류를-범할-수-있는가" class="section level5">
+<h5>(2) 실제로 이 공장의 제품의 접착력이 500kg보다 크다면 검정에서 어떤
+오류를 범할 수 있는가?</h5>
+</div>
+<div id="번에-걸쳐서-이-회사-제품의-접착력을-조사한-결과-평균-접착력이-510kg-이고-표준편차가-23kg-이었다.-필요한-가정이-있으면-기술하고-접착력이-다른-회사보다-좋다고-할-수-있는지-유의수준-5로-검정하라." class="section level5">
+<h5>(3) 15번에 걸쳐서 이 회사 제품의 접착력을 조사한 결과 평균 접착력이
+510kg 이고 표준편차가 23kg 이었다. 필요한 가정이 있으면 기술하고,
+접착력이 다른 회사보다 좋다고 할 수 있는지 유의수준 5%로 검정하라.</h5>
+</div>
+<div id="만약-위의-3에서-모집단의-표준편차가-23으로-미리-알려져-있었다면-검정의-결과는-어떻게-되겠는지-검정을-실시하라." class="section level5">
+<h5>(4) 만약 위의 <strong>(3)</strong>에서 모집단의 표준편차가 23으로
+미리 알려져 있었다면 검정의 결과는 어떻게 되겠는지 검정을 실시하라.</h5>
+<pre class="r"><code># 1번, 2번
+answer_1 = &quot;H_0: mu = 500kg vs mu &gt; 500kg&quot;
+answer_2 = &quot;실제로 500kg보다 큰데 대립가설을 기각할 경우, 제 2종 오류를 범할 수 있다.&quot;
+
+# 3번
+n = 15
+x_bar = 510
+s = 23
+t = (x_bar - 500) / (s / sqrt(n))
+alpha = 0.05
+if (t &gt; qt(1-alpha, df=n-1)) {
+  message = sprintf(&quot;유의수준 %.2f 하에서 귀무가설을 기각한다.&quot;, alpha)
+} else {
+  message = sprintf(&quot;유의수준 %.2f 하에서 귀무가설을 기각할 수 없다.&quot;, alpha)
+}
+p_value = 1 - pt(t, df=n-1)
+answer_3 = paste(&quot;P-값:&quot;, p_value, &quot;이므로,&quot;, message)
+
+# 4번
+z = (x_bar - 500) / (23 / sqrt(n))
+
+if (z &gt; qnorm(1-alpha)) {
+  message = sprintf(&quot;유의수준 %.2f 하에서 귀무가설을 기각한다.&quot;, alpha)
+} else {
+  message = sprintf(&quot;유의수준 %.2f 하에서 귀무가설을 기각할 수 없다.&quot;, alpha)
+}
+p_value = 1 - pnorm(z)
+
+answer_4 = paste(
+  &quot;먼저, 표본이 적지만 모표준편차를 알고 있으므로 z검정을 실시한다.\n&quot;,
+  &quot;   검정 결과 P-값:&quot;, p_value, &quot;이므로,&quot;, message)
+
+cat(&quot;(1)&quot;, answer_1, &quot;\n(2)&quot;, answer_2, &quot;\n(3)&quot;, answer_3, &quot;\n(4)&quot;, answer_4)</code></pre>
+<pre><code>## (1) H_0: mu = 500kg vs mu &gt; 500kg 
+## (2) 실제로 500kg보다 큰데 대립가설을 기각할 경우, 제 2종 오류를 범할 수 있다. 
+## (3) P-값: 0.0571773708591439 이므로, 유의수준 0.05 하에서 귀무가설을 기각할 수 없다. 
+## (4) 먼저, 표본이 적지만 모표준편차를 알고 있으므로 z검정을 실시한다.
+##     검정 결과 P-값: 0.0460999373712896 이므로, 유의수준 0.05 하에서 귀무가설을 기각한다.</code></pre>
+<p><br /></p>
+</div>
+</div>
+<div id="모집단이-n30-25를-따를-때-크기가-25인-표본을-추출한다고-한다.-물음에-답하라." class="section level4">
+<h4>11.3.24 모집단이 <span class="math inline">\(N(30, 25)\)</span>를
+따를 때 크기가 25인 표본을 추출한다고 한다. 물음에 답하라.</h4>
+<div id="표본평균-barx는-어떤-분포를-따르는가" class="section level5">
+<h5>(1) 표본평균 <span class="math inline">\(\bar{X}\)</span>는 어떤
+분포를 따르는가?</h5>
+</div>
+<div id="만약-모집단의-분산이-25라는-사실은-알려져-있는데-모평균이-알려져-있지-않다고-하자.-모평균이-30보다-크다고-할-수-있는지-유의수준-5로-검정하고자-할-때-검정통계량과-기각역은-무엇인가" class="section level5">
+<h5>(2) 만약 모집단의 분산이 25라는 사실은 알려져 있는데, 모평균이
+알려져 있지 않다고 하자. 모평균이 30보다 크다고 할 수 있는지 유의수준
+5%로 검정하고자 할 때 검정통계량과 기각역은 무엇인가?</h5>
+</div>
+<div id="위-2의-검정에서는-어떤-오류를-범할-수-있는가" class="section level5">
+<h5>(3) 위 <strong>(2)</strong>의 검정에서는 어떤 오류를 범할 수
+있는가?</h5>
+</div>
+<div id="제1종-오류의-확률을-alpha-제2종-오류의-확률을-beta라고-하자.-1에서-구한-barx의-분포를-이용하여-기각하지-못할-확률을-구할-때-이를-alpha-또는-beta의-함수로-표현하라." class="section level5">
+<h5>(4) 제1종 오류의 확률을 <span class="math inline">\(\alpha\)</span>,
+제2종 오류의 확률을 <span class="math inline">\(\beta\)</span>라고 하자.
+<strong>(1)</strong>에서 구한 <span class="math inline">\(\bar{X}\)</span>의 분포를 이용하여 기각하지 못할
+확률을 구할 때 이를 <span class="math inline">\(\alpha\)</span> 또는
+<span class="math inline">\(\beta\)</span>의 함수로 표현하라.</h5>
+<pre class="r"><code># 1번
+answer_1 = &quot;표본평균은 정규분포 N(30, 1)를 따른다.&quot;
+answer_2 = &quot;검정통계량: (x_bar - 30) / (5/5), 기각역: Z &gt; 1.644854&quot;
+answer_3 = &quot;제1종 오류, 제2종 오류. 그러나 이 문제에서 유의수준과 관련있는 건 제 1종 오류이다.&quot;
+answer_4 = &quot;1 - alpha&quot;
+
+cat(&quot;(1)&quot;, answer_1, &quot;\n(2)&quot;, answer_2, &quot;\n(3)&quot;, answer_3, &quot;\n(4)&quot;, answer_4)</code></pre>
+<pre><code>## (1) 표본평균은 정규분포 N(30, 1)를 따른다. 
+## (2) 검정통계량: (x_bar - 30) / (5/5), 기각역: Z &gt; 1.644854 
+## (3) 제1종 오류, 제2종 오류. 그러나 이 문제에서 유의수준과 관련있는 건 제 1종 오류이다. 
+## (4) 1 - alpha</code></pre>
+<p><br /></p>
+</div>
+</div>
+</div>
+<div id="신뢰구간과-양측검정의-관계" class="section level3">
+<h3>11.4 신뢰구간과 양측검정의 관계</h3>
+<p><br /></p>
+<div id="합금의-평균장력-l의-90-신뢰구간이-28.12-40.48로-얻어졌다." class="section level4">
+<h4>11.4.2 합금의 평균장력 <span class="math inline">\(l\)</span>의 90%
+신뢰구간이 (28.12, 40.48)로 얻어졌다.</h4>
+<div id="유의수준-alpha0.10일-때-h_0-mu-39-대-h_1-mu-neq-39에-대한-가설을-검정하라." class="section level5">
+<h5>(1) 유의수준 <span class="math inline">\(\alpha=0.10\)</span>일 때,
+<span class="math inline">\(H_0: \mu = 39\)</span> 대 <span class="math inline">\(H_1: \mu \neq 39\)</span>에 대한 가설을
+검정하라.</h5>
+</div>
+<div id="귀무가설-h_0-mu-42에-대하여-1에서와-같은-검정을-하라." class="section level5">
+<h5>(2) 귀무가설 <span class="math inline">\(H_0: \mu = 42\)</span>에
+대하여 (1)에서와 같은 검정을 하라.</h5>
+<pre class="r"><code>answer_1 = &quot;mu_0가 신뢰구간에 포함되므로 유의수준 0.1에서 귀무가설을 기각할 수 없다.&quot;
+answer_2 = &quot;mu_0가 신뢰구간에 포함되지 않으므로 유의수준 0.1에서 귀무가설을 기각한다.&quot;</code></pre>
+<p><br /></p>
+</div>
+</div>
+<div id="명의-환자에-대하여-3주-동안-체지방이-감소하는-양을-기록하였다." class="section level4">
+<h4>11.4.4 8명의 환자에 대하여 3주 동안 체지방이 감소하는 양을
+기록하였다.</h4>
+<div id="주-동안의-체지방-감소량의-모평균-mu에-대한-95-신뢰구간을-구하라." class="section level5">
+<h5>(1) 3주 동안의 체지방 감소량의 모평균 <span class="math inline">\(\mu\)</span>에 대한 95% 신뢰구간을 구하라.</h5>
+</div>
+<div id="가설-h_0-mu-15-대-h_1-mu-neq-15에-대하여-유의수준-alpha0.05로-검정하고-1의-결과와-비교하라." class="section level5">
+<h5>(2) 가설 <span class="math inline">\(H_0: \mu = 15\)</span> 대 <span class="math inline">\(H_1: \mu \neq 15\)</span>에 대하여 유의수준 <span class="math inline">\(\alpha=0.05\)</span>로 검정하고 (1)의 결과와
+비교하라.</h5>
+<pre class="r"><code>data = read.csv(&quot;../Data/exercise_11_4_04.csv&quot;)[,1]
+n = length(data)
+x_bar = mean(data)
+s = sd(data)
+
+lowerbound = x_bar + qt(p=0.025, df=n-1) * (s / sqrt(n))
+upperbound = x_bar + qt(p=0.975, df=n-1) * (s / sqrt(n))
+answer_1 = paste(&quot;(&quot;, lowerbound, &quot;,&quot;, upperbound, &quot;)&quot;)
+answer_2 = &quot;유의수준 0.05 하에서 귀무가설을 기각한다.&quot;
+
+cat(&quot;(1)&quot;, answer_1, &quot;\n(2)&quot;, answer_2)</code></pre>
+<pre><code>## (1) ( 1.27837322476628 , 12.2841267752337 ) 
+## (2) 유의수준 0.05 하에서 귀무가설을 기각한다.</code></pre>
+<p><br /></p>
+</div>
+</div>
+<div id="표본이-큰-경우-가설-h_0-mu-mu_0-대-h_1-mu-neq-mu_0에-대하여-유의-수준-alpha0.05로-검정할-때-기각역은-z-geq-1.96-또는-z-leq--1.96이다.-이와-같은-z-검정과-95-신뢰구간-barx---1.96-times-ssqrtn-barx-1.96-times-ssqrtn-의-관계를-설명하라." class="section level4">
+<h4>11.4.6 표본이 큰 경우, 가설 <span class="math inline">\(H_0: \mu =
+\mu_0\)</span> 대 <span class="math inline">\(H_1: \mu \neq
+\mu_0\)</span>에 대하여 유의 수준 <span class="math inline">\(\alpha=0.05\)</span>로 검정할 때 기각역은 <span class="math inline">\(Z \geq 1.96\)</span> 또는 <span class="math inline">\(Z \leq -1.96\)</span>이다. 이와 같은 Z-검정과 95%
+신뢰구간 ( <span class="math inline">\(\bar{X} - 1.96 \times
+s/\sqrt{n}\)</span>, <span class="math inline">\(\bar{X} + 1.96 \times
+s/\sqrt{n}\)</span>) 의 관계를 설명하라.</h4>
+<p>Z-검정에서 <span class="math inline">\(\mu_0\)</span>가 95% 신뢰구간
+안에 포함되면 귀무가설을 기각할 수 없다.<br />
+반대로, <span class="math inline">\(\mu_0\)</span>가 95% 신뢰구간 밖에
+있으면 귀무가설을 기각한다.<br />
+즉, Z-검정에서의 기각 여부는 신뢰구간에서의 <span class="math inline">\(\mu_0\)</span> 포함 여부와 동일한 결론을 내리게
+된다.<br />
+Z-검정을 통한 가설 검정과 신뢰구간은 같은 정보에 기반하여 같은 결론을
+내리게 되며,<br />
+이는 두 방법이 통계적으로 동일한 방식으로 사용될 수 있음을 의미한다.</p>
+<p><br /></p>
+</div>
+</div>
+<div id="모표준편차에-대한-추론" class="section level3">
+<h3>11.5 모표준편차에 대한 추론</h3>
+<p><br /></p>
+<div id="chi2-분포를-사용하여-다음-각-경우에-해당하는-값을-찾아라." class="section level4">
+<h4>11.5.2 <span class="math inline">\(\chi^2\)</span> 분포를 사용하여
+다음 각 경우에 해당하는 값을 찾아라.</h4>
+<div id="자유도-17-상위누적-10를-나타내는-지점-c" class="section level5">
+<h5>(1) 자유도 17, 상위누적 10%를 나타내는 지점 c</h5>
+</div>
+<div id="자유도-23-하위누적-5를-나타내는-지점-c" class="section level5">
+<h5>(2) 자유도 23, 하위누적 5%를 나타내는 지점 c</h5>
+</div>
+<div id="자유도-40-1에-해당되는-확률값을-찾아라." class="section level5">
+<h5>(3) 자유도 40, (1)에 해당되는 확률값을 찾아라.</h5>
+</div>
+<div id="자유도-7-2에-해당되는-확률값을-찾아라." class="section level5">
+<h5>(4) 자유도 7, (2)에 해당되는 확률값을 찾아라.</h5>
+<pre class="r"><code>answer_1 = qchisq(p=0.9, df=17)
+answer_2 = qchisq(p=0.05, df=23)
+answer_3 = qchisq(p=0.9, df=40)
+answer_4 = qchisq(p=0.05, df=7)
+
+cat(&quot;(1)&quot;, answer_1, &quot;\n(2)&quot;, answer_2, &quot;\n(3)&quot;, answer_3, &quot;\n(4)&quot;, answer_4)</code></pre>
+<pre><code>## (1) 24.76904 
+## (2) 13.09051 
+## (3) 51.80506 
+## (4) 2.16735</code></pre>
+<p><br /></p>
+</div>
+</div>
+<div id="자료가-12-18-9-15-4로-주어져-있을-때-다음-물음에-답하라." class="section level4">
+<h4>11.5.4 자료가 12, 18, 9, 15, 4로 주어져 있을 때 다음 물음에
+답하라.</h4>
+<div id="표준편차-sigma-를-추정하라." class="section level5">
+<h5>(1) 표준편차 <span class="math inline">\(\sigma\)</span> 를
+추정하라.</h5>
+</div>
+<div id="sigma-의-95-신뢰구간을-구하라." class="section level5">
+<h5>(2) <span class="math inline">\(\sigma\)</span> 의 95% 신뢰구간을
+구하라.</h5>
+</div>
+<div id="에서-구한-추정치가-신뢰구간의-가운데-위치하고-있는지-아닌지-판단하라." class="section level5">
+<h5>(3) <strong>(1)</strong>에서 구한 추정치가 신뢰구간의 가운데
+위치하고 있는지, 아닌지 판단하라.</h5>
+<pre class="r"><code>data = c(12, 18, 9, 15, 4)
+
+s = sd(data)
+answer_1 = s
+
+n = length(data)
+alpha = 0.05
+upperbound =  s * sqrt((n-1) / qchisq(p=alpha/2, df=n-1))
+lowerbound =  s * sqrt((n-1) / qchisq(p=1-alpha/2, df=n-1))
+
+answer_2 = paste(
+  &quot;모집단이 정규분포를 다른다고 가정했을 때, \n    표준편차의 95% 신뢰구간은(&quot;, 
+  lowerbound, &quot;,&quot;, upperbound, &quot;) 이다.&quot;
+  )
+
+answer_3 = (answer_1 &gt; lowerbound) &amp; (answer_1 &lt; upperbound)
+
+cat(&quot;(1)&quot;, answer_1, &quot;\n(2)&quot;, answer_2, &quot;\n(3)&quot;, answer_3)</code></pre>
+<pre><code>## (1) 5.412947 
+## (2) 모집단이 정규분포를 다른다고 가정했을 때, 
+##     표준편차의 95% 신뢰구간은( 3.24307619234821 , 15.5544056163127 ) 이다. 
+## (3) TRUE</code></pre>
+<p><br /></p>
+</div>
+</div>
+<div id="자료의-모집단이-정규분포를-따른다고-하자.-자료로부터-모표준편차-sigma-에-대한-95-신뢰구간을-구하라.-해당-자료로부터-모표준편차가-6.7보다-작다는-결론을-내릴-수-있는가-alpha-0.05-로-검정하라." class="section level4">
+<h4>11.5.6 자료의 모집단이 정규분포를 따른다고 하자. 자료로부터
+모표준편차 <span class="math inline">\(\sigma\)</span> 에 대한 95%
+신뢰구간을 구하라. 해당 자료로부터 모표준편차가 6.7보다 작다는 결론을
+내릴 수 있는가? <span class="math inline">\(\alpha = 0.05\)</span> 로
+검정하라.</h4>
+<pre class="r"><code>data = read.csv(&quot;../Data/exercise_11_5_06.csv&quot;)[,1]
+
+n = length(data)
+alpha = 0.05
+s_0 = 6.7
+s = sd(data)
+
+upperbound = s * sqrt((n-1) / qchisq(p=alpha/2, df=n-1))
+lowerbound = s * sqrt((n-1) / qchisq(p=1-alpha/2, df=n-1))
+
+answer_1 = paste(&quot;모표준편차에 대한 95% 신뢰구간은 \n    (&quot;, lowerbound, 
+                 &quot;,&quot;, upperbound, &quot;) 이다.&quot;)
+
+chi = (n-1) * s^2 / s_0^2
+
+if (chi &gt; qchisq(p=1-alpha, df=n-1)) {
+  message = sprintf(&quot;유의수준 %.2f 하에서 귀무가설을 기각한다.&quot;, alpha)
+} else {
+  message = sprintf(&quot;유의수준 %.2f 하에서 귀무가설을 기각할 수 없다.&quot;, alpha)
+}
+
+cat(&quot;(1)&quot;, answer_1, &quot;\n(2)&quot;, message)</code></pre>
+<pre><code>## (1) 모표준편차에 대한 95% 신뢰구간은 
+##     ( 4.77111269410818 , 8.05352006957984 ) 이다. 
+## (2) 유의수준 0.05 하에서 귀무가설을 기각할 수 없다.</code></pre>
+<p><br /></p>
+</div>
+<div id="새로-만들어지는-플라스틱의-두께를-주기적으로-측정하는데-액체-주형의-점성에-의한-이물질이-플라스틱의-두께를-재는-데-영향을-주어-어느-정도-변동이-생기게-된다고-한다.-그러나-두께의-실제-표준편차가-1.5-mm를-초과한다면-생산되는-상품의-품질에-영향을-준다고-한다.-10개의-견본을-뽑아-두께를-재었더니-자료와-가은-결과가-얻어졌다.-단위-mm" class="section level4">
+<h4>11.5.8 새로 만들어지는 플라스틱의 두께를 주기적으로 측정하는데, 액체
+주형의 점성에 의한 이물질이 플라스틱의 두께를 재는 데 영향을 주어 어느
+정도 변동이 생기게 된다고 한다. 그러나 두께의 실제 표준편차가 1.5 mm를
+초과한다면 생산되는 상품의 품질에 영향을 준다고 한다. 10개의 견본을 뽑아
+두께를 재었더니 자료와 가은 결과가 얻어졌다. (단위: mm)</h4>
+<div id="주어진-자료로부터-품질에-영향을-줄-만큼의-변동이-일어난다고-할-수-있는가-alpha0.05로-검정하라.-모집단에-대한-가정을-세워라." class="section level5">
+<h5>(1) 주어진 자료로부터 품질에 영향을 줄 만큼의 변동이 일어난다고 할
+수 있는가? (<span class="math inline">\(\alpha=0.05\)</span>로
+검정하라.) 모집단에 대한 가정을 세워라.</h5>
+</div>
+<div id="생산된-제품-두께의-표준편차에-대한-95-신뢰구간을-구하라." class="section level5">
+<h5>(2) 생산된 제품 두께의 표준편차에 대한 95% 신뢰구간을 구하라.</h5>
+<pre class="r"><code>data = read.csv(&quot;../Data/exercise_11_5_08.csv&quot;)[,1]
+
+n = length(data)
+s_0 = 1.5
+s = sd(data)
+alpha = 0.05
+chi = (n-1) * s^2 / s_0^2
+
+if (chi &gt; qchisq(p=1-alpha, df=n-1)) {
+  message = sprintf(&quot;유의수준 %.2f 하에서 귀무가설을 기각한다.&quot;, alpha)
+} else {
+  message = sprintf(&quot;유의수준 %.2f 하에서 귀무가설을 기각할 수 없다.&quot;, alpha)
+}
+
+answer_1 = paste(
+  &quot;모집단이 정규분포를 따른다고 가정하자.\n&quot;,
+  &quot;   검정하고자 하는 가설은 H_0: sigma=1.5 vs H_1: sigma&gt;1.5 이다.\n&quot;,
+  &quot;   검정통계량은&quot;, round(chi,4), &quot;이므로&quot;, message
+  )
+
+upperbound = s * sqrt((n-1) / qchisq(p=alpha/2, df=n-1))
+lowerbound = s * sqrt((n-1) / qchisq(p=1-alpha/2, df=n-1))
+
+answer_2 = paste(&quot;(&quot;, lowerbound, &quot;,&quot;, upperbound, &quot;)&quot;)
+
+cat(&quot;(1)&quot;, answer_1, &quot;\n(2)&quot;, answer_2)</code></pre>
+<pre><code>## (1) 모집단이 정규분포를 따른다고 가정하자.
+##     검정하고자 하는 가설은 H_0: sigma=1.5 vs H_1: sigma&gt;1.5 이다.
+##     검정통계량은 20.6222 이므로 유의수준 0.05 하에서 귀무가설을 기각한다. 
+## (2) ( 1.56178819890874 , 4.14520282022603 )</code></pre>
+<p><br /></p>
+</div>
+</div>
+<div id="우라늄-농도-자료에-대하여-다음-물음에-답하라." class="section level4">
+<h4>11.5.10 우라늄 농도 자료에 대하여 다음 물음에 답하라.</h4>
+<div id="모표준편차-sigma에-대한-90-신뢰구간을-구하라." class="section level5">
+<h5>(1) 모표준편차 <span class="math inline">\(\sigma\)</span>에 대한
+90% 신뢰구간을 구하라.</h5>
+</div>
+<div id="귀무가설-h_0-sigma-7이-유의수준-alpha-0.10의-양측검정에서-기각되겠는가-1-에서의-결과를-가지고-설명하라." class="section level5">
+<h5>(2) 귀무가설 <span class="math inline">\(H_0: \sigma = 7\)</span>이
+유의수준 <span class="math inline">\(\alpha = 0.10\)</span>의
+양측검정에서 기각되겠는가? (<strong>(1)</strong> 에서의 결과를 가지고
+설명하라.)</h5>
+<pre class="r"><code>data = read.csv(&quot;../Data/exercise_11_5_10.csv&quot;)[,1]
+
+n = length(data)
+s = sd(data)
+alpha = 0.1
+
+lowerbound = s * sqrt( (n-1) / qchisq(p=1-alpha/2, df=n-1) )
+upperbound = s * sqrt( (n-1) / qchisq(p=alpha/2, df=n-1) )
+answer_1 = paste(&quot;(&quot;, lowerbound, &quot;,&quot;, upperbound, &quot;)&quot;)
+
+message = paste(
+  &quot;귀무가설의 sigma=7은 (1)의 0.90 신뢰구간에 포함되지 않으므로,&quot;,
+  &quot;\n    유의수준 %.2f 하에서 귀무가설을 기각한다.&quot;
+  ) 
+message = sprintf(message, alpha)
+
+cat(&quot;(1)&quot;, answer_1, &quot;\n(2)&quot;, message)</code></pre>
+<pre><code>## (1) ( 3.14359134021341 , 6.30549530769615 ) 
+## (2) 귀무가설의 sigma=7은 (1)의 0.90 신뢰구간에 포함되지 않으므로, 
+##     유의수준 0.10 하에서 귀무가설을 기각한다.</code></pre>
+<p><br /></p>
+</div>
+</div>
+<div id="자료에-대하여-모표준편차-sigma에-대한-98-신뢰구간을-구하라." class="section level4">
+<h4>11.5.12 자료에 대하여 모표준편차 <span class="math inline">\(\sigma\)</span>에 대한 98% 신뢰구간을 구하라.</h4>
+<pre class="r"><code>data = read.csv(&quot;../Data/exercise_11_5_12.csv&quot;)[,1]
+
+n = length(data)
+s = sd(data)
+alpha = 0.02
+
+lowerbound = s * sqrt((n-1) / qchisq(p=1-alpha/2, df=n-1))
+upperbound = s * sqrt((n-1) / qchisq(p=alpha/2, df=n-1))
+
+cat(&quot;(&quot;, lowerbound, &quot;,&quot;, upperbound, &quot;)&quot;)</code></pre>
+<pre><code>## ( 0.1407118 , 0.2891311 )</code></pre>
+<p><br /></p>
+</div>
+<div id="연습문제-3.20의-자료에-대하여-다음-물음에-답하라." class="section level4">
+<h4>11.5.14 연습문제 <strong>3.20</strong>의 자료에 대하여 다음 물음에
+답하라.</h4>
+<div id="카드뮴-농도의-모표준편차에-대하여-90-신뢰구간을-구하라." class="section level5">
+<h5>(1) 카드뮴 농도의 모표준편차에 대하여 90% 신뢰구간을 구하라.</h5>
+</div>
+<div id="아연-농도의-모표준편차가-30-미만이라는-강력한-증거가-있는가-유의수준-alpha0.10로-검정하라." class="section level5">
+<h5>(2) 아연 농도의 모표준편차가 30 미만이라는 강력한 증거가 있는가?
+(유의수준 <span class="math inline">\(\alpha=0.10\)</span>로
+검정하라.)</h5>
+<pre class="r"><code>data = read.csv(&quot;../Data/exercise_11_3_20.csv&quot;)
+alpha = 0.1
+
+# 1번
+n_cd = nrow(data[&#39;Cd&#39;])
+s_cd = sd(data[,1])
+
+lowerbound_cd = s_cd * sqrt( (n_cd-1) / qchisq(p=1-alpha/2, df=n_cd-1))
+upperbound_cd = s_cd * sqrt( (n_cd-1) / qchisq(p=alpha/2, df=n_cd-1))
+
+answer_1 = paste(&quot;(&quot;, lowerbound_cd, &quot;,&quot;, upperbound_cd, &quot;)&quot;)
+
+# 2번
+n_zn = nrow(data[&#39;Zn&#39;])
+s_zn = sd(data[,2])
+s_0 = 30
+
+chi = (n_zn - 1) * s_zn^2 / s_0^2
+p_value = pchisq(chi, df=n_zn-1, lower.tail = TRUE)
+
+if (chi &lt; qchisq(p=alpha, df=n-1)) { # 주의! alpha다!
+  message = sprintf(&quot;유의수준 %.2f 하에서 귀무가설을 기각한다.&quot;, alpha)
+} else {
+  message = sprintf(&quot;유의수준 %.2f 하에서 귀무가설을 기각할 수 없다.&quot;, alpha)
+}
+answer_2 = paste(&quot;p-value가&quot;, round(p_value, 4), &quot;이므로&quot;, message)
+
+cat(&quot;(1)&quot;, answer_1, &quot;\n(2)&quot;, answer_2)</code></pre>
+<pre><code>## (1) ( 7.17552785928109 , 22.3071654206828 ) 
+## (2) p-value가 0.2291 이므로 유의수준 0.10 하에서 귀무가설을 기각한다.</code></pre>
+<p><br /></p>
+</div>
+</div>
+</div>
+<div id="종합문제" class="section level3">
+<h3>11.6 종합문제</h3>
+<p><br /></p>
+<div id="t분포를-이용하여-다음-확률값을-구하라." class="section level4">
+<h4>11.6.2 t분포를 이용하여 다음 확률값을 구하라.</h4>
+<div id="자유도가-23일-때-t-2.710" class="section level5">
+<h5>(1) 자유도가 23일 때, <span class="math inline">\(t &gt;
+2.710\)</span></h5>
+</div>
+<div id="자유도가-8일-때-t-3.355" class="section level5">
+<h5>(2) 자유도가 8일 때, <span class="math inline">\(t &gt;
+3.355\)</span></h5>
+</div>
+<div id="자유도가-17일-때-t-2.110" class="section level5">
+<h5>(3) 자유도가 17일 때, <span class="math inline">\(|t| &gt;
+2.110\)</span></h5>
+</div>
+<div id="자유도가-9일-때--0.703-t-2.262" class="section level5">
+<h5>(4) 자유도가 9일 때, <span class="math inline">\(-0.703 &lt; t &lt;
+2.262\)</span></h5>
+<pre class="r"><code>cat(
+  &quot;(1)&quot;, 1 - pt(q=2.710, df=23),
+  &quot;(2)&quot;, 1 - pt(q=3.355, df=8),
+  &quot;(3)&quot;, 1 - pt(q=2.110, df=17) + pt(q=-2.110, df=17),
+  &quot;(4)&quot;, pt(q=2.262, df=9) - pt(q=-0.703, df=9)
+  )</code></pre>
+<pre><code>## (1) 0.006246031 (2) 0.005002875 (3) 0.04998212 (4) 0.7250761</code></pre>
+<p><br /></p>
+</div>
+</div>
+<div id="차례에-걸쳐-월요일-아침에-강물에-떠-있는-부유물의-양을-측정하였더니-barx47-s9.4이었다.-부유물의-평균-양에-대한-95-신뢰구간을-구하라.-모집단에-대한-가정이-있으면-기술하라." class="section level4">
+<h4>11.6.4 15차례에 걸쳐 월요일 아침에 강물에 떠 있는 부유물의 양을
+측정하였더니 <span class="math inline">\(\bar{x}=47\)</span>, <span class="math inline">\(s=9.4\)</span>이었다. 부유물의 평균 양에 대한 95%
+신뢰구간을 구하라. 모집단에 대한 가정이 있으면 기술하라.</h4>
+<pre class="r"><code>n = 15
+x_bar = 47
+s=9.4
+
+lowerbound = x_bar + qt(p=0.025, df=n-1) * s / sqrt(n)
+upperbound = x_bar + qt(p=0.975, df=n-1) * s / sqrt(n)
+answer = paste(&quot;(&quot;, lowerbound, &quot;,&quot;, upperbound, &quot;)&quot;)
+
+cat(answer)</code></pre>
+<pre><code>## ( 41.7944535092902 , 52.2055464907098 )</code></pre>
+<p><br /></p>
+</div>
+<div id="그루의-식물이-꽃을-피우는-데-걸리는-기간의-평균이-39일이고-표준편차가-5.1일이었다.-꽃이-피는-데-걸리는-평균-기간에-대한-95-신뢰구간을-구하라." class="section level4">
+<h4>11.6.6 21그루의 식물이 꽃을 피우는 데 걸리는 기간의 평균이 39일이고
+표준편차가 5.1일이었다. 꽃이 피는 데 걸리는 평균 기간에 대한 95%
+신뢰구간을 구하라.</h4>
+<pre class="r"><code>n = 21
+x_bar = 39
+s = 5.1
+
+lowerbound = x_bar + qt(p=0.025, df=n-1) * s / sqrt(n)
+upperbound = x_bar + qt(p=0.975, df=n-1) * s / sqrt(n)
+
+answer = paste(&quot;(&quot;, lowerbound, &quot;,&quot;, upperbound, &quot;)&quot;)
+
+cat(answer)</code></pre>
+<pre><code>## ( 36.6785078328841 , 41.3214921671159 )</code></pre>
+<p><br /></p>
+</div>
+<div id="종합문제-6.4에서-평균-부유물의-양이-49보다-작아서-수질이-좋다고-할-수-있는지-유의수준-alpha0.05에서-검정을-실시하라." class="section level4">
+<h4>11.6.8 종합문제 <strong>6.4</strong>에서 평균 부유물의 양이 49보다
+작아서 수질이 좋다고 할 수 있는지 유의수준 <span class="math inline">\(\alpha=0.05\)</span>에서 검정을 실시하라.</h4>
+<div id="가설-h_0과-h_1을-세워라." class="section level5">
+<h5>(1) 가설 <span class="math inline">\(H_0\)</span>과 <span class="math inline">\(H_1\)</span>을 세워라.</h5>
+</div>
+<div id="검정통계량을-구하라." class="section level5">
+<h5>(2) 검정통계량을 구하라.</h5>
+</div>
+<div id="검정의-결과를-말하라." class="section level5">
+<h5>(3) 검정의 결과를 말하라.</h5>
+<pre class="r"><code># 1번
+answer_1 = &quot;H_0: mu=49 vs H_1: mu&lt;49&quot;
+
+# 2번
+n = 15
+x_bar = 47
+s=9.4
+t = (x_bar - 49) / (s / sqrt(n))
+
+answer_2 = sprintf(&quot;검정통계량 t=%.3f&quot;, t)
+
+# 3번
+alpha = 0.05
+if (t &lt; qt(p=alpha, df=n)) { 
+  message = sprintf(&quot;유의수준 %.2f 하에서 귀무가설을 기각한다.&quot;, alpha)
+} else {
+  message = sprintf(&quot;유의수준 %.2f 하에서 귀무가설을 기각할 수 없다.&quot;, alpha)
+}
+p_value = pt(t, df = n)
+answer_3 = paste(&quot;p-value가&quot;, round(p_value, 4), &quot;이므로&quot;, message)
+
+cat(&quot;(1)&quot;, answer_1, &quot;\n(2)&quot;, answer_2, &quot;\n(3)&quot;, answer_3)</code></pre>
+<pre><code>## (1) H_0: mu=49 vs H_1: mu&lt;49 
+## (2) 검정통계량 t=-0.824 
+## (3) p-value가 0.2114 이므로 유의수준 0.05 하에서 귀무가설을 기각할 수 없다.</code></pre>
+<p><br /></p>
+</div>
+</div>
+<div id="회계법인에서는-회계사가-한-회계감사를-완수하는-데에-필요한-표준시간으로-평균-mu를-사용한다고-한다.-18명의-회계사들로부터-얻은-시간은-표본평균-4.1시간-표본표준편차-1.6시간이었다.-가설-h_0-mu3.5-대-h_1-mu-3.5에-대한-검정을-실시하라.-유의수준-alpha-0.05" class="section level4">
+<h4>11.6.10 회계법인에서는 회계사가 한 회계감사를 완수하는 데에 필요한
+표준시간으로 평균 <span class="math inline">\(\mu\)</span>를 사용한다고
+한다. 18명의 회계사들로부터 얻은 시간은 표본평균 4.1시간, 표본표준편차
+1.6시간이었다. 가설 <span class="math inline">\(H_0: \mu=3.5\)</span> 대
+<span class="math inline">\(H_1: \mu &gt; 3.5\)</span>에 대한 검정을
+실시하라. (유의수준 <span class="math inline">\(\alpha =
+0.05\)</span>)</h4>
+<pre class="r"><code>n = 18
+x_bar = 4.1
+s = 1.6
+alpha = 0.05
+
+t = (x_bar - 3.5) / (s / sqrt(n))
+
+if (t &gt; qt(1-alpha, df=n-1)) {
+  message = sprintf(&quot;유의수준 %.2f 하에서 귀무가설을 기각한다.&quot;, alpha)
+} else {
+  message = sprintf(&quot;유의수준 %.2f 하에서 귀무가설을 기각할 수 없다.&quot;, alpha)
+}
+p_value = 1 - pt(t, df=n-1)
+answer = paste(
+  &quot;검정통계량 t가 &quot;, round(t, 4), &quot;이고, p-value가 &quot;, 
+  round(p_value, 4), &quot;이므로\n&quot;, message, sep = &quot;&quot;
+  )
+
+cat(answer)</code></pre>
+<pre><code>## 검정통계량 t가 1.591이고, p-value가 0.065이므로
+## 유의수준 0.05 하에서 귀무가설을 기각할 수 없다.</code></pre>
+<p><br /></p>
+</div>
+<div id="개의-관측치로-이루어진-표본에서-계산한-평균과-표준편차가-각각-barx-182-s12이었다." class="section level4">
+<h4>11.6.12 16개의 관측치로 이루어진 표본에서 계산한 평균과 표준편차가
+각각 <span class="math inline">\(\bar{x} = 182,
+s=12\)</span>이었다.</h4>
+<div id="가설-h_0-mu-190-대-h_1-mu-190을-유의수준-alpha0.05에서-검정하라.-모집단-분포에-대한-필요한-가정이-있으면-기술하라." class="section level5">
+<h5>(1) 가설 <span class="math inline">\(H_0: \mu = 190\)</span> 대
+<span class="math inline">\(H_1: \mu &lt; 190\)</span>을 유의수준 <span class="math inline">\(\alpha=0.05\)</span>에서 검정하라. 모집단 분포에
+대한 필요한 가정이 있으면 기술하라.</h5>
+</div>
+<div id="에서-계산된-관측치의-p-값에-대해-설명하라." class="section level5">
+<h5>(2) <strong>(1)</strong>에서 계산된 관측치의 P-값에 대해
+설명하라.</h5>
+<pre class="r"><code>n = 16
+x_bar = 182
+s = 12
+alpha = 0.05
+
+t = (x_bar - 190) / (s / sqrt(n))
+
+if (t &lt; qt(alpha, df=n-1)) {
+  message = sprintf(&quot;유의수준 %.2f 하에서 귀무가설을 기각한다.&quot;, alpha)
+} else {
+  message = sprintf(&quot;유의수준 %.2f 하에서 귀무가설을 기각할 수 없다.&quot;, alpha)
+}
+p_value = pt(t, df=n-1)
+
+answer_1 = paste(&quot;모집단이 정규분포를 다른다고 가정할 때,&quot;, message)
+answer_2 = paste(
+  &quot;검정통계량 t가 &quot;, round(t, 4), &quot;이고, p-value가 &quot;, 
+  round(p_value, 4), &quot;이므로\n    &quot;, message, sep = &quot;&quot;
+  )
+
+cat(&quot;(1)&quot;, answer_1, &quot;\n(2)&quot;, answer_2)</code></pre>
+<pre><code>## (1) 모집단이 정규분포를 다른다고 가정할 때, 유의수준 0.05 하에서 귀무가설을 기각한다. 
+## (2) 검정통계량 t가 -2.6667이고, p-value가 0.0088이므로
+##     유의수준 0.05 하에서 귀무가설을 기각한다.</code></pre>
+<p><br /></p>
+</div>
+</div>
+<div id="한-체중감량-프로그램은-4개월에-12kg-감량이라는-광고를-하였다.-25명의-고객을-대상으로-체중감량-조사한-결과-barx15kg-s5kg을-얻었다.-가설-h_0-mu12-대-h_1-mu12에-대하여-유의수준-alpha0.05에서-검정하라." class="section level4">
+<h4>11.6.14 한 체중감량 프로그램은 ’4개월에 12kg 감량’이라는 광고를
+하였다. 25명의 고객을 대상으로 체중감량 조사한 결과 <span class="math inline">\(\bar{x}=15\)</span>kg, <span class="math inline">\(s=5\)</span>kg을 얻었다. 가설 <span class="math inline">\(H_0: \mu=12\)</span> 대 <span class="math inline">\(H_1: \mu&gt;12\)</span>에 대하여 유의수준 <span class="math inline">\(\alpha=0.05\)</span>에서 검정하라.</h4>
+<pre class="r"><code>n = 25
+x_bar = 15
+s = 5
+alpha = 0.05
+
+t = (x_bar - 12) / (s / sqrt(n)) 
+
+if (t &gt; qt(p=1-alpha, df=n-1)) {
+  message = sprintf(&quot;유의수준 %.2f 하에서 귀무가설을 기각한다.&quot;, alpha)
+} else {
+  message = sprintf(&quot;유의수준 %.2f 하에서 귀무가설을 기각할 수 없다.&quot;, alpha)
+}
+
+p_value = 1 - pt(q=t, df=n-1)
+
+answer = paste(
+  &quot;검정통계량 t가 &quot;, round(t, 4), &quot;이고, p-value가 &quot;, 
+  round(p_value, 4), &quot;이므로\n&quot;, message, sep = &quot;&quot;
+  )
+
+cat(answer)</code></pre>
+<pre><code>## 검정통계량 t가 3이고, p-value가 0.0031이므로
+## 유의수준 0.05 하에서 귀무가설을 기각한다.</code></pre>
+<p><br /></p>
+</div>
+<div id="새-모델의-가정용-난방기-10개에-대한-연소효율을-측정하였더니-표본평균과-표본표준편차가-각각-73.2와-2.74이었다.-이-결과는-새로운-모델의-평균-효율성이-70보다-높다는-증거를-제시하는가-유의수준-alpha0.05에서-검정하고-p-값에-대해-논하라." class="section level4">
+<h4>11.6.16 새 모델의 가정용 난방기 10개에 대한 연소효율을 측정하였더니
+표본평균과 표본표준편차가 각각 73.2와 2.74이었다. 이 결과는 새로운
+모델의 평균 효율성이 70보다 높다는 증거를 제시하는가? (유의수준 <span class="math inline">\(\alpha=0.05\)</span>에서 검정하고 P-값에 대해
+논하라.)</h4>
+<pre class="r"><code>x_bar = 73.2
+s = 2.74
+n = 10
+alpha = 0.05
+
+t = (x_bar - 70) / (s / sqrt(n))
+
+if (t &gt; qt(p=1-alpha, df=n-1)) {
+  message = sprintf(&quot;유의수준 %.2f 하에서 귀무가설을 기각한다.&quot;, alpha)
+} else {
+  message = sprintf(&quot;유의수준 %.2f 하에서 귀무가설을 기각할 수 없다.&quot;, alpha)
+}
+
+p_value = 1 - pt(q=t, df=n-1)
+
+answer = paste(
+  &quot;검정통계량 t가 &quot;, round(t, 4), &quot;이고, p-value가 &quot;, 
+  round(p_value, 4), &quot;이므로\n&quot;, message, sep = &quot;&quot;
+  )
+
+cat(answer)</code></pre>
+<pre><code>## 검정통계량 t가 3.6932이고, p-value가 0.0025이므로
+## 유의수준 0.05 하에서 귀무가설을 기각한다.</code></pre>
+<p><br /></p>
+</div>
+<div id="외줄기-식물의-종자로부터-성장한-25-그루의-식물에-대하여-성장하는-데-걸리는-기간을-기록하였더니-barx-64.8-일-s6.5일이었다." class="section level4">
+<h4>11.6.18 외줄기 식물의 종자로부터 성장한 25 그루의 식물에 대하여
+성장하는 데 걸리는 기간을 기록하였더니 <span class="math inline">\(\bar{x} = 64.8\)</span> 일, <span class="math inline">\(s=6.5\)</span>일이었다.</h4>
+<div id="이들-결과들은-이-외줄기-식물의-평균-성장기간이-65일이라는-주장을-반박할-수-있는가" class="section level5">
+<h5>(1) 이들 결과들은 이 외줄기 식물의 평균 성장기간이 65일이라는 주장을
+반박할 수 있는가?</h5>
+</div>
+<div id="평균-성장기간에-대한-95-신뢰구간을-구하라." class="section level5">
+<h5>(2) 평균 성장기간에 대한 95% 신뢰구간을 구하라.</h5>
+</div>
+<div id="모표준편차-sigma에-대한-90-신뢰구간을-구하라.-1" class="section level5">
+<h5>(3) 모표준편차 <span class="math inline">\(\sigma\)</span>에 대한
+90% 신뢰구간을 구하라.</h5>
+<pre class="r"><code>n = 25
+x_bar = 64.8
+s = 6.5
+
+# 1번
+alpha = 0.05
+t = (x_bar - 65) / (s / sqrt(n))
+
+if ((t &gt; qt(p=1-alpha/2, df=n-1)) | (t &lt; qt(p=alpha/2, df=n-1))) {
+  message = sprintf(&quot;유의수준 %.2f 하에서 귀무가설을 기각한다.&quot;, alpha)
+} else {
+  message = sprintf(&quot;유의수준 %.2f 하에서 귀무가설을 기각할 수 없다.&quot;, alpha)
+}
+answer_1 = message
+
+# 2번
+alpha = 0.05
+lowerbound = x_bar + qt(p=alpha/2, df=n-1) * s / sqrt(n)
+upperbound = x_bar + qt(p=1-alpha/2, df=n-1) * s / sqrt(n)
+answer_2 = paste(&quot;(&quot;, lowerbound, &quot;,&quot;, upperbound, &quot;)&quot;)
+
+# 3번
+alpha = 0.1
+upperbound = s * sqrt((n-1) / qchisq(p=alpha/2, df=n-1))
+lowerbound = s * sqrt((n-1) / qchisq(p=1-alpha/2, df=n-1))
+answer_3 = paste(&quot;(&quot;, lowerbound, &quot;,&quot;, upperbound, &quot;)&quot;)
+
+cat(&quot;(1)&quot;, answer_1, &quot;\n(2)&quot;, answer_2, &quot;\n(3)&quot;, answer_3)</code></pre>
+<pre><code>## (1) 유의수준 0.05 하에서 귀무가설을 기각할 수 없다. 
+## (2) ( 62.1169318698836 , 67.4830681301164 ) 
+## (3) ( 5.27689740276749 , 8.55694588382895 )</code></pre>
+<p><br /></p>
+</div>
+</div>
+<div id="chi2-분포를-이용하여-다음을-구하라." class="section level4">
+<h4>11.6.20 <span class="math inline">\(\chi^2\)</span> 분포를 이용하여
+다음을 구하라.</h4>
+<div id="자유도가-12일-때-chi2의-제-90백분위수" class="section level5">
+<h5>(1) 자유도가 12일 때 <span class="math inline">\(\chi^2\)</span>의
+제 90백분위수</h5>
+</div>
+<div id="자유도가-9일-때-chi2의-제-10백분위수" class="section level5">
+<h5>(2) 자유도가 9일 때 <span class="math inline">\(\chi^2\)</span>의 제
+10백분위수</h5>
+</div>
+<div id="자유도가-22일-때-chi2의-중앙값" class="section level5">
+<h5>(3) 자유도가 22일 때 <span class="math inline">\(\chi^2\)</span>의
+중앙값</h5>
+</div>
+<div id="자유도가-50일-때-chi2의-제-5백분위수" class="section level5">
+<h5>(4) 자유도가 50일 때 <span class="math inline">\(\chi^2\)</span>의
+제 5백분위수</h5>
+<pre class="r"><code>answer_1 = qchisq(p=0.9, df=12)
+answer_2 = qchisq(p=0.1, df=9)
+answer_3 = qchisq(p=0.5, df=22)
+answer_4 = qchisq(p=0.05, df=50)
+
+cat(&quot;(1)&quot;, answer_1, &quot;\n(2)&quot;, answer_2, &quot;\n(3)&quot;, answer_3, &quot;\n(4)&quot;, answer_4)</code></pre>
+<pre><code>## (1) 18.54935 
+## (2) 4.168159 
+## (3) 21.33704 
+## (4) 34.76425</code></pre>
+<p><br /></p>
+</div>
+</div>
+<div id="위의-종합문제-6.16에-주어진-자료가-새-모델의-효율성에-대한-모표준편차가-3.0보다-작다는-증거를-제시하는가" class="section level4">
+<h4>11.6.22 위의 종합문제 <strong>6.16</strong>에 주어진 자료가 새
+모델의 효율성에 대한 모표준편차가 3.0보다 작다는 증거를 제시하는가?</h4>
+<pre class="r"><code>s = 2.74
+n = 10
+alpha = 0.05
+sigma = 3
+
+chi = (n - 1) * s^2 / sigma^2
+
+if (chi &lt; qchisq(p=alpha, df=n-1)) {
+  message = sprintf(&quot;유의수준 %.2f 하에서 귀무가설을 기각한다.&quot;, alpha)
+} else {
+  message = sprintf(&quot;유의수준 %.2f 하에서 귀무가설을 기각할 수 없다.&quot;, alpha)
+}
+
+p_value = 1 - pchisq(q=chi, df=n-1)
+
+answer = paste(
+  &quot;검정통계량 chi가 &quot;, round(chi, 4), &quot;이고, p-value가 &quot;, 
+  round(p_value, 4), &quot;이므로\n&quot;, message, sep = &quot;&quot;
+  )
+
+cat(answer)</code></pre>
+<pre><code>## 검정통계량 chi가 7.5076이고, p-value가 0.5844이므로
+## 유의수준 0.05 하에서 귀무가설을 기각할 수 없다.</code></pre>
+<p><br /></p>
+</div>
+<div id="정규모집단으로부터-크기가-25인-표본을-얻어서-모평균에-대한-95-신뢰구간을-구하였더니-106.8-115.2이었다.-이-결과를-이용하여-다음-물음에-답하라." class="section level4">
+<h4>11.6.24 정규모집단으로부터 크기가 25인 표본을 얻어서 모평균에 대한
+95% 신뢰구간을 구하였더니 (106.8, 115.2)이었다. 이 결과를 이용하여 다음
+물음에 답하라.</h4>
+<div id="표본표준편차의-값을-구하라." class="section level5">
+<h5>(1) 표본표준편차의 값을 구하라.</h5>
+</div>
+<div id="가설-h_0-sigma-8.0-대-h_1-sigma-8.0에-대하여-유의수준-alpha0.05로-검정하라." class="section level5">
+<h5>(2) 가설 <span class="math inline">\(H_0: \sigma = 8.0\)</span> 대
+<span class="math inline">\(H_1: \sigma &gt; 8.0\)</span>에 대하여
+유의수준 <span class="math inline">\(\alpha=0.05\)</span>로
+검정하라.</h5>
+<pre class="r"><code>n = 25
+x_bar = (115.2 + 106.8) / 2
+alpha = 0.05
+s = (115.2 - 106.8) * sqrt(n) / (qt(p=1-alpha/2, df=n-1) * 2)
+sigma = 8
+
+chi = (n - 1) * s^2 / sigma^2
+
+if (chi &gt; qchisq(p=alpha, df=n-1)) {
+  message = sprintf(&quot;유의수준 %.2f 하에서 귀무가설을 기각한다.&quot;, alpha)
+} else {
+  message = sprintf(&quot;유의수준 %.2f 하에서 귀무가설을 기각할 수 없다.&quot;, alpha)
+}
+
+p_value = 1 - pchisq(q=chi, df=n-1)
+
+answer_2 = paste(
+  &quot;검정통계량 chi가 &quot;, round(chi, 4), &quot;이고, p-value가 &quot;, 
+  round(p_value, 4), &quot;이므로\n    &quot;, message, sep = &quot;&quot;
+  )
+
+cat(&quot;(1)&quot;, s, &quot;\n(2)&quot;, answer_2)</code></pre>
+<pre><code>## (1) 10.17492 
+## (2) 검정통계량 chi가 38.8234이고, p-value가 0.0285이므로
+##     유의수준 0.05 하에서 귀무가설을 기각한다.</code></pre>
+<p><br /></p>
+</div>
+</div>
+<div id="표본으로부터-모표준편차-sigma에-대한-90-신뢰구간이-8.6-15.3이었다.-같은-자료를-가지고-유의수준-alpha0.10에서-가설-h_0-sigma7-대-h_1-sigma-neq-7에-대한-가설검정의-결론은-무엇이겠는가" class="section level4">
+<h4>11.6.26 표본으로부터 모표준편차 <span class="math inline">\(\sigma\)</span>에 대한 90% 신뢰구간이 (8.6,
+15.3)이었다. 같은 자료를 가지고, 유의수준 <span class="math inline">\(\alpha=0.10\)</span>에서 가설 <span class="math inline">\(H_0: \sigma=7\)</span> 대 <span class="math inline">\(H_1: \sigma \neq 7\)</span>에 대한 가설검정의
+결론은 무엇이겠는가?</h4>
 </div>
 </div>
 
